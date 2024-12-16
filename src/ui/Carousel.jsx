@@ -24,14 +24,33 @@ const Carousel = ({
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
       spaceBetween={spaceBetween}
-      slidesPerView={slidesPerView}
+      // slidesPerView={slidesPerView}
       loop
       autoplay={{ delay: 6000 }}
+      // spaceBetween={20}
+      slidesPerView={1} // Default number of slides per view
       breakpoints={{
-        640: { slidesPerView: 1 },
-        767: { slidesPerView: 1 },
-        1024: { slidesPerView: 4 },
+        // When the viewport width is <= 640px (mobile view)
+        640: {
+          slidesPerView: 3, // Show 1 slide per view
+          spaceBetween: 20, // Adjust space between slides
+        },
+        // For tablets and small desktops (between 641px and 1024px)
+        768: {
+          slidesPerView: 2, // Show 2 slides per view
+          spaceBetween: 30, // Adjust space between slides
+        },
+        // For larger screens (1025px and above)
+        1024: {
+          slidesPerView: 4, // Show 3 slides per view
+          spaceBetween: 20, // Adjust space between slides
+        },
       }}
+      // breakpoints={{
+      //   640: { slidesPerView: 1 },
+      //   767: { slidesPerView: 1 },
+      //   1024: { slidesPerView: 4 },
+      // }}
       onSwiper={onSwiperRef} // Pass the swiper instance to the parent
     >
       {items.map((item, index) => (

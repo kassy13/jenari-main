@@ -69,7 +69,7 @@ const Clearance = () => {
       </div>
       <Carousel
         items={categories}
-        slidesPerView={4}
+        slidesPerView={8}
         spaceBetween={20}
         onSwiperRef={(swiper) => {
           swiperRef.current = swiper;

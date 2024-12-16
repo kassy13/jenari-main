@@ -67,19 +67,26 @@ const Categories = () => {
       <Swiper
         ref={swiperRef} // Attach the swiperRef to the Swiper component
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]} // Use modules for additional functionality
-        slidesPerView={4} // Default 4 items per slide on desktop
+        // slidesPerView={4} // Default 4 items per slide on desktop
         spaceBetween={50}
         loop
         autoplay
+        slidesPerView={1} // Default number of slides per view
         breakpoints={{
+          // When the viewport width is <= 640px (mobile view)
           640: {
-            slidesPerView: 1, // 1 item per slide on mobile
+            slidesPerView: 1, // Show 1 slide per view
+            spaceBetween: 20, // Adjust space between slides
           },
+          // For tablets and small desktops (between 641px and 1024px)
           768: {
-            slidesPerView: 2, // 2 items per slide on tablets
+            slidesPerView: 2, // Show 2 slides per view
+            spaceBetween: 30, // Adjust space between slides
           },
+          // For larger screens (1025px and above)
           1024: {
-            slidesPerView: 4, // 4 items per slide on desktop
+            slidesPerView: 4, // Show 3 slides per view
+            spaceBetween: 20, // Adjust space between slides
           },
         }}
         className="swiper-container"

@@ -160,6 +160,7 @@ import {
   RiFootballLine,
 } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
+import about from "../assets/about.svg";
 
 const NavbarComponent = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -263,6 +264,19 @@ const NavbarComponent = () => {
           >
             <RiArticleLine className="text-lg" />
             Blog
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            {/* <RiStore2Line className="text-lg" /> */}
+            <img src={about} alt="" />
+            About Us
           </NavLink>
 
           <NavLink
