@@ -22,7 +22,7 @@ const Hero = () => {
   const slides = [
     {
       image: hero1,
-      title: "Fresh Produce Delivered to Your Doorstep",
+      title: "Freshes Produce Delivered to Your Doorstep",
       description:
         "Discover the freshest fruits and vegetables sourced directly from farms.",
     },
