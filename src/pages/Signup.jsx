@@ -70,7 +70,7 @@ const SignUp = () => {
       {/* Left Section */}
       <div className="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br auth-gradient text-white lg:w-1/2 ">
         <div className="text-center flex flex-col justify-end h-full pb-20">
-          <h1 className="text-4xl font-bold mb-4">Refer and Earn</h1>
+          <h1 className="text-4xl font-bold mb-4 f">Refer and Earn</h1>
           <p className="text-lg">
             Get your friends to sign up with your referral code and earn money.
           </p>
