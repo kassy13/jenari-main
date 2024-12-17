@@ -78,7 +78,7 @@ const SignUp = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex flex-col justify-center items-center lg:w-1/2 px-6">
+      <div className="flex flex-col t justify-center items-center lg:w-1/2 px-6">
         <div className="text-center flex  flex-col  justify-center">
           <img src={log} alt="Logo" className="mb-6 w-full" />
           <h2 className="text-2xl font-semibold mb-2">Create an Account</h2>
