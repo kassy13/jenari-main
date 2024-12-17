@@ -158,6 +158,9 @@ import {
   RiTShirt2Line,
   RiHeartPulseLine,
   RiFootballLine,
+  RiUserCommunityLine,
+  RiContactsBook3Fill,
+  RiContactsBook3Line,
 } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
 import about from "../assets/about.svg";
@@ -275,8 +278,20 @@ const NavbarComponent = () => {
             }
           >
             {/* <RiStore2Line className="text-lg" /> */}
-            <img src={about} alt="" />
+            <RiUserCommunityLine className="text-lg" />
             About Us
+          </NavLink>
+
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            <RiContactsBook3Line className="text-lg" />
+            Contact Us
           </NavLink>
 
           <NavLink

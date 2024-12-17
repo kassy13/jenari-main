@@ -19,3 +19,9 @@
   font-family: "nunito-sans";
   src: url("..src/fonts/nunito sans/Nunito/static/Nunito-Regular.ttf");
 }
+.auth-gradient {
+  background-image: url("../src/assets/auth1.jpg");
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.562);
+  background-blend-mode: overlay;
+}

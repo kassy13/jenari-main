@@ -151,13 +151,13 @@ const Header = () => {
             {/* Login/Register Section */}
             <div className="flex gap-4">
               <Link
-                to="/register"
+                to="/signUp"
                 className="px-7 py-2 text-sm font-bold bg-primary-bg rounded-full hover:bg-opacity-85 transition-colors"
               >
                 Register
               </Link>
               <Link
-                to="/login"
+                to="/SignIn"
                 className="px-7 py-2 text-sm font-bold bg-white rounded-full hover:bg-opacity-85 text-primary-bg transition-colors"
               >
                 Login
@@ -198,13 +198,13 @@ const Header = () => {
 
             {/* Links */}
             <Link
-              to="/register"
+              to="/signUp"
               className="block text-sm font-bold text-white bg-primary-bg rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
             >
               Register
             </Link>
             <Link
-              to="/login"
+              to="/signIn"
               className="block text-sm font-bold text-primary-bg bg-white rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
             >
               Login
