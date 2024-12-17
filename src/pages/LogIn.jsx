@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import log from "../assets/logo transparent 1.svg";
 
-const SignIn = () => {
+const LogIn = () => {
   const [showModal, setShowModal] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -152,4 +152,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default LogIn;
