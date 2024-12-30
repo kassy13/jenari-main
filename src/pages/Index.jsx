@@ -17,7 +17,6 @@ const Index = () => {
       <NewStock />
       <Clearance />
       <ShopHome />
-
       <Features />
       <Choose />
     </div>

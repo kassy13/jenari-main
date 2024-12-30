@@ -1,95 +1,96 @@
-import React from "react";
-import { RiEqualizer2Line } from "react-icons/ri";
-import ugu from "../assets/ugu.svg";
-import carrot from "../assets/carrot.png";
-import abacha from "../assets/abacha.svg";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import Offcanvas from "../components/Offcanvas";
 import SuperMarkertCard from "../ui/SuperMarkertCard";
-import cray from "../assets/crayfish.svg";
-import potato from "../assets/potato.svg";
-import tomato from "../assets/tomato.png";
-import shombo from "../assets/pepper.svg";
+
 import PaginationFooter from "../ui/PaginationFooter";
-
 const Supermarket = () => {
-  const supermarketItems = [
-    {
-      text: "Ugu",
-      subtext: "Freshly harvested ugu leaves. ",
-      image: ugu,
-      inSeason: true,
-    },
-    {
-      text: "Red Crayfish",
-      subtext: "Finely processed crayfish ",
-      image: cray,
-      inSeason: true,
-    },
-    {
-      text: "Shombo",
-      subtext: "Fresh hot shombo shombo ",
-      image: shombo,
-      inSeason: true,
-    },
+  const [supermarketItems, setSupermarketItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentProduct, setCurrentProduct] = useState(null); // current product state
+  const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false); // Control modal visibility
+  const location = useLocation();
 
-    {
-      text: "Sweet Carrots",
-      subtext: "Freshly harvested juicy carrots.  ",
-      image: carrot,
-      inSeason: true,
-    },
-    {
-      text: "Abacha",
-      subtext: "Freshly harvested juicy carrots.  ",
-      image: abacha,
-      inSeason: false,
-    },
-    {
-      text: "Sweet Potatoes",
-      subtext: "Freshly harvested juicy potatoes.  ",
-      image: potato,
-      inSeason: false,
-    },
-    {
-      text: "Fresh Tomatoes",
-      subtext: "Freshly harvested juicy Tomatoes  ",
-      image: tomato,
-      inSeason: true,
-    },
-    {
-      text: "Abacha",
-      subtext: "Freshly harvested juicy carrots.  ",
-      image: abacha,
-      inSeason: true,
-    },
-  ];
+  // Helper function to extract category ID from URL params
+  const getCategoryFromParams = () => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get("category");
+    return category;
+  };
+
+  // Handle click on product options
+  const handleOptionClick = (options) => {
+    if (options.length > 0) {
+      console.log("clicked");
+      setCurrentProduct(options); // Save the options or product info
+      setIsOffCanvasOpen(true); // Open the off-canvas modal
+    }
+  };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const categoryId = getCategoryFromParams();
+      const endpoint = categoryId
+        ? `https://api.jenari.co.uk/api/list-product?category_id=${categoryId}`
+        : "https://api.jenari.co.uk/api/list-product";
+
+      try {
+        setLoading(true);
+        const response = await fetch(endpoint);
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setSupermarketItems(data.products || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [location.search]);
+
   return (
     <div className="lg:px-16 py-16">
       <h1 className="text-[#1F3D4F] text-3xl tracking-tighter font-semibold">
-        All Products
+        {getCategoryFromParams() ? "Filtered Products" : "All Products"}
       </h1>
-      <div className="inline-flex items-center gap-1 border  p-2 rounded-xl text-text-light mt-4">
-        <RiEqualizer2Line />
 
-        <select name="" id="" className="border-none outline-none">
-          <option value="" selected disabled>
-            Filter
-          </option>
-          <option value="">Categories</option>
-          <option value="">Price</option>
-        </select>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 mt-9 mb-6">
-        {supermarketItems.map((items, index) => (
-          <SuperMarkertCard
-            key={index}
-            image={items.image}
-            text={items.text}
-            subtext={items.subtext}
-            inSeason={items.inSeason}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <p>Loading products...</p>
+      ) : error ? (
+        <p className="text-red-500">Error: {error}</p>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 mt-9 mb-6">
+          {supermarketItems.map((item, index) => (
+            <SuperMarkertCard
+              key={index}
+              id={item.id}
+              image={item.image || "default-image-url"}
+              text={item.name || "Product Name"}
+              subtext={item.subtext || "Subtext"}
+              inSeason={item.status || false}
+              options={item.product_options || []}
+              optionNum={item.product_options.length}
+              price={item.price_range}
+              onOptionClick={handleOptionClick} // Pass the handler
+            />
+          ))}
+        </div>
+      )}
+
       <PaginationFooter />
+
+      {/* Render Offcanvas modal when isOffCanvasOpen is true */}
+      {isOffCanvasOpen && (
+        <Offcanvas
+          options={currentProduct}
+          onClose={() => setIsOffCanvasOpen(false)}
+        />
+      )}
     </div>
   );
 };
