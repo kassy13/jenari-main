@@ -154,21 +154,99 @@
 
 // export default LogIn;
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import log from "../assets/logo transparent 1.svg";
+import AuthContext from "../components/context/AuthContex";
 
 const LogIn = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [forgotEmail, setForgotEmail] = useState("");
-  const navigate = useNavigate();
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const email = e.target.email.value.trim();
+  //   const password = e.target.password.value.trim();
+
+  //   let valid = true;
+
+  //   // Validation
+  //   if (!email) {
+  //     setEmailError("Valid email is required.");
+  //     valid = false;
+  //   } else {
+  //     setEmailError("");
+  //   }
+
+  //   if (!password) {
+  //     setPasswordError("Password is required.");
+  //     valid = false;
+  //   } else {
+  //     setPasswordError("");
+  //   }
+  //   await login({ email, password }, navigate);
+  //   if (!valid) return;
+
+  //   const formData = {
+  //     email_or_phone: email,
+  //     password: password,
+  //   };
+
+  //   // // API Call
+  //   // fetch("https://api.jenari.co.uk/api/login", {
+  //   //   method: "POST",
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   //   body: JSON.stringify(formData),
+  //   // })
+  //   //   .then((response) => {
+  //   //     if (!response.ok) {
+  //   //       return response.json().then((errorData) => {
+  //   //         throw new Error(errorData.message || "An error occurred");
+  //   //       });
+  //   //     }
+  //   //     return response.json();
+  //   //   })
+  //   //   .then((data) => {
+  //   //     Toastify({
+  //   //       text: data.message || "Login successful! Redirecting...",
+  //   //       duration: 3000,
+  //   //       close: true,
+  //   //       gravity: "top",
+  //   //       position: "center",
+  //   //       backgroundColor: "#4caf50",
+  //   //     }).showToast();
+
+  //   //     // Save token in localStorage
+  //   //     localStorage.setItem("authToken", data.token);
+
+  //   //     // Redirect to another page (if needed)
+  //   //     // window.location.href = "/dashboard"; // Example route
+  //   //     setTimeout(() => {
+  //   //       navigate("/");
+  //   //     }, 3000);
+  //   //   })
+  //   //   .catch((error) => {
+  //   //     Toastify({
+  //   //       text: error.message || "Login failed. Please try again.",
+  //   //       duration: 3000,
+  //   //       close: true,
+  //   //       gravity: "top",
+  //   //       position: "center",
+  //   //       backgroundColor: "#f44336",
+  //   //     }).showToast();
+  //   //   });
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value.trim();
     const password = e.target.password.value.trim();
@@ -190,58 +268,20 @@ const LogIn = () => {
       setPasswordError("");
     }
 
-    if (!valid) return;
+    if (!valid) return; // Exit early if validation fails.
 
-    const formData = {
-      email_or_phone: email,
-      password: password,
-    };
-
-    // API Call
-    fetch("https://api.jenari.co.uk/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.message || "An error occurred");
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        Toastify({
-          text: data.message || "Login successful! Redirecting...",
-          duration: 3000,
-          close: true,
-          gravity: "top",
-          position: "center",
-          backgroundColor: "#4caf50",
-        }).showToast();
-
-        // Save token in localStorage
-        localStorage.setItem("authToken", data.token);
-
-        // Redirect to another page (if needed)
-        // window.location.href = "/dashboard"; // Example route
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
-      })
-      .catch((error) => {
-        Toastify({
-          text: error.message || "Login failed. Please try again.",
-          duration: 3000,
-          close: true,
-          gravity: "top",
-          position: "center",
-          backgroundColor: "#f44336",
-        }).showToast();
-      });
+    // Proceed to login after validation
+    try {
+      await login({ email_or_phone: email, password }, navigate); // Ensure the field names match backend requirements.
+    } catch (error) {
+      Toastify({
+        text: error.message || "Login failed. Please try again.",
+        duration: 3000,
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#f44336",
+      }).showToast();
+    }
   };
 
   // Handle forgot password form

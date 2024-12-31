@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 // import Swiper core and required modules
 import {
   Navigation,
@@ -18,7 +18,10 @@ import "swiper/css/scrollbar";
 import hero1 from "../assets/hero1.jpg";
 import hero2 from "../assets/hero2.jpg";
 import hero3 from "../assets/hero3.jpg";
+import AuthContext from "./context/AuthContex";
 const Hero = () => {
+  const { user } = useContext(AuthContext);
+  // console.log("user", user);
   const slides = [
     {
       image: hero1,
