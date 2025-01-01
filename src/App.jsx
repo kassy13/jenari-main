@@ -9,24 +9,30 @@ import SignUp from "./pages/Signup";
 import LogIn from "./pages/LogIn";
 import Faq from "./pages/Faq";
 import ProductDetails from "./pages/ProductDetails";
+import { AuthProvider } from "./components/context/AuthContex";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Index />} />
-          <Route path="charity" element={<Charity />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="supermarket" element={<Supermarket />} />
-          <Route path="faq" element={<Faq />} />
-          <Route path="product-details/:id" element={<ProductDetails />} />
-        </Route>
-        <Route path="signUp" element={<SignUp />} />
-        <Route path="signIn" element={<LogIn />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Index />} />
+            <Route path="charity" element={<Charity />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="supermarket" element={<Supermarket />} />
+            <Route path="faq" element={<Faq />} />
+            <Route path="product-details/:id" element={<ProductDetails />} />
+          </Route>
+          <Route path="signUp" element={<SignUp />} />
+          <Route path="signIn" element={<LogIn />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
