@@ -49,7 +49,7 @@ const NavbarComponent = () => {
     setIsDropdownOpen(false); // Close dropdown after navigation
   };
   return (
-    <nav className="bg-white shadow-md py-3 px-4 sm:px-12 flex items-center justify-between font-sans text-gray-700">
+    <nav className="bg-white shadow-md py-3 px-4 sm:px-12 flex items-center justify-between font-sans text-gray-700 sticky ">
       {/* Links */}
 
       <div className="flex items-center gap-5 w-full">
@@ -90,94 +90,12 @@ const NavbarComponent = () => {
         </div>
 
         {/* Other Links */}
-        <ul className="flex items-center gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide w-full">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
-              } hover:text-secondary-bg`
-            }
-          >
-            <RiHome2Line className="text-lg" />
-            Home
-          </NavLink>
 
-          <NavLink
-            to="/supermarket"
-            className={({ isActive }) =>
-              `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
-              } hover:text-secondary-bg`
-            }
-          >
-            <RiStore2Line className="text-lg" />
-            Supermarket
-          </NavLink>
-
-          <NavLink
-            to="/charity"
-            className={({ isActive }) =>
-              `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
-              } hover:text-secondary-bg`
-            }
-          >
-            <RiHeart2Line className="text-lg" />
-            Charity
-          </NavLink>
-
-          <NavLink
-            to="/blog"
-            className={({ isActive }) =>
-              `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
-              } hover:text-secondary-bg`
-            }
-          >
-            <RiArticleLine className="text-lg" />
-            Blog
-          </NavLink>
-
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
-              } hover:text-secondary-bg`
-            }
-          >
-            {/* <RiStore2Line className="text-lg" /> */}
-            <RiUserCommunityLine className="text-lg" />
-            About Us
-          </NavLink>
-
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
-              } hover:text-secondary-bg`
-            }
-          >
-            <RiContactsBook3Line className="text-lg" />
-            Contact Us
-          </NavLink>
-
-          <NavLink
-            to="/faq"
-            className={({ isActive }) =>
-              `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
-              } hover:text-secondary-bg`
-            }
-          >
-            <RiQuestionLine className="text-lg" />
-            FAQs
-          </NavLink>
-        </ul>
         {/* Call Number */}
-        <div className="flex items-center gap-2 text-dark-gray">
+        <div
+          className="lg:flex items-center gap-2 text-dark-gray hidden"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
           <RiPhoneLine className="text-lg" />
           <span className="text-sm font-medium hidden lg:block">
             +2349160000375

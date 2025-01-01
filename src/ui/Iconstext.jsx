@@ -14,22 +14,22 @@
 
 // export default Iconstext;
 
-import React from 'react';
+import React from "react";
 
 const Iconstext = ({
   img,
   title,
   text,
-  containerClassName = '',
-  imgClassName = '',
-  titleClassName = '',
-  textClassName = '',
+  containerClassName = "",
+  imgClassName = "",
+  titleClassName = "",
+  textClassName = "",
 }) => {
   return (
     <div className={containerClassName}>
       <img src={img} alt="" className={`w-8 h-8 ${imgClassName}`} />
       <p
-        className={`font-bold text-[32px] py-4 text-text-header text-base tracking-tight ${titleClassName}`}
+        className={`font-bold text-[32px] py-2 text-text-header text-base tracking-tight ${titleClassName}`}
       >
         {title}
       </p>

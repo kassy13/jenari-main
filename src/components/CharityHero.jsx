@@ -4,8 +4,8 @@ import mission from "../assets/mission4.jpg";
 const CharityHero = () => {
   return (
     <section className="flex flex-col items-center  lg:flex-row gap-3 bg-yellow-500">
-      <div className="w-full h-3/4 lg:pl-12 lg:pr-6 text-primary-bg">
-        <h1 className="text-5xl font-bold tracking-tighter leading-[1.2] ">
+      <div className="w-full h-3/4 pl-6 pr-6 lg:pl-12 lg:pr-6 text-primary-bg">
+        <h1 className=" pt-6  text-2xl lg:text-5xl font-bold tracking-tighter lg:leading-[1.2] ">
           Make a Difference with{" "}
           <span>
             <br />

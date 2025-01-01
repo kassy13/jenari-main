@@ -8,7 +8,7 @@ import RecentProjects from "../components/RecentProjects";
 
 const Charity = () => {
   return (
-    <section className="p">
+    <section className="mt-36">
       <CharityHero />
       <Charitygive />
       <HowToDonate />
