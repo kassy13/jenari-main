@@ -1,16 +1,12 @@
-import {
-  RiFacebookCircleLine,
-  RiInstagramLine,
-  RiTwitterLine,
-  RiYoutubeLine,
-} from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { RiInstagramLine, RiTwitterLine, RiYoutubeLine } from 'react-icons/ri';
+import { LuFacebook } from 'react-icons/lu';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <footer className="bg-header-bg py-10 px-6 text-white flex flex-col-reverse  row gap-5 lg:grid lg:grid-cols-3 ">
       {/* Social Media Section */}
-      <div className="flex flex-col items-center text-center mb-8 md:mb-0 lg:col-span-1">
+      <div className="flex flex-col items-center mb-8 md:mb-0 lg:col-span-1">
         <p className="text-sm mb-4">Connect with us on social media:</p>
         <div className="flex space-x-4">
           <Link
@@ -18,28 +14,28 @@ const Footer = () => {
             target="_blank"
             className="hover:text-secondary transition"
           >
-            <RiFacebookCircleLine size={24} />
+            <LuFacebook size={45} />
           </Link>
           <Link
             to="https://instagram.com"
             target="_blank"
             className="hover:text-secondary transition"
           >
-            <RiInstagramLine size={24} />
+            <RiInstagramLine size={45} />
           </Link>
           <Link
             to="https://twitter.com"
             target="_blank"
             className="hover:text-secondary transition"
           >
-            <RiTwitterLine size={24} />
+            <RiTwitterLine size={45} />
           </Link>
           <Link
             to="https://youtube.com"
             target="_blank"
             className="hover:text-secondary transition"
           >
-            <RiYoutubeLine size={24} />
+            <RiYoutubeLine size={45} />
           </Link>
         </div>
       </div>
@@ -53,7 +49,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/fresh-produce"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Fresh Produce
               </Link>
@@ -61,7 +57,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/swallow-tubers-grains"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Swallow, Tubers & Grains
               </Link>
@@ -69,7 +65,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/fruits"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Fruits
               </Link>
@@ -77,7 +73,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/protein-sources"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Protein Sources
               </Link>
@@ -85,7 +81,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/food-bundles"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Food Bundles
               </Link>
@@ -93,7 +89,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/soup-ingredients"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Soup Ingredients & Cooking Essentials
               </Link>
@@ -101,7 +97,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/health-organic-foods"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Health & Organic Foods
               </Link>
@@ -109,7 +105,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/household-essentials"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Household Essentials
               </Link>
@@ -117,7 +113,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/baking-dairy-eggs"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Baking Essentials, Dairy & Eggs
               </Link>
@@ -125,7 +121,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/categories/packaged-foods"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Packaged Foods, Beverages & Drinks
               </Link>
@@ -138,20 +134,26 @@ const Footer = () => {
           <h3 className="text-xl font-bold mb-4">Company</h3>
           <ul className="space-y-2">
             <li>
-              <Link to="/about-us" className="hover:text-secondary transition">
+              <Link
+                to="/about-us"
+                className="hover:text-secondary text-sm transition"
+              >
                 About Us
               </Link>
             </li>
             <li>
               <Link
                 to="/contact-us"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Contact Us
               </Link>
             </li>
             <li>
-              <Link to="/faq" className="hover:text-secondary transition">
+              <Link
+                to="/faq"
+                className="hover:text-secondary text-sm transition"
+              >
                 FAQ
               </Link>
             </li>
@@ -165,7 +167,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/return-policy"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Return Policy
               </Link>
@@ -173,7 +175,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/privacy-policy"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Privacy Policy
               </Link>
@@ -181,7 +183,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/terms-conditions"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Terms & Conditions
               </Link>
@@ -189,7 +191,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/cookie-policy"
-                className="hover:text-secondary transition"
+                className="hover:text-secondary text-sm transition"
               >
                 Cookie Policy
               </Link>
