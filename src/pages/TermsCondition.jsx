@@ -7,7 +7,7 @@ const TermsCondition = () => {
         </h1>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 py-12 lg:px-24">
+      <div className="grid grid-cols-1 gap-8 py-12 lg:px-24 px-4">
         <div className="mb-4">
           <h3 className="font-bold text-[40px] text-[#242424]">Introduction</h3>
           <p className="pt-2 font-normal text-base text-[#626C7A]">
