@@ -29,12 +29,18 @@ const Header = () => {
   const cartRef = useRef(null); // Ref for the cart dropdown
 
   console.log("menu", menuOpen);
-
-  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  console.log("user", user);
+  // const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleLinkClick = () => {
     setMenuOpen(false); // Hide menu when a link is clicked
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMenuOpen((prev) => !prev);
+  };
+
   // Fetch cart items when the component mounts
   useEffect(() => {
     if (user) {
@@ -348,10 +354,11 @@ const Header = () => {
             </Link>
           </div>
         )} */}
+        {/* mobile nav */}
         <div
-          className={`absolute top-0 w-full h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50 translate-x-full transition-left duration-300 ${
+          className={`absolute top-0 w-full h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50 transform transition-transform duration-300 ${
             menuOpen ? "translate-x-0" : "translate-x-full"
-          }  `}
+          }`}
         >
           <button
             onClick={toggleMenu}
@@ -476,7 +483,7 @@ const Header = () => {
             </NavLink>
           </ul>
 
-          {user.name ? (
+          {user?.name ? (
             <Link
               to="/signUp"
               className="block text-sm font-bold text-white bg-primary-bg rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
