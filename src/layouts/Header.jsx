@@ -66,7 +66,8 @@ const Header = () => {
     };
   }, []);
 
-  const toggleCartDropdown = () => {
+  const toggleCartDropdown = (e) => {
+    e.preventDefault();
     setCartDropdownOpen((prev) => !prev);
   };
   console.log(menuOpen);
@@ -318,7 +319,7 @@ const Header = () => {
 
               <NavLink
                 to="/faq"
-                onClick={handleLinkClick}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className={({ isActive }) =>
                   `flex items-center gap-2  px-2 ${
                     isActive ? "text-secondary-bg font-semibold" : "text-white"
