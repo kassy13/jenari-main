@@ -483,7 +483,7 @@ const Header = () => {
             </NavLink>
           </ul>
 
-          {user?.name ? (
+          {!user ? (
             <Link
               to="/signUp"
               className="block text-sm font-bold text-white bg-primary-bg rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
@@ -491,15 +491,24 @@ const Header = () => {
               Register
             </Link>
           ) : (
-            "Guest"
+            ""
           )}
-
-          <Link
-            to="/signIn"
-            className="block text-sm font-bold text-primary-bg bg-white rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
-          >
-            Login
-          </Link>
+          {!user ? (
+            <Link
+              to="/signIn"
+              className="block text-sm font-bold text-primary-bg bg-white rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
+            >
+              Login
+            </Link>
+          ) : (
+            <Link
+              to="/"
+              onClick={logout}
+              className="block text-sm font-bold text-primary-bg bg-white rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
+            >
+              Logout
+            </Link>
+          )}
         </div>
       </nav>
 
