@@ -18,11 +18,11 @@ const Charitygive = () => {
     },
   ];
   return (
-    <div className="px-20 py-20">
-      <p className="text-center font-bold text-3xl text-secondary-bg pb-7">
+    <div className="px-6 lg:px-20 py-10 lg:py-20">
+      <p className="text-center font-bold text-xl lg:text-3xl text-secondary-bg lg:pb-7">
         Why Give?
       </p>
-      <p className="text-center text-3xl tracking-tighter">
+      <p className="text-center text-xl lg:text-3xl tracking-tighter">
         Make a difference by donating foodstuffs to charity
       </p>
       <div className="flex flex-col lg:flex-row items-center gap-4 pt-7  ">
@@ -41,7 +41,7 @@ const Charitygive = () => {
                 img={item.img}
                 title={item.title}
                 titleClassName="text-xl"
-                textClassName="pb-9 !font-xl"
+                textClassName="lg:pb-9 pb-4 !font-xl"
               />
             );
           })}

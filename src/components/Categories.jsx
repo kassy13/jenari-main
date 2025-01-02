@@ -40,22 +40,22 @@ const Categories = () => {
   };
 
   return (
-    <div className="shop-by-category mx-12 my-10">
+    <div className="shop-by-category mx-6 lg:mx-12 my-10">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <span className="text-xl font-bold">Shop by Category</span>
-        <div className="flex space-x-2">
+        <div className="flex space-x-7 lg:space-x-2">
           {/* Custom Navigation Buttons */}
           <button
             onClick={handlePrevClick}
-            className="text-xl"
+            className="text-xl bg-gray-200 p-2 rounded"
             aria-label="Previous"
           >
             <RiArrowLeftLine />
           </button>
           <button
             onClick={handleNextClick}
-            className="text-xl"
+            className="text-xl bg-gray-200 p-2 rounded"
             aria-label="Next"
           >
             <RiArrowRightLine />

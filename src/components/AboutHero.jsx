@@ -2,16 +2,16 @@ import React from "react";
 import img from "../assets/about jenari.svg";
 const AboutHero = () => {
   return (
-    <div className="flex flex-col lg:flex-row lg:px-16 px-2 lg:py-16 lg:gap-12 gap-6 ">
-      <div className="w-full lg:h-[100vh]">
+    <div className="flex flex-col lg:flex-row lg:px-16 px-6 lg:py-16 lg:gap-12 gap-6 mt-40 lg:mt-36">
+      <div className="w-full h-[50vh] lg:h-[100vh]">
         <img
           src={img}
           alt=""
           className="w-full h-full object-cover rounded-3xl"
         />
       </div>
-      <div className="w-full">
-        <h1 className="lg:text-7xl tracking-tighter text-dark-blue lg:pb-4">
+      <div className="w-full ">
+        <h1 className="text-3xl lg:text-7xl tracking-tighter text-dark-blue lg:pb-4">
           About <span className="text-secondary-bg">JANERI</span>
         </h1>
         <p className="text-text-light  pb-4">

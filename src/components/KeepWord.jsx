@@ -3,7 +3,7 @@ import jenari from "../assets/jenari banner.svg";
 
 const KeepWord = () => {
   return (
-    <div className="flex flex-col lg:flex-row justify-between items-center  px-14 py-12">
+    <div className="flex flex-col lg:flex-row justify-between items-center px-6 lg:px-14 lg:py-12">
       <div className="w-full">
         <h3 className="text-3xl font-bold"> We keep our word</h3>
         <p className="pt-4 pb-3 text-text-light tracking-tight text-lg">

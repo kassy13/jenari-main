@@ -3,7 +3,12 @@ import image1 from "../assets/image.svg";
 import image2 from "../assets/image (2).svg";
 import image3 from "../assets/image (3).svg";
 import Carousel from "../ui/Carousel";
-import { RiArrowLeftSFill, RiArrowRightSFill } from "react-icons/ri";
+import {
+  RiArrowLeftLine,
+  RiArrowLeftSFill,
+  RiArrowRightLine,
+  RiArrowRightSFill,
+} from "react-icons/ri";
 
 const BestSelling = () => {
   const swiperRef = useRef(null);
@@ -45,7 +50,7 @@ const BestSelling = () => {
   ];
 
   return (
-    <div className="px-12 pb-8">
+    <div className="px-6 lg:px-12 pb-8">
       <div className="flex items-center justify-between">
         <h2 className="py-4 font-sans text-text-header tracking-tighter font-bold text-xl">
           Best Selling Products
@@ -56,14 +61,14 @@ const BestSelling = () => {
             className="text-xl bg-gray-200 p-2 rounded"
             aria-label="Previous"
           >
-            <RiArrowLeftSFill />
+            <RiArrowLeftLine />
           </button>
           <button
             onClick={handleNextClick}
             className="text-xl bg-gray-200 p-2 rounded"
             aria-label="Next"
           >
-            <RiArrowRightSFill />
+            <RiArrowRightLine />
           </button>
         </div>
       </div>
