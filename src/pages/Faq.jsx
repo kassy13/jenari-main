@@ -163,7 +163,7 @@ const Accordion = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 py-12 lg:px-24">
+      <div className="grid grid-cols-1 gap-8 py-12 lg:px-24 px-4">
         {questionsAndAnswers.map((item) => (
           <div key={item.id} className="border rounded-lg">
             <div className="bg-gray-100 p-4">
