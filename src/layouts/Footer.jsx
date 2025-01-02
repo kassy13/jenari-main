@@ -135,7 +135,7 @@ const Footer = () => {
           <ul className="space-y-2">
             <li>
               <Link
-                to="/about-us"
+                to="/about"
                 className="hover:text-secondary text-sm transition"
               >
                 About Us
@@ -143,7 +143,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                to="/contact-us"
+                to="/contact"
                 className="hover:text-secondary text-sm transition"
               >
                 Contact Us
