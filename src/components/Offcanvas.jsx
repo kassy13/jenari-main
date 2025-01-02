@@ -82,7 +82,7 @@ const Offcanvas = ({ options, onClose, authToken }) => {
       onClick={onClose}
     >
       <div
-        className="fixed top-0 right-0 bg-white w-1/3 h-full p-6 overflow-y-auto"
+        className="fixed   mt-36 lg:mt-40 top-0 right-0 bg-white w-2/3 lg:w-1/3 h-full p-6 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-semibold mb-4">Product Options</h2>

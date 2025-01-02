@@ -153,17 +153,16 @@ const Accordion = () => {
 
   return (
     <section>
-      <div className="flex flex-col justify-center items-center h-48 bg-[#F9F9F9]">
-        <h1 className="text-3xl text-dark-blue font-bold">
+      <div className="flex flex-col justify-center items-center h-48 bg-[#F9F9F9] mt-40">
+        <h1 className="text-2xl lg:text-3xl text-center text-dark-blue font-bold">
           Frequently Asked Questions
         </h1>
 
-        <p className="text-base text-text-light py-7">
+        <p className="text-base text-text-light lg:py-7">
           Quick answers to questions you may have
         </p>
       </div>
-
-      <div className="grid grid-cols-1 gap-8 py-12 lg:px-24 px-4">
+      <div className="grid grid-cols-1 gap-8 py-12 px-6 lg:px-24">
         {questionsAndAnswers.map((item) => (
           <div key={item.id} className="border rounded-lg">
             <div className="bg-gray-100 p-4">

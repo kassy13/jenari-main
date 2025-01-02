@@ -9,8 +9,8 @@ import ticktok from "../assets/tiktok.svg";
 import yt from "../assets/youtube.svg";
 const Contact = () => {
   return (
-    <div className="px-16 my-16 flex flex-col lg:flex-row justify-between lg:gap-12">
-      <div className="w-full border p-9 rounded-xl self-start">
+    <div className="px-6 lg:px-16 my-16 flex flex-col lg:flex-row justify-between  gap-6 lg:gap-12 mt-48 lg:mt-56">
+      <div className="w-full border p-4 lg:p-9 rounded-xl self-start">
         <p className="text-2xl tracking-tight text-[#0E0E33] pb-4">
           Contact Us
         </p>
@@ -88,7 +88,7 @@ const Contact = () => {
           </p>
         </div>
       </div>
-      <div className="w-full border p-9 rounded-xl">
+      <div className="w-full border p-4 lg:p-9 rounded-xl">
         <form action="">
           <p className="text-2xl tracking-tight text-[#0E0E33] pb-4">
             Get in touch!
