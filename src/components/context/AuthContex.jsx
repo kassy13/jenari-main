@@ -152,6 +152,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [supermarketItems, setSupermarketItems] = useState([]);
 
   // Fetch user and token from localStorage once on app load
 
@@ -257,93 +258,6 @@ export const AuthProvider = ({ children }) => {
     navigate("/login");
   };
 
-  // Add to Cart function
-  //   const addToCart = async (product_id, product_option_id, quantity) => {
-  //     // Check if the user is logged in
-  //     if (!token || !user) {
-  //       // If not logged in, redirect to login page
-  //       Toastify({
-  //         text: "You need to be logged in to add to cart.",
-  //         duration: 3000,
-  //         close: true,
-  //         gravity: "top",
-  //         position: "center",
-  //         backgroundColor: "#f44336",
-  //       }).showToast();
-
-  //       navigate("/login"); // Redirect to login page
-  //       return { success: false, message: "Redirecting to login..." };
-  //     }
-
-  //     // Validate product details before making the API call
-  //     if (!product_id || !product_option_id || !quantity) {
-  //       Toastify({
-  //         text: "Missing required product details.",
-  //         duration: 3000,
-  //         close: true,
-  //         gravity: "top",
-  //         position: "center",
-  //         backgroundColor: "#f44336",
-  //       }).showToast();
-
-  //       return { success: false, message: "Product details are incomplete." };
-  //     }
-
-  //     try {
-  //       const response = await fetch("https://api.jenari.co.uk/api/add/to/cart", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`, // Send token for authorization
-  //         },
-  //         body: JSON.stringify({
-  //           product_id,
-  //           product_option_id,
-  //           quantity,
-  //         }),
-  //       });
-
-  //       const data = await response.json();
-
-  //       if (!response.ok) {
-  //         throw new Error(data.message || "Error adding to cart.");
-  //       }
-
-  //       // Success Toastify
-  //       Toastify({
-  //         text: data.message || "Product added to cart successfully!",
-  //         duration: 3000,
-  //         close: true,
-  //         gravity: "top",
-  //         position: "center",
-  //         backgroundColor: "#4caf50",
-  //       }).showToast();
-
-  //       // Redirect to payment page after success
-  //       navigate("/payment");
-
-  //       return {
-  //         success: true,
-  //         message: data.message || "Product added to cart!",
-  //       };
-  //     } catch (error) {
-  //       // Error Toastify
-  //       Toastify({
-  //         text: error.message || "Failed to add product to cart.",
-  //         duration: 3000,
-  //         close: true,
-  //         gravity: "top",
-  //         position: "center",
-  //         backgroundColor: "#f44336",
-  //       }).showToast();
-
-  //       return {
-  //         success: false,
-  //         message: error.message || "Failed to add product to cart.",
-  //       };
-  //     }
-  //   };
-
   const handleAddToCart = async (option, quantity) => {
     if (!isAuthenticated) {
       toast.error("Please log in to add items to the cart.");
@@ -352,9 +266,14 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
+      // const formdata = {
+      //   product_id: option.id, // Assuming `id` is the product ID
+      //   product_option_id: option.product_id, // Assuming `option_id` exists
+      //   quantity,
+      // };
       const formdata = {
-        product_id: option.id, // Assuming `id` is the product ID
-        product_option_id: option.product_id, // Assuming `option_id` exists
+        product_id: option.product_id, // This is the product_id of the product (e.g., 14)
+        product_option_id: option.id, // This is the product_option_id (e.g., 3)
         quantity,
       };
       console.log("form data", formdata);
@@ -387,21 +306,34 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  //   Handle getting cart items for a user
+  // Fetch products
+  const getCategoryFromParams = () => {
+    const params = new URLSearchParams(location.search);
+    const categoryId = params.get("category_id");
+    return categoryId;
+  };
 
-  //   const handleGetCartItems = async () => {
-  //     try {
-  //       const response = await fetch("https://api.jenari.co.uk/api/cart/list");
-  //       if (!response.ok) {
-  //         throw new Error("Failed to add item to cart.");
-  //       }
+  const fetchProducts = async (categoryId = null) => {
+    const endpoint = categoryId
+      ? `https://api.jenari.co.uk/api/list-product?category_id=${categoryId}`
+      : "https://api.jenari.co.uk/api/list-product";
 
-  //       const data = await response.json();
-  //       console.log("data cart items", data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+    try {
+      setIsLoading(true);
+      const response = await fetch(endpoint);
+      if (!response.ok) {
+        throw new Error("Failed to fetch products");
+      }
+      const data = await response.json();
+      setSupermarketItems(data.products || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Product details
 
   const handleGetCartItems = async () => {
     try {
@@ -434,6 +366,11 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         handleAddToCart,
         handleGetCartItems,
+        fetchProducts,
+        supermarketItems,
+        getCategoryFromParams,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

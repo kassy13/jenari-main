@@ -1,21 +1,21 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './layouts/Layout';
-import Index from './pages/Index';
-import Charity from './pages/Charity';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Supermarket from './pages/Supermarket';
-import SignUp from './pages/Signup';
-import LogIn from './pages/LogIn';
-import Faq from './pages/Faq';
-import ProductDetails from './pages/ProductDetails';
-import { AuthProvider } from './components/context/AuthContex';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import ReturnPolicy from './pages/ReturnPolicy';
-import CookiePolicy from './pages/CookiePolicy';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsCondition from './pages/TermsCondition';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./layouts/Layout";
+import Index from "./pages/Index";
+import Charity from "./pages/Charity";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Supermarket from "./pages/Supermarket";
+import SignUp from "./pages/Signup";
+import LogIn from "./pages/LogIn";
+import Faq from "./pages/Faq";
+import ProductDetails from "./pages/ProductDetails";
+import { AuthProvider } from "./components/context/AuthContex";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ReturnPolicy from "./pages/ReturnPolicy";
+import CookiePolicy from "./pages/CookiePolicy";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsCondition from "./pages/TermsCondition";
 
 function App() {
   return (

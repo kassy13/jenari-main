@@ -27,55 +27,6 @@ const Offcanvas = ({ options, onClose, authToken }) => {
     setQuantities(newQuantities);
   };
 
-  // Handle add to cart
-  // const handleAddToCart = async (option, index) => {
-  //   const { quantity } = quantities[index];
-
-  //   // Check if user is authenticated
-  //   if (!isAuthenticated) {
-  //     toast.error("Please log in to add items to the cart.");
-  //     navigate("/signIn"); // Redirect to the login page
-  //     return;
-  //   }
-
-  //   try {
-  //     const formdata = {
-  //       product_id: option.id, // Assuming `id` is the product ID
-  //       product_option_id: option.product_id, // Assuming `option_id` exists
-  //       quantity,
-  //     };
-  //     console.log("Form", formdata);
-  //     const response = await fetch("https://api.jenari.co.uk/api/add/to/cart", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${isAuthenticated}`, // Add token to headers
-  //       },
-  //       body: JSON.stringify(formdata),
-  //     });
-  //     console.log("response", response);
-  //     console.log("HTTP status:", response.status);
-  //     if (!response.ok) {
-  //       throw new Error("Failed to add item to cart.");
-  //     }
-
-  //     const data = await response.json();
-  //     console.log("Add to cart response:", data);
-  //     // Success notification
-  //     toast.success(`${option.name} added to cart successfully!`);
-
-  //     setTimeout(() => {
-  //       // Redirect to payment page
-  //       navigate("/payment");
-  //     }, 3000);
-  //   } catch (error) {
-  //     console.error("Error adding to cart:", error);
-
-  //     // Error notification
-  //     toast.error("Could not add item to cart. Please try again.");
-  //   }
-  // };
-
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-all transform"

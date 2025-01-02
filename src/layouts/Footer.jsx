@@ -7,7 +7,6 @@ import AuthContext from "../components/context/AuthContex";
 const Footer = () => {
   const navigate = useNavigate();
   const { categories } = useContext(AuthContext);
-  console.log("categories", categories);
 
   const handleCategoryClick = (id) => {
     window.scrollTo({ top: 0, behavior: "smooth" });

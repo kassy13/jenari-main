@@ -28,8 +28,6 @@ const Header = () => {
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false); // State for cart dropdown
   const cartRef = useRef(null); // Ref for the cart dropdown
 
-  console.log("menu", menuOpen);
-  console.log("user", user);
   // const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleLinkClick = () => {
     setMenuOpen(false); // Hide menu when a link is clicked
@@ -77,7 +75,7 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed w-full top-0 z-[99999]">
+    <div className="fixed w-full top-0 z-[99]">
       <nav className="bg-header-bg text-white font-sans  ">
         <div className="flex items-center justify-between p-4 lg:py-4 lg:px-12">
           {/* Logo Section */}
@@ -356,7 +354,7 @@ const Header = () => {
         )} */}
         {/* mobile nav */}
         <div
-          className={`absolute top-0 w-full h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50 transform transition-transform duration-300 ${
+          className={`absolute top-0 w-full min-h-dvh  lg:h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50 transform transition-transform duration-300 ${
             menuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
