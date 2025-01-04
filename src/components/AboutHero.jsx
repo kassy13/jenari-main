@@ -1,5 +1,5 @@
-import React from "react";
-import img from "../assets/about jenari.svg";
+import React from 'react';
+import img from '../assets/about jenari.svg';
 const AboutHero = () => {
   return (
     <div className="flex flex-col lg:flex-row lg:px-16 px-6 lg:py-16 lg:gap-12 gap-6 mt-40 lg:mt-36">
@@ -22,7 +22,9 @@ const AboutHero = () => {
           affordably, and hassle-free. That’s what we do.
         </p>
         <div className="text-text-light tracking-tight">
-          <p className="text-gray-600 font-extrabold pb-2">Our Mission</p>
+          <p className="text-gray-600 font-bold text-[30px] pb-2">
+            Our Mission
+          </p>
           <p className="text-text-light">
             Our Mission We’re on a mission to make African food and products
             easily accessible while supporting local stores and farmers. By
@@ -38,18 +40,18 @@ const AboutHero = () => {
         </div>
 
         <div>
-          <p className="text-gray-600 font-extrabold py-2">Our Vision</p>
+          <p className="text-gray-600 font-bold text-[30px] py-2">Our Vision</p>
           <p className="text-text-light">
             Our Mission We’re on a mission to make African food and products
             easily accessible while supporting local stores and farmers. By
             bringing you high-quality, fresh, and authentic items from trusted
             sources, we ensure that every meal and every purchase connects you
-            with the heart of African heritage and culture. Our Vision Our
-            vision is to create a seamless shopping experience where communities
-            can embrace the flavors they love without compromise. Through
-            partnerships with diverse stores and producers, we are bridging the
-            gap between tradition and modern convenience, offering a platform
-            that empowers and unites.
+            with the heart of African heritage and culture. Our vision is to
+            create a seamless shopping experience where communities can embrace
+            the flavors they love without compromise. Through partnerships with
+            diverse stores and producers, we are bridging the gap between
+            tradition and modern convenience, offering a platform that empowers
+            and unites.
           </p>
         </div>
       </div>

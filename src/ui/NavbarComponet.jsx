@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   RiHome2Line,
   RiStore2Line,
@@ -16,10 +16,10 @@ import {
   RiUserCommunityLine,
   RiContactsBook3Fill,
   RiContactsBook3Line,
-} from "react-icons/ri";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import about from "../assets/about.svg";
-import AuthContext from "../components/context/AuthContex";
+} from 'react-icons/ri';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import about from '../assets/about.svg';
+import AuthContext from '../components/context/AuthContex';
 
 const NavbarComponent = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -38,9 +38,9 @@ const NavbarComponent = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -93,10 +93,10 @@ const NavbarComponent = () => {
         <ul className="lg:flex hidden items-center gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide w-full">
           <NavLink
             to="/"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
               `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+                isActive ? 'text-secondary-bg font-semibold' : 'text-gray-700'
               } hover:text-secondary-bg`
             }
           >
@@ -106,10 +106,10 @@ const NavbarComponent = () => {
 
           <NavLink
             to="/supermarket"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
               `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+                isActive ? 'text-secondary-bg font-semibold' : 'text-gray-700'
               } hover:text-secondary-bg`
             }
           >
@@ -119,10 +119,10 @@ const NavbarComponent = () => {
 
           <NavLink
             to="/charity"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
               `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+                isActive ? 'text-secondary-bg font-semibold' : 'text-gray-700'
               } hover:text-secondary-bg`
             }
           >
@@ -132,10 +132,10 @@ const NavbarComponent = () => {
 
           <NavLink
             to="/blog"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
               `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+                isActive ? 'text-secondary-bg font-semibold' : 'text-gray-700'
               } hover:text-secondary-bg`
             }
           >
@@ -145,10 +145,10 @@ const NavbarComponent = () => {
 
           <NavLink
             to="/about"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
               `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+                isActive ? 'text-secondary-bg font-semibold' : 'text-gray-700'
               } hover:text-secondary-bg`
             }
           >
@@ -159,10 +159,10 @@ const NavbarComponent = () => {
 
           <NavLink
             to="/contact"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
               `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+                isActive ? 'text-secondary-bg font-semibold' : 'text-gray-700'
               } hover:text-secondary-bg`
             }
           >
@@ -172,10 +172,10 @@ const NavbarComponent = () => {
 
           <NavLink
             to="/faq"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
               `flex items-center gap-2 py-3 px-2 ${
-                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+                isActive ? 'text-secondary-bg font-semibold' : 'text-gray-700'
               } hover:text-secondary-bg`
             }
           >
@@ -186,11 +186,11 @@ const NavbarComponent = () => {
         {/* Call Number */}
         <div
           className="lg:flex hidden items-center gap-2 text-dark-gray"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <RiPhoneLine className="text-lg" />
           <span className="text-sm font-medium hidden lg:block">
-            +2349160000375
+            +447879315979
           </span>
         </div>
       </div>

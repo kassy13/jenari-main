@@ -1,11 +1,13 @@
-import React from "react";
-import img from "../assets/features 1.svg";
+import React from 'react';
+import img from '../assets/features 1.svg';
 
 const WhyJenari = () => {
   return (
     <div className="flex flex-col lg:flex-row lg:px-16 gap-12 lg:mb-28">
       <div className="w-full">
-        <h1 className="lg:text-4xl">Why we’re different</h1>
+        <h1 className="lg:text-4xl text-gray-600 font-bold text-[30px] py-2">
+          Why we’re different
+        </h1>
         <ol className="text-text-light py-4 list-decimal">
           <li className="pb-3">
             One-Stop Shopping: Compare prices, explore varieties, and discover
