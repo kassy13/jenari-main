@@ -32,7 +32,7 @@ const Hero = () => {
   ];
 
   return (
-    <div className="w-full h-screen md:h-[80vh] mt-36 lg:mt-40 relative">
+    <div className="w-full h-screen md:h-[80vh] mt-32 lg:mt-40 relative">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         autoplay={{ delay: 3000, disableOnInteraction: false }}

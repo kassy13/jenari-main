@@ -28,14 +28,17 @@ const Header = () => {
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false); // State for cart dropdown
   const cartRef = useRef(null); // Ref for the cart dropdown
 
-  console.log("user from navbar", user);
-  console.log("token from navbar", token);
-
-  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  // const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleLinkClick = () => {
     setMenuOpen(false); // Hide menu when a link is clicked
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMenuOpen((prev) => !prev);
+  };
+
   // Fetch cart items when the component mounts
   useEffect(() => {
     if (user) {
@@ -66,13 +69,13 @@ const Header = () => {
     };
   }, []);
 
-  const toggleCartDropdown = () => {
+  const toggleCartDropdown = (e) => {
+    e.preventDefault();
     setCartDropdownOpen((prev) => !prev);
   };
-  console.log(menuOpen);
 
   return (
-    <div className="fixed w-full top-0 z-[99999]">
+    <div className="fixed w-full top-0 z-[99]">
       <nav className="bg-header-bg text-white font-sans  ">
         <div className="flex items-center justify-between p-4 lg:py-4 lg:px-12">
           {/* Logo Section */}
@@ -83,7 +86,7 @@ const Header = () => {
           {/* Hamburger Menu */}
           <button
             onClick={toggleMenu}
-            className="block md:hidden text-2xl focus:outline-none transition-all"
+            className="block md:hidden text-2xl focus:outline-none transition-all duration-300"
           >
             {menuOpen ? <RiCloseLine /> : <RiMenuLine />}
           </button>
@@ -199,19 +202,19 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu */}
-        {menuOpen && (
+        {/* {menuOpen && (
           <div
             className={`absolute top-0 w-full h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50  transition-left duration-300 `}
           >
-            {/* Close Button */}
+          
             <button
               onClick={toggleMenu}
-              className="absolute top-4 right-4 text-2xl focus:outline-none"
+              className="absolute top-4  right-4 text-2xl focus:outline-none"
             >
               <RiCloseLine />
             </button>
 
-            {/* Search Input */}
+            
             <div className="flex text-nowrap gap-2 pt-4 ">
               <form action="" className="relative w-full">
                 <input
@@ -235,7 +238,7 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Cart Section */}
+          
             <ul className="flex flex-col items-start gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide w-full">
               <NavLink
                 to="/"
@@ -298,7 +301,7 @@ const Header = () => {
                   } hover:text-secondary-bg`
                 }
               >
-                {/* <RiStore2Line className="text-lg" /> */}
+             
                 <RiUserCommunityLine className="text-lg" />
                 About Us
               </NavLink>
@@ -318,7 +321,7 @@ const Header = () => {
 
               <NavLink
                 to="/faq"
-                onClick={handleLinkClick}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className={({ isActive }) =>
                   `flex items-center gap-2  px-2 ${
                     isActive ? "text-secondary-bg font-semibold" : "text-white"
@@ -329,7 +332,7 @@ const Header = () => {
                 FAQs
               </NavLink>
             </ul>
-            {/* Links */}
+           
             {user.name ? (
               <Link
                 to="/signUp"
@@ -338,7 +341,7 @@ const Header = () => {
                 Register
               </Link>
             ) : (
-              "kgjkf"
+              "Guest"
             )}
 
             <Link
@@ -348,7 +351,163 @@ const Header = () => {
               Login
             </Link>
           </div>
-        )}
+        )} */}
+        {/* mobile nav */}
+        <div
+          className={`absolute top-0 w-full min-h-dvh  lg:h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50 transform transition-transform duration-300 ${
+            menuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <button
+            onClick={toggleMenu}
+            className="absolute top-4  right-4 text-2xl focus:outline-none"
+          >
+            <RiCloseLine />
+          </button>
+
+          <div className="flex text-nowrap gap-2 pt-4 ">
+            <form action="" className="relative w-full">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full py-2 pl-4 pr-10 bg-gray-white rounded-full text-sm placeholder-gray-400 text-secondary-bg focus:outline-none focus:ring-2 focus:ring-secondary-bg"
+              />
+              <RiSearchLine className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg text-black" />
+            </form>
+            <div className="relative">
+              <RiShoppingBagLine className="text-xl" size={26} />
+              {cartItems.length > 0 && (
+                <span className="absolute top-0 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
+                  {cartItems.length}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col items-start leading-tight">
+              <p className="text-xs">My Cart</p>
+              <p className="text-xs font-bold text-primary-bg">₦0.00</p>
+            </div>
+          </div>
+
+          <ul className="flex flex-col items-start gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide w-full">
+            <NavLink
+              to="/"
+              onClick={handleLinkClick}
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-2 ${
+                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                } hover:text-secondary-bg`
+              }
+            >
+              <RiHome2Line className="text-lg" />
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/supermarket"
+              onClick={handleLinkClick}
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-2 ${
+                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                } hover:text-secondary-bg`
+              }
+            >
+              <RiStore2Line className="text-lg" />
+              Supermarket
+            </NavLink>
+
+            <NavLink
+              to="/charity"
+              onClick={handleLinkClick}
+              className={({ isActive }) =>
+                `flex items-center gap-2  px-2 ${
+                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                } hover:text-secondary-bg`
+              }
+            >
+              <RiHeart2Line className="text-lg" />
+              Charity
+            </NavLink>
+
+            <NavLink
+              to="/blog"
+              onClick={handleLinkClick}
+              className={({ isActive }) =>
+                `flex items-center gap-2  px-2 ${
+                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                } hover:text-secondary-bg`
+              }
+            >
+              <RiArticleLine className="text-lg" />
+              Blog
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              onClick={handleLinkClick}
+              className={({ isActive }) =>
+                `flex items-center gap-2  px-2 ${
+                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                } hover:text-secondary-bg`
+              }
+            >
+              <RiUserCommunityLine className="text-lg" />
+              About Us
+            </NavLink>
+
+            <NavLink
+              to="/contact"
+              onClick={handleLinkClick}
+              className={({ isActive }) =>
+                `flex items-center gap-2  px-2 ${
+                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                } hover:text-secondary-bg`
+              }
+            >
+              <RiContactsBook3Line className="text-lg" />
+              Contact Us
+            </NavLink>
+
+            <NavLink
+              to="/faq"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className={({ isActive }) =>
+                `flex items-center gap-2  px-2 ${
+                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                } hover:text-secondary-bg`
+              }
+            >
+              <RiQuestionLine className="text-lg" />
+              FAQs
+            </NavLink>
+          </ul>
+
+          {!user ? (
+            <Link
+              to="/signUp"
+              className="block text-sm font-bold text-white bg-primary-bg rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
+            >
+              Register
+            </Link>
+          ) : (
+            ""
+          )}
+          {!user ? (
+            <Link
+              to="/signIn"
+              className="block text-sm font-bold text-primary-bg bg-white rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
+            >
+              Login
+            </Link>
+          ) : (
+            <Link
+              to="/"
+              onClick={logout}
+              className="block text-sm font-bold text-primary-bg bg-white rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
+            >
+              Logout
+            </Link>
+          )}
+        </div>
       </nav>
 
       {/* Navbar Component */}

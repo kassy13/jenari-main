@@ -90,10 +90,102 @@ const NavbarComponent = () => {
         </div>
 
         {/* Other Links */}
+        <ul className="lg:flex hidden items-center gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide w-full">
+          <NavLink
+            to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            <RiHome2Line className="text-lg" />
+            Home
+          </NavLink>
 
+          <NavLink
+            to="/supermarket"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            <RiStore2Line className="text-lg" />
+            Supermarket
+          </NavLink>
+
+          <NavLink
+            to="/charity"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            <RiHeart2Line className="text-lg" />
+            Charity
+          </NavLink>
+
+          <NavLink
+            to="/blog"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            <RiArticleLine className="text-lg" />
+            Blog
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            {/* <RiStore2Line className="text-lg" /> */}
+            <RiUserCommunityLine className="text-lg" />
+            About Us
+          </NavLink>
+
+          <NavLink
+            to="/contact"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            <RiContactsBook3Line className="text-lg" />
+            Contact Us
+          </NavLink>
+
+          <NavLink
+            to="/faq"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className={({ isActive }) =>
+              `flex items-center gap-2 py-3 px-2 ${
+                isActive ? "text-secondary-bg font-semibold" : "text-gray-700"
+              } hover:text-secondary-bg`
+            }
+          >
+            <RiQuestionLine className="text-lg" />
+            FAQs
+          </NavLink>
+        </ul>
         {/* Call Number */}
         <div
-          className="lg:flex items-center gap-2 text-dark-gray hidden"
+          className="lg:flex hidden items-center gap-2 text-dark-gray"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <RiPhoneLine className="text-lg" />

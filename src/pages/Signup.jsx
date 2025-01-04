@@ -313,14 +313,18 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateStep2()) return;
-
+    // Convert phone to integer
+    const updatedFormData = {
+      ...formData,
+      phone: parseInt(formData.phone, 10), // Convert phone to an integer
+    };
     try {
       const response = await fetch("https://api.jenari.co.uk/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedFormData),
       });
 
       const data = await response.json();

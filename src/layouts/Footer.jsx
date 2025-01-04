@@ -1,8 +1,18 @@
-import { RiInstagramLine, RiTwitterLine, RiYoutubeLine } from 'react-icons/ri';
-import { LuFacebook } from 'react-icons/lu';
-import { Link } from 'react-router-dom';
+import { RiInstagramLine, RiTwitterLine, RiYoutubeLine } from "react-icons/ri";
+import { LuFacebook } from "react-icons/lu";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../components/context/AuthContex";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const { categories } = useContext(AuthContext);
+
+  const handleCategoryClick = (id) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate(`/supermarket?category=${id}`); // Use the id instead of slug
+    setIsDropdownOpen(false); // Close dropdown after navigation
+  };
   return (
     <footer className="bg-header-bg py-10 px-6 text-white flex flex-col-reverse  row gap-5 lg:grid lg:grid-cols-3 ">
       {/* Social Media Section */}
@@ -45,7 +55,7 @@ const Footer = () => {
         {/* Categories Section */}
         <div>
           <h3 className="text-xl font-bold mb-4">Categories</h3>
-          <ul className="space-y-2">
+          {/* <ul className="space-y-2">
             <li>
               <Link
                 to="/categories/fresh-produce"
@@ -126,7 +136,17 @@ const Footer = () => {
                 Packaged Foods, Beverages & Drinks
               </Link>
             </li>
-          </ul>
+          </ul> */}
+          {categories.map((item, index) => (
+            <ul className="space-y-2" key={index}>
+              <li
+                className="hover:text-secondary-bg text-sm transition py-2 cursor-pointer"
+                onClick={() => handleCategoryClick(item.id)}
+              >
+                {item.category_name}
+              </li>
+            </ul>
+          ))}
         </div>
 
         {/* Company Section */}
@@ -136,6 +156,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/about"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-secondary text-sm transition"
               >
                 About Us
@@ -144,6 +165,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/contact"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-secondary text-sm transition"
               >
                 Contact Us
@@ -152,6 +174,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/faq"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-secondary text-sm transition"
               >
                 FAQ
@@ -167,6 +190,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/return-policy"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-secondary text-sm transition"
               >
                 Return Policy
@@ -175,6 +199,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/privacy-policy"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-secondary text-sm transition"
               >
                 Privacy Policy
@@ -183,6 +208,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/terms-conditions"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-secondary text-sm transition"
               >
                 Terms & Conditions
@@ -191,6 +217,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/cookie-policy"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="hover:text-secondary text-sm transition"
               >
                 Cookie Policy
