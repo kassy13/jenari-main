@@ -9,16 +9,16 @@ const Accordion = () => {
       question: 'What is Jenari?',
       type: 'text',
       answer:
-        'Jenari is a platform designed to connect individuals with the resources they need to thrive in their personal and professional lives.',
+        'Jenari is transforming access to authentic African foods in the UK by connecting customers directly with trusted producers. Our focus on quality, fair pricing, and sustainability allows us to bring fresh African groceries to your door, while supporting the farmers who grow them.',
     },
     {
       id: 2,
       question: 'How does Jenari work?',
       type: 'list',
       answer: [
-        'Jenari provides tailored solutions.',
-        'It connects you with expert professionals.',
-        'It uses modern technology to meet your needs.',
+        'Visit jenari.co.uk and click on "Sign Up."',
+        'Complete the required information and click "Create."',
+        'A confirmation email will be sent to you to verify your account.',
       ],
     },
     {

@@ -1,5 +1,5 @@
-import React from "react";
-import jenari from "../assets/jenari banner.svg";
+import React from 'react';
+import jenari from '../assets/jenari banner.svg';
 
 const KeepWord = () => {
   return (
@@ -10,12 +10,11 @@ const KeepWord = () => {
           We have carefully selected an orphanage that have a proven track
           record of making a lasting impact in the lives of children.
         </p>
-        <p className="text-dark-blue underline pb-3">Dream Catchers Academy</p>
-        <p className="pt-4 pb-3 text-text-light tracking-tight text-lg">
+        <p className="pt-2 pb-3 text-text-light tracking-tight text-lg">
           Your donations will be used to provide foodstuffs. We are committed to
           transparency and accountability. Rest assured, we will provide regular
           updates on the progress and impact of our partnership, so you can see
-          first-hand the difference you're making
+          first-hand the difference you&apos;re making
         </p>
       </div>
       <div className="w-full">

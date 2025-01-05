@@ -21,37 +21,25 @@ const AboutHero = () => {
           brands, and have everything delivered to your doorstep—quickly,
           affordably, and hassle-free. That’s what we do.
         </p>
+
+        <div>
+          <p className="text-gray-600 font-bold text-[30px] py-2">Our Vision</p>
+          <p className="text-text-light">
+            Our vision is to create a seamless shopping experience where
+            communities can embrace the flavors they love without compromise.
+            Through partnerships with diverse stores and producers, we are
+            bridging the gap between tradition and modern convenience, offering
+            a platform that empowers and unites.
+          </p>
+        </div>
+
         <div className="text-text-light tracking-tight">
           <p className="text-gray-600 font-bold text-[30px] pb-2">
             Our Mission
           </p>
           <p className="text-text-light">
-            Our Mission We’re on a mission to make African food and products
-            easily accessible while supporting local stores and farmers. By
-            bringing you high-quality, fresh, and authentic items from trusted
-            sources, we ensure that every meal and every purchase connects you
-            with the heart of African heritage and culture. Our Vision Our
-            vision is to create a seamless shopping experience where communities
-            can embrace the flavors they love without compromise. Through
-            partnerships with diverse stores and producers, we are bridging the
-            gap between tradition and modern convenience, offering a platform
-            that empowers and unites.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-gray-600 font-bold text-[30px] py-2">Our Vision</p>
-          <p className="text-text-light">
-            Our Mission We’re on a mission to make African food and products
-            easily accessible while supporting local stores and farmers. By
-            bringing you high-quality, fresh, and authentic items from trusted
-            sources, we ensure that every meal and every purchase connects you
-            with the heart of African heritage and culture. Our vision is to
-            create a seamless shopping experience where communities can embrace
-            the flavors they love without compromise. Through partnerships with
-            diverse stores and producers, we are bridging the gap between
-            tradition and modern convenience, offering a platform that empowers
-            and unites.
+            We’re on a mission to make African food and products easily
+            accessible while supporting local stores and farmers.
           </p>
         </div>
       </div>

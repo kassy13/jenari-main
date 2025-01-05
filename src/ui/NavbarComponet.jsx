@@ -114,7 +114,7 @@ const NavbarComponent = () => {
             }
           >
             <RiStore2Line className="text-lg" />
-            Supermarket
+            Store
           </NavLink>
 
           <NavLink
