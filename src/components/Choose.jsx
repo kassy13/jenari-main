@@ -1,44 +1,44 @@
-import React from "react";
-import choice1 from "../assets/basket.svg";
-import choice2 from "../assets/wide product.svg.svg";
-import choice3 from "../assets/quality.svg.svg";
-import choice4 from "../assets/money.svg";
-import choice5 from "../assets/time.svg";
-import choice6 from "../assets/truck.svg";
-import frame from "../assets/Frame 10.svg";
-import Iconstext from "../ui/Iconstext";
+import React from 'react';
+import choice1 from '../assets/basket.svg';
+import choice2 from '../assets/wide product.svg.svg';
+import choice3 from '../assets/quality.svg.svg';
+import choice4 from '../assets/money.svg';
+import choice5 from '../assets/time.svg';
+import choice6 from '../assets/truck.svg';
+import frame from '../assets/Frame 10.svg';
+import Iconstext from '../ui/Iconstext';
 
 const Choose = () => {
   const choice = [
     {
       img: choice1,
-      title: "Convenience",
-      text: "We allow you to shop from the comfort of your home or workplace, saving you the time and stress of visiting physical stores or markets.",
+      title: 'Convenience',
+      text: 'You can now shop from the comfort of your home or workplace, saving you the time and stress of visiting physical African stores or markets.',
     },
     {
       img: choice2,
-      title: "Wide Product Range",
-      text: "We provide a wide range of farm fresh food items, food products, groceries, and household essentials, providing you with an extensive choice to meet your culinary and home needs.",
+      title: 'Wide Product Range',
+      text: 'We provide a wide range of farm fresh food items, food products, groceries, and household essentials, providing you with an extensive choice to meet your culinary and home needs.',
     },
     {
       img: choice3,
-      title: "Quality Assurance",
-      text: "We are committed to providing high-quality products with every order. We offer a return or refund within 6 hours of delivering your order. Terms and conditions apply.",
+      title: 'Quality Assurance',
+      text: 'We are committed to providing high-quality products with every order. We offer a return or refund within 6 hours of delivering your order. Terms and conditions apply.',
     },
     {
       img: choice4,
-      title: "Cost Savings",
-      text: "We offer competitive prices and deals, helping you save money on your grocery bills.",
+      title: 'Cost Savings',
+      text: 'We offer competitive prices and deals, helping you save money on your grocery bills.',
     },
     {
       img: choice5,
-      title: "Time Efficiency",
-      text: "Shopping on JENARI is a time-efficient process. You can quickly browse products, add them to your cart, schedule an order, reorder a previous order, and complete your purchase in just a few clicks.",
+      title: 'Time Efficiency',
+      text: 'Shopping on JENARI is a time-efficient process. You can quickly browse products, add them to your cart, schedule an order, reorder a previous order, and complete your purchase in just a few clicks.',
     },
     {
       img: choice6,
-      title: "Delivery Options",
-      text: "We have various delivery options, including same-day and next-day delivery, allowing you to choose the most convenient time for your groceries to arrive.",
+      title: 'Delivery Options',
+      text: 'We have various delivery options, including same-day and next-day delivery, allowing you to choose the most convenient time for your groceries to arrive.',
     },
   ];
   return (
@@ -68,8 +68,8 @@ const Choose = () => {
                 title={item.title}
                 img={item.img}
                 key={index}
-                containerClassName={"w-full mb-4"}
-                className={"py-2"}
+                containerClassName={'w-full mb-4'}
+                className={'py-2'}
               />
             );
           })}

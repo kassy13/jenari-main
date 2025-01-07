@@ -3,7 +3,7 @@ import img from '../assets/features 1.svg';
 
 const WhyJenari = () => {
   return (
-    <div className="flex flex-col lg:flex-row lg:px-16 gap-12 lg:mb-28">
+    <div className="flex flex-col lg:flex-row lg:px-16 px-6 lg:py-16 lg:gap-12 gap-6 mt-10 lg:mt-36">
       <div className="w-full">
         <h1 className="lg:text-4xl text-gray-600 font-bold text-[30px] py-2">
           Why we’re different
@@ -15,7 +15,7 @@ const WhyJenari = () => {
           </li>
           <li className="pb-3">
             No Hidden Costs: We charge only a minimal delivery fee, ensuring you
-            save money without sacrificing quality. m, empowering farmers and
+            save money without sacrificing quality.Empowering farmers and
             reducing waste.
           </li>
           <li className="pb-3">

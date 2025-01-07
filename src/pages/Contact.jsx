@@ -1,12 +1,12 @@
-import React from "react";
-import mail from "../assets/mail.svg";
-import call from "../assets/call.svg";
-import location from "../assets/location.svg";
-import whatsapp from "../assets/whatsapp.svg";
-import fb from "../assets/Facebook.svg";
-import ig from "../assets/instagram.svg";
-import ticktok from "../assets/tiktok.svg";
-import yt from "../assets/youtube.svg";
+import React from 'react';
+import mail from '../assets/mail.svg';
+import call from '../assets/call.svg';
+import location from '../assets/location.svg';
+import whatsapp from '../assets/whatsapp.svg';
+import fb from '../assets/Facebook.svg';
+import ig from '../assets/instagram.svg';
+import ticktok from '../assets/tiktok.svg';
+import yt from '../assets/youtube.svg';
 const Contact = () => {
   return (
     <div className="px-6 lg:px-16 my-16 flex flex-col lg:flex-row justify-between  gap-6 lg:gap-12 mt-48 lg:mt-56">
@@ -52,7 +52,7 @@ const Contact = () => {
               href=""
               className="text-secondary-bg tracking-tight font-extrabold"
             >
-              29 High Street, Worsley, Manchester, M28 3JH.
+              71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H
             </a>
           </div>
         </div>
@@ -73,7 +73,7 @@ const Contact = () => {
           <p>Follow Us on Socials</p>
           <p className="pt-3 text-sm">
             Stay connected with us on social media for updates, special offers,
-            and more!{" "}
+            and more!{' '}
           </p>
           <div className="flex items-center gap-2 mt-3">
             <img src={fb} alt="" />

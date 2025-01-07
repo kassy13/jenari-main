@@ -22,18 +22,17 @@ const AboutHero = () => {
           affordably, and hassle-free. That’s what we do.
         </p>
 
-        <div>
+        <div className="mt-4">
           <p className="text-gray-600 font-bold text-[30px] py-2">Our Vision</p>
           <p className="text-text-light">
-            Our vision is to create a seamless shopping experience where
-            communities can embrace the flavors they love without compromise.
-            Through partnerships with diverse stores and producers, we are
-            bridging the gap between tradition and modern convenience, offering
-            a platform that empowers and unites.
+            Our vision is to create a convenient shopping experience where
+            African communities can embrace the flavors they love without
+            compromise. Through partnerships with diverse stores and producers,
+            we are bridging the gap between tradition and modern convenience.
           </p>
         </div>
 
-        <div className="text-text-light tracking-tight">
+        <div className="text-text-light tracking-tight mt-8">
           <p className="text-gray-600 font-bold text-[30px] pb-2">
             Our Mission
           </p>

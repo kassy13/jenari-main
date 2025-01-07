@@ -9,7 +9,7 @@ const Accordion = () => {
       question: 'What is Jenari?',
       type: 'text',
       answer:
-        'Jenari is transforming access to authentic African foods in the UK by connecting customers directly with trusted producers. Our focus on quality, fair pricing, and sustainability allows us to bring fresh African groceries to your door, while supporting the farmers who grow them.',
+        'Jenari is a marketplace that connects UK customers with authentic African foods, providing access to quality products directly from trusted stores and producers. Its mission is to make African food and products easily accessible while supporting local farmers and stores.',
     },
     {
       id: 2,
@@ -46,9 +46,9 @@ const Accordion = () => {
       question: 'Why should I shop at Jenari?',
       type: 'list',
       answer: [
-        'Access to fresh, authentic African food items.',
-        'Convenient doorstep delivery options.',
-        'Competitive pricing with free delivery on orders over £25',
+        'Convenient doorstep delivery.',
+        'Access to fresh, authentic African food items, including hard-to-find brands.',
+        'Competitive pricing with free delivery on orders over £100.',
       ],
     },
     {
@@ -101,7 +101,7 @@ const Accordion = () => {
       question: 'Where is Jenari located?',
       type: 'text',
       answer:
-        'Our office is located at:\n29 High Street, Worsley, Manchester, M28 3JH.\n\nContact Number: +44 7879 315979\nEmail: hello@jenari.co.uk',
+        'Our office is situated at:\n71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ.\n\nPhone: +44 7879 315979\nEmail: hello@jenari.co.uk',
     },
     {
       id: 13,
@@ -143,7 +143,7 @@ const Accordion = () => {
       question: 'How are delivery charges calculated?',
       type: 'text',
       answer:
-        'Delivery fees are calculated based on your location and the weight of your order. Orders over £25 qualify for free delivery, making it even easier to stock up on essentials without additional cost.',
+        'Delivery fees are calculated based on your location and the weight of your order. Orders over £100 qualify for free delivery, making it even easier to stock up on essentials without additional cost',
     },
   ];
 
