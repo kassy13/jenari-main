@@ -18,6 +18,15 @@ const SuperMarkertCard = ({
   price,
   onOptionClick, // This is the handler function to trigger off-canvas
 }) => {
+  const handleOptionSelection = (selectedOption) => {
+    // If options is a single object, wrap it in an array, otherwise use it as it is
+    const optionsToPass = Array.isArray(selectedOption)
+      ? selectedOption
+      : [selectedOption];
+    onOptionClick(optionsToPass); // Pass the options array to the parent
+  };
+
+  console.log("options", options);
   return (
     <div>
       <div className="image-container relative">
@@ -58,7 +67,7 @@ const SuperMarkertCard = ({
                   <li
                     key={index}
                     className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                    // onClick={toggleOffCanvas}
+                    onClick={() => handleOptionSelection(option)}
                   >
                     {option.name || "Unnamed Option"}
                   </li>

@@ -369,7 +369,6 @@ export const AuthProvider = ({ children }) => {
         fetchProducts,
         supermarketItems,
         getCategoryFromParams,
-        isLoading,
         setIsLoading,
       }}
     >

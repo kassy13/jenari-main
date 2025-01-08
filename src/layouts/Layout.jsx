@@ -37,6 +37,7 @@
 // export default Layout;
 // Layout.jsx
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
@@ -44,20 +45,21 @@ import FullPageLoader from "../ui/loaders/FullPageLoader";
 
 const Layout = ({ customLoader }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation(); // To detect route change
 
   useEffect(() => {
-    const handleLoad = () => {
-      setIsLoading(false); // Set loading to false when the page is fully loaded
-    };
+    // Whenever the route changes, reset isLoading to true (show loader)
+    setIsLoading(true);
+  }, [location]);
 
-    // Listen to the 'load' event
-    window.addEventListener("load", handleLoad);
+  // Simulate loading completion after 2 seconds (you can modify this based on actual data fetching)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Set to false after simulated delay or actual content load
+    }, 2000); // Adjust time based on your actual loading logic (e.g., fetching data)
 
-    // Cleanup the event listener
-    return () => {
-      window.removeEventListener("load", handleLoad);
-    };
-  }, []);
+    return () => clearTimeout(timer); // Cleanup timer on component unmount or effect change
+  }, [location]); // Run the timer every time the route changes
 
   return (
     <>

@@ -69,7 +69,6 @@ const Index = () => {
 
   return (
     <>
-      {isLoading && <FullPageLoader customLoader={<HeroLoader />} />}
       <Hero />
       <Categories />
       <BestSelling />

@@ -167,7 +167,7 @@ const ProductDetails = () => {
   return (
     <div className="px-6 lg:px-16 py-8 mt-40">
       <div className="flex items-center flex-col lg:flex-row gap-8">
-        <div className="w-full rounded-lg shadow-md">
+        <div className="w-full h-80 rounded-lg shadow-md">
           <img
             src={product.image} // Display the product image
             alt={product.name}
