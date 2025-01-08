@@ -1,4 +1,40 @@
-import React from "react";
+// import React, { useEffect, useState } from "react";
+// import Hero from "../components/Hero";
+// import Categories from "../components/Categories";
+// import BestSelling from "../components/BestSelling";
+// import NewStock from "../components/NewStock";
+// import Clearance from "../components/Clearance";
+// import ShopHome from "../components/ShopHome";
+// import Features from "../components/Features";
+// import Choose from "../components/Choose";
+// import Donate from "../components/Donate";
+// import AvailableLocations from "../components/AvailableLocations";
+// import SwiperCards from "../components/SwiperCards";
+// import ScrollToTop from "../components/ScrollToTop";
+
+// const Index = () => {
+//   return (
+//     <div>
+//       <Hero />
+//       <Categories />
+//       <BestSelling />
+//       <NewStock />
+//       <Clearance />
+//       <ShopHome />
+//       <Features />
+//       <Choose />
+//       <SwiperCards />
+//       <Donate />
+//       <AvailableLocations />
+//       <ScrollToTop />
+//     </div>
+//   );
+// };
+
+// export default Index;
+
+// Index.jsx
+import React, { useEffect, useState } from "react";
 import Hero from "../components/Hero";
 import Categories from "../components/Categories";
 import BestSelling from "../components/BestSelling";
@@ -11,10 +47,29 @@ import Donate from "../components/Donate";
 import AvailableLocations from "../components/AvailableLocations";
 import SwiperCards from "../components/SwiperCards";
 import ScrollToTop from "../components/ScrollToTop";
+import FullPageLoader from "../ui/loaders/FullPageLoader";
+import HeroLoader from "../ui/loaders/HeroLoader";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const handleLoad = () => {
+      setIsLoading(false); // Set loading to false when the page is fully loaded
+    };
+
+    // Listen to the 'load' event
+    window.addEventListener("load", handleLoad);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener("load", handleLoad);
+    };
+  }, []);
+
   return (
-    <div>
+    <>
+      {isLoading && <FullPageLoader customLoader={<HeroLoader />} />}
       <Hero />
       <Categories />
       <BestSelling />
@@ -27,7 +82,7 @@ const Index = () => {
       <Donate />
       <AvailableLocations />
       <ScrollToTop />
-    </div>
+    </>
   );
 };
 
