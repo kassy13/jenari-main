@@ -25,3 +25,25 @@
   background-color: rgba(0, 0, 0, 0.562);
   background-blend-mode: overlay;
 }
+.loader {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: block;
+  margin: 15px auto;
+  position: relative;
+  background: #fff;
+  box-sizing: border-box;
+  animation: shadowExpandX 2s linear infinite alternate;
+}
+
+@keyframes shadowExpandX {
+  0% {
+    box-shadow: 0 0, 0 0;
+    color: #0d8c42;
+  }
+  100% {
+    box-shadow: -24px 0, 24px 0;
+    color: #da7656;
+  }
+}
