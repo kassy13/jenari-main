@@ -1,31 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import AddressOffCanvas from "../components/AddressOffcanvas";
-import address from "../assets/address.svg";
-import contact from "../assets/contact-book.svg";
-import { RiArrowRightLine } from "react-icons/ri";
-import { FaStar } from "react-icons/fa";
-import onion from "../assets/potato.svg";
-import VoucherCode from "../components/Voucher";
-import PayWallet from "../components/PayWallet";
-import PaymentOffCanvas from "../components/PaymentOffcanvas";
-import AuthContext from "../components/context/AuthContex";
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import AddressOffCanvas from '../components/AddressOffcanvas';
+import address from '../assets/address.svg';
+import contact from '../assets/contact-book.svg';
+import { RiArrowRightLine } from 'react-icons/ri';
+import onion from '../assets/potato.svg';
+import VoucherCode from '../components/Voucher';
+import PayWallet from '../components/PayWallet';
+import PaymentOffCanvas from '../components/PaymentOffcanvas';
+import AuthContext from '../components/context/AuthContex';
+import AddressUserList from '../components/AddressUserList';
+import useAppStore from '../store';
 
 const Checkout = () => {
-  const [showOffCanvas, setShowOffCanvas] = useState(false);
+  const [open, setOpen] = useState('');
   // Toggle state
   const [isToggled, setIsToggled] = useState(false);
-
   const [isCarriageEnabled, setIsCarriageEnabled] = useState(false);
-  const [floor, setFloor] = useState("");
+  const [floor, setFloor] = useState('');
 
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const { getAddress, handleCheckout } = useContext(AuthContext);
+  const { getAddress, handleCheckout, checkoutItems } = useContext(AuthContext);
   const [savedAddress, setSavedAddress] = useState([]);
-  const { checkoutItems } = useContext(AuthContext);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
-  console.log("saved cart for checkout in checkout", checkoutItems);
+  const { primaryAddress } = useAppStore();
+
+  console.log('saved cart for checkout in checkout', checkoutItems);
   // Function to open the payment modal
   const openPaymentModal = () => {
     setIsPaymentOpen(true);
@@ -41,29 +42,36 @@ const Checkout = () => {
 
   // Floor options
   const floors = [
-    "Ground Floor",
-    "1st Floor",
-    "2nd Floor",
-    "3rd Floor",
-    "4th Floor",
+    'Ground Floor',
+    '1st Floor',
+    '2nd Floor',
+    '3rd Floor',
+    '4th Floor',
   ];
 
   // Toggle function
   const handleToggle = () => setIsToggled(!isToggled);
 
-  const [coupon, setCoupon] = useState("");
+  const [coupon, setCoupon] = useState('');
 
   // Dummy valid coupon code for validation
-  const validCoupon = "DISCOUNT10";
+  const validCoupon = 'DISCOUNT10';
+
+  const onComplete = async () => {
+    setOpen('');
+    setTimeout(() => {
+      setOpen('add-new-address');
+    }, 400);
+  };
 
   // Apply Coupon Function
   const applyCoupon = () => {
-    if (coupon.trim() === "") {
-      setMessage("Please enter a coupon code.");
+    if (coupon.trim() === '') {
+      setMessage('Please enter a coupon code.');
     } else if (coupon === validCoupon) {
-      setMessage("Coupon applied successfully! 🎉");
+      setMessage('Coupon applied successfully! 🎉');
     } else {
-      setMessage("Invalid coupon code. Please try again.");
+      setMessage('Invalid coupon code. Please try again.');
     }
   };
   useEffect(() => {
@@ -73,35 +81,17 @@ const Checkout = () => {
         if (main && main.addresses) {
           setSavedAddress(main.addresses);
         } else {
-          console.log("No addresses found");
+          console.log('No addresses found');
         }
       } catch (err) {
-        console.error("Error fetching addresses:", err);
+        console.error('Error fetching addresses:', err);
       }
     };
 
     handleGotAddress();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // Prepare the checkout data
-  // const prepareCheckoutData = () => {
-  //   const items = checkoutItems.map((item) => ({
-  //     product_code: item?.product_code, // Replace with the actual field for product ID
-  //     currency: "gbp",
-  //   }));
 
-  //   const totalAmount = checkoutItems.reduce(
-  //     (acc, item) => acc + item?.total_price,
-  //     0
-  //   );
-
-  //   const address_id = savedAddress[0].id;
-
-  //   return {
-  //     items,
-  //     totalAmount,
-  //     address_id,
-  //   };
-  // };
   const prepareCheckoutData = () => {
     // Extract the product_codes directly from checkoutItems
     const productCodes = checkoutItems.map((item) => item?.product_code);
@@ -109,20 +99,20 @@ const Checkout = () => {
     // Calculate the total amount after removing currency symbols
     const totalAmount = checkoutItems.reduce((acc, item) => {
       const cleanedPrice = parseFloat(
-        item?.total_price.replace(/[^\d.-]/g, "")
+        item?.total_price.replace(/[^\d.-]/g, '')
       );
       return acc + (isNaN(cleanedPrice) ? 0 : cleanedPrice);
     }, 0);
 
     // Ensure the address_id is correctly passed
-    const address_id = savedAddress[0].id;
+    const address_id = primaryAddress?.id;
 
     // Return the checkout data in the correct format
     return {
       product_codes: productCodes, // Array of product codes
       total_amount: Number(totalAmount.toFixed(2)), // Ensure total_amount is a string
-      address_id: address_id, // Use address_id as required by the API
-      currency: "gbp", // Currency set to GBP
+      address_id, // Use address_id as required by the API
+      currency: 'gbp', // Currency set to GBP
     };
   };
 
@@ -134,11 +124,10 @@ const Checkout = () => {
     handleCheckout(checkoutData);
   };
 
-  console.log("savved", savedAddress);
   return (
     <div className="min-h-screen mt-40 lg:mt-48 lg:px-16 py-4">
       <Link
-        to={"/cart"}
+        to={'/cart'}
         className="text-secondary-bg p-1 bg-[#F5F6F7] px-4 rounded-full text-sm"
       >
         Return to Cart
@@ -148,31 +137,64 @@ const Checkout = () => {
           <div className="border border-[#F5F6F7] my-7  p-4 rounded-lg flex flex-col  gap-2">
             <p className="font-bold text-dark-blue">Contact:</p>
             <p className="text-text-light font-bold text-sm">
-              {savedAddress[0]?.delivery_name || "Guest"}
+              {savedAddress[0]?.delivery_name || 'Guest'}
             </p>
             <p className="text-text-light  text-sm">
-              {savedAddress[0]?.phone || "Guest"}
+              {savedAddress[0]?.phone || 'Guest'}
             </p>
             <p className="text-text-light  text-sm">+2349038654282</p>
           </div>
           <div className="border border-[#F5F6F7] p-4 rounded-lg">
             <h3 className="text-gray-700 font-medium">Delivery Address</h3>
-            <button
-              onClick={() => setShowOffCanvas(true)}
-              className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
-            >
-              <div className="flex gap-1">
-                <img src={contact} alt="" className="w-6 h-6" />
-                Select an address
+
+            {primaryAddress ? (
+              <div className="mt-2 my-4 flex-row flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-[20px] text-[#1F3D4F]">
+                    {primaryAddress.label}
+                  </p>
+
+                  <p>
+                    {primaryAddress?.address_number}, {primaryAddress?.landmark}{' '}
+                    {primaryAddress?.street}
+                  </p>
+                  <p>
+                    {primaryAddress?.state}, {primaryAddress?.country}
+                  </p>
+                </div>
+
+                <div
+                  className="font-medium cursor-pointer text-[18px] text-[#0D8C42]"
+                  onClick={() => setOpen('show-address-list')}
+                >
+                  Change
+                </div>
               </div>
-              <RiArrowRightLine color="#3BB77E]" />
-            </button>
-            <button className="bg-[#F6F6F6] text-dark-blue rounded-full px-3 py-2 text-center w-full">
+            ) : (
+              <button
+                onClick={() => setOpen('show-address-list')}
+                className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
+              >
+                <div className="flex gap-1">
+                  <img src={contact} alt="" className="w-6 h-6" />
+                  Select an address
+                </div>
+                <RiArrowRightLine color="#3BB77E]" />
+              </button>
+            )}
+            {/* <button className="bg-[#F6F6F6] text-dark-blue rounded-full px-3 py-2 text-center w-full">
               Send to somebody else
-            </button>
+            </button> */}
+
             {/* Conditionally Render Off-Canvas */}
-            {showOffCanvas && (
-              <AddressOffCanvas onClose={() => setShowOffCanvas(false)} />
+            {open === 'add-new-address' && (
+              <AddressOffCanvas onClose={() => setOpen('')} />
+            )}
+            {open === 'show-address-list' && (
+              <AddressUserList
+                onClose={() => setOpen('')}
+                onComplete={onComplete}
+              />
             )}
           </div>
           <div className="my-7">
@@ -189,7 +211,7 @@ const Checkout = () => {
             <div className="p-4 flex  justify-between items-center w-full">
               <div className="flex  items-center  gap-1">
                 {checkoutItems?.map((items, index) => (
-                  <>
+                  <div key={index}>
                     <div>
                       <img
                         className="w-20 h-20 gap-1 object-cover"
@@ -209,7 +231,7 @@ const Checkout = () => {
                         Quantity:{items?.total_price}
                       </p>
                     </div>
-                  </>
+                  </div>
                 ))}
               </div>
 
@@ -257,13 +279,13 @@ const Checkout = () => {
               {/* <span className="text-gray-700">Enable Donation</span> */}
               <div
                 className={`ml-4 w-12 h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isToggled ? "bg-green-500" : "bg-gray-300"
+                  isToggled ? 'bg-green-500' : 'bg-gray-300'
                 }`}
                 onClick={handleToggle}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform relative z-0 ${
-                    isToggled ? "translate-x-6" : ""
+                    isToggled ? 'translate-x-6' : ''
                   } transition-transform`}
                 ></div>
               </div>
@@ -294,13 +316,13 @@ const Checkout = () => {
               <span className="text-gray-700">Enable Carriage Service</span>
               <div
                 className={`ml-4 w-12 h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isCarriageEnabled ? "bg-green-500" : "bg-gray-300"
+                  isCarriageEnabled ? 'bg-green-500' : 'bg-gray-300'
                 }`}
                 onClick={handleToggle2}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform ${
-                    isCarriageEnabled ? "translate-x-6" : ""
+                    isCarriageEnabled ? 'translate-x-6' : ''
                   } transition-transform`}
                 ></div>
               </div>
@@ -336,8 +358,8 @@ const Checkout = () => {
               {isCarriageEnabled
                 ? floor
                   ? `Carriage service enabled for ${floor}`
-                  : "Carriage service enabled. Please choose your floor."
-                : "Carriage service disabled."}
+                  : 'Carriage service enabled. Please choose your floor.'
+                : 'Carriage service disabled.'}
             </p>
           </div>
 
@@ -368,9 +390,9 @@ const Checkout = () => {
             {message && (
               <p
                 className={`mt-4 text-sm ${
-                  message.includes("successfully")
-                    ? "text-green-600"
-                    : "text-red-600"
+                  message.includes('successfully')
+                    ? 'text-green-600'
+                    : 'text-red-600'
                 }`}
               >
                 {message}
