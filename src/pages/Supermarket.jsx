@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Offcanvas from "../components/Offcanvas";
 import SuperMarkertCard from "../ui/SuperMarkertCard";
 import PaginationFooter from "../ui/PaginationFooter";
@@ -14,6 +14,7 @@ const Supermarket = () => {
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const itemsPerPage = 8; // Number of items per page
   const location = useLocation();
+  const navigate = useNavigate();
   const { getCategoryFromParams, supermarketItems, fetchProducts, isLoading } =
     useContext(AuthContext);
 
@@ -93,6 +94,7 @@ const Supermarket = () => {
         <Offcanvas
           options={currentProduct}
           onClose={() => setIsOffCanvasOpen(false)}
+          navigate={navigate}
         />
       )}
     </div>

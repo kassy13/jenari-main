@@ -97,6 +97,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "./context/AuthContex";
 
 const Offcanvas = ({ options, onClose, authToken }) => {
+  const navigate = useNavigate();
   console.log("options", options);
   console.log(authToken, "tokennn");
   const { isAuthenticated, handleAddToCart } = useContext(AuthContext);
@@ -130,7 +131,7 @@ const Offcanvas = ({ options, onClose, authToken }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-all transform"
+      className="fixed inset-0 overflow-y-scroll scrollbar-hide bg-black bg-opacity-50 z-50 transition-all transform"
       onClick={onClose}
     >
       <div
@@ -179,7 +180,7 @@ const Offcanvas = ({ options, onClose, authToken }) => {
                     <span className="font-semibold">₦ {total.toFixed(2)}</span>
                   </p>
                   <button
-                    onClick={() => handleAddToCart(option, quantity)}
+                    onClick={() => handleAddToCart(option, quantity, navigate)}
                     className="bg-primary-bg text-white py-2 px-4 rounded hover:bg-green-600"
                   >
                     Add to Cart
