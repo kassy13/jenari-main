@@ -1,23 +1,25 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./layouts/Layout";
-import Index from "./pages/Index";
-import Charity from "./pages/Charity";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Supermarket from "./pages/Supermarket";
-import SignUp from "./pages/Signup";
-import LogIn from "./pages/LogIn";
-import Faq from "./pages/Faq";
-import ProductDetails from "./pages/ProductDetails";
-import { AuthProvider } from "./components/context/AuthContex";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ReturnPolicy from "./pages/ReturnPolicy";
-import CookiePolicy from "./pages/CookiePolicy";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsCondition from "./pages/TermsCondition";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from './layouts/Layout';
+import Index from './pages/Index';
+import Charity from './pages/Charity';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Supermarket from './pages/Supermarket';
+import SignUp from './pages/Signup';
+import LogIn from './pages/LogIn';
+import Faq from './pages/Faq';
+import ProductDetails from './pages/ProductDetails';
+import { AuthProvider } from './components/context/AuthContex';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ReturnPolicy from './pages/ReturnPolicy';
+import CookiePolicy from './pages/CookiePolicy';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsCondition from './pages/TermsCondition';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import Payment from './pages/Payment';
+import Orders from './pages/Orders';
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
             <Route path="product-details/:id" element={<ProductDetails />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
+            <Route path="payment" element={<Payment />} />
+            <Route path="orders" element={<Orders />} />
           </Route>
           <Route path="signUp" element={<SignUp />} />
           <Route path="signIn" element={<LogIn />} />

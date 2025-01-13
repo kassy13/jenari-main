@@ -4,15 +4,18 @@ import AuthContext from '../components/context/AuthContex';
 import { useNavigate } from 'react-router-dom';
 import { formatAmount } from '../utils';
 import checkbox from '../assets/checkbox.svg';
+import useAppStore from '../store';
+import { TailSpin } from 'react-loader-spinner';
 
 const Cart = () => {
   const [agreeToPolicy, setAgreeToPolicy] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
   const [totalPrices, setTotalPrices] = useState(0);
-  const { handleGetCartItems, handleCartItemsDelete, saveCartForCheckout } =
-    useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const { handleGetCartItems, handleCartItemsDelete } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  const { saveToCart } = useAppStore();
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -25,7 +28,7 @@ const Cart = () => {
         const initialTotalPrice = priceValue * item.quantity;
         return {
           ...item,
-          total_price: `₦ ${initialTotalPrice.toFixed(2)}`,
+          total_price: `₦ ${formatAmount(initialTotalPrice)}`,
         };
       });
       setCartProducts(updatedItems);
@@ -57,6 +60,7 @@ const Cart = () => {
   // Update the total price whenever cart products change
   useEffect(() => {
     setTotalPrices(calculateTotal());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartProducts]);
 
   // Handle quantity change in cart items
@@ -78,7 +82,7 @@ const Cart = () => {
           return {
             ...product,
             quantity: newQuantity,
-            total_price: `£ ${newTotal}`,
+            total_price: `£ ${formatAmount(newTotal)}`,
           };
         }
         return product;
@@ -94,6 +98,7 @@ const Cart = () => {
 
   // Handle Proceed to Checkout
   const handleProceedToCheckout = () => {
+    setIsLoading(true);
     const checkoutItems = cartProducts.map((product) => ({
       id: product.id,
       name: product.product,
@@ -102,8 +107,20 @@ const Cart = () => {
       total_price: product.total_price,
     }));
 
+    const data = {
+      checkoutItems,
+      totalWeight: '7kg',
+      total_amount: totalPrices,
+    };
+    saveToCart(data);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate('/checkout'); // Redirect to home or dashboard
+    }, 3000);
+
     // Save the cart items to AuthContext
-    saveCartForCheckout(checkoutItems, navigate);
+    // saveCartForCheckout(checkoutItems, navigate);
   };
 
   return (
@@ -242,7 +259,22 @@ const Cart = () => {
             disabled={!agreeToPolicy}
             onClick={handleProceedToCheckout}
           >
-            Proceed to Checkout
+            {isLoading ? (
+              <div className="flex flex-row items-center justify-center">
+                <TailSpin
+                  visible={true}
+                  height="20"
+                  width="20"
+                  color="#FFFFFF"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </div>
+            ) : (
+              'Proceed to Checkout'
+            )}
           </button>
         </div>
       </div>

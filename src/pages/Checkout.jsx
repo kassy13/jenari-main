@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AddressOffCanvas from '../components/AddressOffcanvas';
 import address from '../assets/address.svg';
 import contact from '../assets/contact-book.svg';
@@ -20,13 +20,13 @@ const Checkout = () => {
   const [floor, setFloor] = useState('');
 
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const { getAddress, handleCheckout, checkoutItems } = useContext(AuthContext);
-  const [savedAddress, setSavedAddress] = useState([]);
+  const { handleCheckout, user, isLoading } = useContext(AuthContext);
   const [message, setMessage] = useState('');
 
-  const { primaryAddress } = useAppStore();
+  const navigate = useNavigate();
 
-  console.log('saved cart for checkout in checkout', checkoutItems);
+  const { primaryAddress, cartData, setPaymentInfo } = useAppStore();
+
   // Function to open the payment modal
   const openPaymentModal = () => {
     setIsPaymentOpen(true);
@@ -74,30 +74,15 @@ const Checkout = () => {
       setMessage('Invalid coupon code. Please try again.');
     }
   };
-  useEffect(() => {
-    const handleGotAddress = async () => {
-      try {
-        const main = await getAddress();
-        if (main && main.addresses) {
-          setSavedAddress(main.addresses);
-        } else {
-          console.log('No addresses found');
-        }
-      } catch (err) {
-        console.error('Error fetching addresses:', err);
-      }
-    };
-
-    handleGotAddress();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const prepareCheckoutData = () => {
     // Extract the product_codes directly from checkoutItems
-    const productCodes = checkoutItems.map((item) => item?.product_code);
+    const productCodes = cartData?.checkoutItems?.map(
+      (item) => item?.product_code
+    );
 
     // Calculate the total amount after removing currency symbols
-    const totalAmount = checkoutItems.reduce((acc, item) => {
+    const totalAmount = cartData?.checkoutItems.reduce((acc, item) => {
       const cleanedPrice = parseFloat(
         item?.total_price.replace(/[^\d.-]/g, '')
       );
@@ -116,12 +101,45 @@ const Checkout = () => {
     };
   };
 
-  const handleCheckoutClick = () => {
+  const handleCheckoutClick = async () => {
     // Get the checkout data
     const checkoutData = prepareCheckoutData();
 
-    // Call the handleCheckout function with the prepared data
-    handleCheckout(checkoutData);
+    const res = await handleCheckout(checkoutData);
+
+    try {
+      if (res) {
+        setPaymentInfo(res);
+        setTimeout(() => {
+          navigate('/payment');
+        }, 200);
+      }
+      // const stripe = await loadStripe(StripeKey);
+      // setIsPaymentOpen(false);
+
+      // // await stripe.redirectToCheckout({ sessionId: res?.clientSecret });
+      // const elements = stripe.elements({ clientSecret: res?.clientSecret });
+      // const paymentElement = elements.create('payment');
+      // setHandlePayment(true);
+      // paymentElement.mount('#payment-element');
+      // const submitButton = document.getElementById('submit-button');
+      // submitButton.addEventListener('click', async () => {
+      //   const { error } = await stripe.confirmPayment({
+      //     elements,
+      //     confirmParams: {
+      //       return_url: 'https://jenari.co.uk', // Add your return URL here
+      //     },
+      //   });
+
+      //   if (error) {
+      //     document.getElementById('payment-errors').textContent = error.message;
+      //   } else {
+      //     submitButton.disabled = true;
+      //   }
+      // });
+    } catch (error) {
+      console.log(error, 'error');
+    }
   };
 
   return (
@@ -137,12 +155,10 @@ const Checkout = () => {
           <div className="border border-[#F5F6F7] my-7  p-4 rounded-lg flex flex-col  gap-2">
             <p className="font-bold text-dark-blue">Contact:</p>
             <p className="text-text-light font-bold text-sm">
-              {savedAddress[0]?.delivery_name || 'Guest'}
+              {user?.name || 'Guest'}
             </p>
-            <p className="text-text-light  text-sm">
-              {savedAddress[0]?.phone || 'Guest'}
-            </p>
-            <p className="text-text-light  text-sm">+2349038654282</p>
+            <p className="text-text-light  text-sm">{user?.email || 'Guest'}</p>
+            <p className="text-text-light  text-sm">{user?.phone}</p>
           </div>
           <div className="border border-[#F5F6F7] p-4 rounded-lg">
             <h3 className="text-gray-700 font-medium">Delivery Address</h3>
@@ -210,72 +226,47 @@ const Checkout = () => {
             {/* Product Info */}
             <div className="p-4 flex  justify-between items-center w-full">
               <div className="flex  items-center  gap-1">
-                {checkoutItems?.map((items, index) => (
-                  <div key={index}>
-                    <div>
-                      <img
-                        className="w-20 h-20 gap-1 object-cover"
-                        src={onion}
-                        alt="Red Onions"
-                      />
+                {cartData?.checkoutItems?.map((items, index) => {
+                  return (
+                    <div key={index}>
+                      <div>
+                        <img
+                          className="w-20 h-20 gap-1 object-cover"
+                          src={onion}
+                          alt="Red Onions"
+                        />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-semibold text-[#6D6D6D]">
+                          {items?.name}
+                        </h2>
+                        <p className="text-[#525252] mt-1">Small, 250g</p>
+                        <p className="text-[#525252] mt-1">
+                          Quantity:{items?.quantity}
+                        </p>
+                        <p className="text-[#525252] mt-1">
+                          Quantity:{items?.total_price}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text-xl font-semibold text-[#6D6D6D]">
-                        {items?.name}
-                      </h2>
-                      <p className="text-[#525252] mt-1">Small, 250g</p>
-                      <p className="text-[#525252] mt-1">
-                        Quantity:{items?.quantity}
-                      </p>
-                      <p className="text-[#525252] mt-1">
-                        Quantity:{items?.total_price}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
-              {/* <div className="flex  items-center  gap-1">
-                Product Image
-                <div>
-                  <img
-                    className="w-20 h-20 gap-1 object-cover"
-                    src={onion}
-                    alt="Red Onions"
-                  />
-                </div>
-                <div>
-                  <h2 className="text-xl font-semibold text-[#6D6D6D]">
-                    Onions - Red
-                  </h2>
-                  <p className="text-[#525252] mt-1">Small, 250g</p>
-                </div>
-              </div> */}
               <p className="text-lg font-bold text-primary-bg">£50.00</p>
             </div>
 
             {/* next section */}
           </div>
-          <div className="w-full bg-white border border-gray-200 rounded-lg p-4  flex items-center">
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-800 tracking-tight">
-                Donate to Charity
-              </h2>
-              <p className="text-[#737373] mt-2">
+          <div className="w-full bg-white border border-gray-200 rounded-lg p-4">
+            <h2 className="text-2xl font-semibold text-gray-800 tracking-tight">
+              Donate to Charity
+            </h2>
+            <div className="flex flex-row items-center justify-between">
+              <p className="text-[#737373] text-sm mt-2">
                 Your token goes a long way when you donate to our charity
                 program.
               </p>
-
-              {/* Learn More Link */}
-              <a
-                href="#"
-                className="inline-block mt-4 text-[#737373] hover:underline"
-              >
-                Learn more
-              </a>
-            </div>
-            {/* Toggle Switch */}
-            <div className="flex items-center mt-6  ">
               {/* <span className="text-gray-700">Enable Donation</span> */}
               <div
                 className={`ml-4 w-12 h-6 flex items-center rounded-full p-1 cursor-pointer ${
@@ -287,14 +278,17 @@ const Checkout = () => {
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform relative z-0 ${
                     isToggled ? 'translate-x-6' : ''
                   } transition-transform`}
-                ></div>
+                />
               </div>
             </div>
 
-            {/* Toggle Status */}
-            {/* <p className="mt-4 text-sm text-gray-500">
-              {isToggled ? "Donation enabled" : "Donation disabled"}
-            </p> */}
+            {/* Learn More Link */}
+            <a
+              href="#"
+              className="inline-block mt-4 text-[#737373] hover:underline"
+            >
+              Learn more
+            </a>
           </div>
 
           {/* next section */}
@@ -303,17 +297,19 @@ const Checkout = () => {
             <h2 className="text-2xl font-semibold text-gray-800">
               Household Carriage
             </h2>
-            <p className="text-[#DA7656] p-1.5 rounded-2xl px-3 mt-2 bg-[#FDF8F2]">
-              Recommended for people living upstairs.
-            </p>
-            <p className="text-[#737373] mt-1">
-              Elevate your convenience by letting our household carriage service
-              deliver right to your door step.
-            </p>
+            <div className="flex flex-row items-center justify-between">
+              <div>
+                <div className="my-2 bg-[#FDF8F2] p-2 rounded-2xl">
+                  <p className="text-[#DA7656]">
+                    Recommended for people living upstairs.
+                  </p>
+                </div>
+                <p className="text-[#737373] mt-1 text-sm">
+                  Elevate your convenience by letting our household carriage
+                  service deliver right to your door step.
+                </p>
+              </div>
 
-            {/* Toggle Switch */}
-            <div className="flex items-center mt-6">
-              <span className="text-gray-700">Enable Carriage Service</span>
               <div
                 className={`ml-4 w-12 h-6 flex items-center rounded-full p-1 cursor-pointer ${
                   isCarriageEnabled ? 'bg-green-500' : 'bg-gray-300'
@@ -330,7 +326,11 @@ const Checkout = () => {
 
             {/* Floor Dropdown */}
             {isCarriageEnabled && (
-              <div className="mt-4">
+              <div className="mt-8">
+                <span className="text-gray-700 py-2">
+                  Enable Carriage Service
+                </span>
+
                 <label
                   htmlFor="floor"
                   className="block text-gray-700 font-medium mb-2"
@@ -402,14 +402,23 @@ const Checkout = () => {
           {/* next section */}
           <VoucherCode />
           <PayWallet />
-          <div>
-            <button onClick={openPaymentModal}>Continue to Payment</button>
-          </div>
+          <button
+            onClick={openPaymentModal}
+            disabled={primaryAddress?.address_number ? false : true}
+            className={
+              primaryAddress?.address_number
+                ? 'bg-primary-bg w-full text-white p-2 mb-3 rounded-lg'
+                : 'bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg'
+            }
+          >
+            Continue to Payment
+          </button>
           {/* Payment Off-Canvas Modal */}
           {isPaymentOpen && (
             <PaymentOffCanvas
               onClose={closePaymentModal}
               onclick={handleCheckoutClick}
+              isLoading={isLoading}
             />
           )}
         </div>

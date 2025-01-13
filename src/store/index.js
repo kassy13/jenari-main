@@ -12,6 +12,14 @@ const useAppStore = create()(
       setPrimaryAddress: (address) => {
         set({ primaryAddress: address });
       },
+      cartData: {},
+      saveToCart: (data) => {
+        set({ cartData: data });
+      },
+      paymentInfo: {},
+      setPaymentInfo: (info) => {
+        set({ paymentInfo: info });
+      },
     }),
     {
       name: 'jenari-storage',

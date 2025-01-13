@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import logo from "../assets/logo transparent 1.svg";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import logo from '../assets/logo transparent 1.svg';
 import {
   RiArrowDownLine,
   RiMapLine,
@@ -14,24 +14,23 @@ import {
   RiUserCommunityLine,
   RiContactsBook3Line,
   RiQuestionLine,
-} from "react-icons/ri";
-import { Link, NavLink } from "react-router-dom";
-import NavbarComponet from "../ui/NavbarComponet";
-import AuthContext from "../components/context/AuthContex";
+} from 'react-icons/ri';
+import { Link, NavLink } from 'react-router-dom';
+import NavbarComponet from '../ui/NavbarComponet';
+import order from '../assets/order.svg';
+import AuthContext from '../components/context/AuthContex';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, token, logout, categories, isLoading, handleGetCartItems } =
-    useContext(AuthContext);
+  const { user, token, logout, handleGetCartItems } = useContext(AuthContext);
   const [cartItems, setCartItems] = useState([]);
-  const [isCartHovered, setIsCartHovered] = useState(false); // State for hover effect
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false); // State for cart dropdown
   const cartRef = useRef(null); // Ref for the cart dropdown
 
   // const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleLinkClick = () => {
     setMenuOpen(false); // Hide menu when a link is clicked
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const toggleMenu = (e) => {
     e.preventDefault();
@@ -48,13 +47,13 @@ const Header = () => {
           const items = await handleGetCartItems(); // Fetch cart items from the API
           setCartItems(items); // Set the cart items to state
         } catch (error) {
-          console.error("Failed to fetch cart items", error);
+          console.error('Failed to fetch cart items', error);
         }
       };
       fetchCartItems();
     }
   }, [user, handleGetCartItems]);
-  console.log("cart items", cartItems);
+  console.log('cart items', cartItems);
   // Close the cart dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -63,9 +62,9 @@ const Header = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -114,6 +113,16 @@ const Header = () => {
 
           {/* Desktop Cart and Actions */}
           <div className="hidden md:flex items-center gap-4">
+            {user && (
+              <Link
+                to={'/orders'}
+                className="flex items-center gap-2 cursor-pointer text-nowrap relative"
+              >
+                <img src={order} alt="order" width={24} height={24} />
+                <p>Orders</p>
+              </Link>
+            )}
+
             {/* Cart Section with Badge */}
             <div
               ref={cartRef} // Attach ref here
@@ -139,7 +148,7 @@ const Header = () => {
               {cartDropdownOpen && cartItems.length > 0 && (
                 <div
                   className="absolute top-12 right-0 z-50 mt-2 w-96 bg-white text-black shadow-lg rounded-lg p-4"
-                  style={{ minWidth: "480px" }} // Adjust size as needed
+                  style={{ minWidth: '480px' }} // Adjust size as needed
                 >
                   <h4 className="font-semibold text-lg mb-2">Cart Items</h4>
                   <ul className="space-y-2">
@@ -174,7 +183,7 @@ const Header = () => {
                   Register
                 </Link>
               ) : (
-                ""
+                ''
               )}
               {!token ? (
                 <Link
@@ -355,7 +364,7 @@ const Header = () => {
         {/* mobile nav */}
         <div
           className={`absolute top-0 w-full min-h-dvh  lg:h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50 transform transition-transform duration-300 ${
-            menuOpen ? "translate-x-0" : "translate-x-full"
+            menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           <button
@@ -394,7 +403,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2 px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -407,7 +416,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2 px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -420,7 +429,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -433,7 +442,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -446,7 +455,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -459,7 +468,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -469,10 +478,10 @@ const Header = () => {
 
             <NavLink
               to="/faq"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -489,7 +498,7 @@ const Header = () => {
               Register
             </Link>
           ) : (
-            ""
+            ''
           )}
           {!user ? (
             <Link
