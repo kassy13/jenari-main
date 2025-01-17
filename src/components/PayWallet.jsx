@@ -5,7 +5,9 @@ const PayWallet = () => {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg p-4 py-6 my-7">
-      <h2 className="text-2xl font-semibold  text-dark-blue">Pay wallet</h2>
+      <h2 className="lg:text-2xl text-xl font-semibold  text-dark-blue">
+        Pay wallet
+      </h2>
       <p className="text-[#737373] py-2">
         Please enter the amount you want to pay from your JENARI wallet
       </p>

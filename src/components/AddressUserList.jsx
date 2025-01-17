@@ -1,7 +1,7 @@
-import { useContext, useEffect } from 'react';
-import { RiCloseLargeLine } from 'react-icons/ri';
-import AuthContext from './context/AuthContex';
-import useAppStore from '../store';
+import { useContext, useEffect } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
+import AuthContext from "./context/AuthContex";
+import useAppStore from "../store";
 
 const AddressUserList = ({ onClose, onComplete }) => {
   const { getAddress } = useContext(AuthContext);
@@ -26,12 +26,12 @@ const AddressUserList = ({ onClose, onComplete }) => {
       onClick={onClose} // Close when clicking outside
     >
       <div
-        className="bg-white w-[40%] p-6 shadow-lg flex flex-col justify-between mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
+        className="bg-white w-[80%] lg:w-[40%] p-6 shadow-lg flex flex-col justify-between mt-32 lg:mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
           <div className="flex flex-row items-center justify-between">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4 pt-6">
+            <h2 className="lg:text-2xl text-xl font-semibold text-gray-800 mb-4 pt-6">
               Select an address
             </h2>
 
@@ -57,7 +57,7 @@ const AddressUserList = ({ onClose, onComplete }) => {
                   </p>
 
                   <p>
-                    {address?.address_number}, {address?.landmark}{' '}
+                    {address?.address_number}, {address?.landmark}{" "}
                     {address?.street}
                   </p>
                   <p>

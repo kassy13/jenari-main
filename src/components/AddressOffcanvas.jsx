@@ -1,25 +1,25 @@
-import { useContext, useState } from 'react';
-import { RiCloseLargeLine } from 'react-icons/ri';
-import AuthContext from './context/AuthContex';
-import { TailSpin } from 'react-loader-spinner';
-import { Toastify } from 'toastify';
+import { useContext, useState } from "react";
+import { RiCloseLargeLine } from "react-icons/ri";
+import AuthContext from "./context/AuthContex";
+import { TailSpin } from "react-loader-spinner";
+import { Toastify } from "toastify";
 
 const AddressOffCanvas = ({ onClose }) => {
-  const [label, setLabel] = useState('');
-  const [houseNumber, setHouseNumber] = useState('');
-  const [streetName, setStreetName] = useState('');
-  const [landmark, setLandmark] = useState('');
-  const [area, setArea] = useState('');
-  const [state, setState] = useState('');
-  const [country, setCountry] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [deliveryName, setDeliveryName] = useState('');
+  const [label, setLabel] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
+  const [streetName, setStreetName] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [area, setArea] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [deliveryName, setDeliveryName] = useState("");
   const [isPrimaryAddress, setIsPrimaryAddress] = useState(false);
 
   // Sample areas and countries for dropdown
-  const areas = ['Downtown', 'Uptown', 'Suburb', 'Industrial Area'];
-  const countries = ['United Kingdom', 'United States', 'Canada', 'Nigeria'];
-  const states = ['Lagos', 'Abuja', 'New York', 'California'];
+  const areas = ["Downtown", "Uptown", "Suburb", "Industrial Area"];
+  const countries = ["United Kingdom", "United States", "Canada", "Nigeria"];
+  const states = ["Lagos", "Abuja", "New York", "California"];
   const { createNewAddress, isLoading } = useContext(AuthContext);
 
   // Form submission
@@ -45,14 +45,14 @@ const AddressOffCanvas = ({ onClose }) => {
     // Trigger address creation
     createNewAddress(addressData)
       .then((response) => {
-        console.log('Response:', response);
+        console.log("Response:", response);
         onClose(); // Close the off-canvas
       })
       .catch((error) => {
-        console.error('Failed to add address:', error);
+        console.error("Failed to add address:", error);
         Toastify({
-          text: 'Error adding address. Please try again',
-          backgroundColor: 'red',
+          text: "Error adding address. Please try again",
+          backgroundColor: "red",
           duration: 3000,
         }).showToast();
       });
@@ -64,7 +64,7 @@ const AddressOffCanvas = ({ onClose }) => {
       onClick={onClose} // Close when clicking outside
     >
       <div
-        className="bg-white w-2/4 p-6 shadow-lg mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
+        className="bg-white  lg:w-2/4 p-6 shadow-lg mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-row items-center justify-between">
@@ -261,7 +261,7 @@ const AddressOffCanvas = ({ onClose }) => {
                   />
                 </div>
               ) : (
-                'Add New Address'
+                "Add New Address"
               )}
             </button>
           </div>

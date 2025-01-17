@@ -1,27 +1,27 @@
-import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AddressOffCanvas from '../components/AddressOffcanvas';
-import address from '../assets/address.svg';
-import contact from '../assets/contact-book.svg';
-import { RiArrowRightLine } from 'react-icons/ri';
-import onion from '../assets/potato.svg';
-import VoucherCode from '../components/Voucher';
-import PayWallet from '../components/PayWallet';
-import PaymentOffCanvas from '../components/PaymentOffcanvas';
-import AuthContext from '../components/context/AuthContex';
-import AddressUserList from '../components/AddressUserList';
-import useAppStore from '../store';
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AddressOffCanvas from "../components/AddressOffcanvas";
+import address from "../assets/address.svg";
+import contact from "../assets/contact-book.svg";
+import { RiArrowRightLine } from "react-icons/ri";
+import onion from "../assets/potato.svg";
+import VoucherCode from "../components/Voucher";
+import PayWallet from "../components/PayWallet";
+import PaymentOffCanvas from "../components/PaymentOffcanvas";
+import AuthContext from "../components/context/AuthContex";
+import AddressUserList from "../components/AddressUserList";
+import useAppStore from "../store";
 
 const Checkout = () => {
-  const [open, setOpen] = useState('');
+  const [open, setOpen] = useState("");
   // Toggle state
   const [isToggled, setIsToggled] = useState(false);
   const [isCarriageEnabled, setIsCarriageEnabled] = useState(false);
-  const [floor, setFloor] = useState('');
+  const [floor, setFloor] = useState("");
 
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const { handleCheckout, user, isLoading } = useContext(AuthContext);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -42,36 +42,36 @@ const Checkout = () => {
 
   // Floor options
   const floors = [
-    'Ground Floor',
-    '1st Floor',
-    '2nd Floor',
-    '3rd Floor',
-    '4th Floor',
+    "Ground Floor",
+    "1st Floor",
+    "2nd Floor",
+    "3rd Floor",
+    "4th Floor",
   ];
 
   // Toggle function
   const handleToggle = () => setIsToggled(!isToggled);
 
-  const [coupon, setCoupon] = useState('');
+  const [coupon, setCoupon] = useState("");
 
   // Dummy valid coupon code for validation
-  const validCoupon = 'DISCOUNT10';
+  const validCoupon = "DISCOUNT10";
 
   const onComplete = async () => {
-    setOpen('');
+    setOpen("");
     setTimeout(() => {
-      setOpen('add-new-address');
+      setOpen("add-new-address");
     }, 400);
   };
 
   // Apply Coupon Function
   const applyCoupon = () => {
-    if (coupon.trim() === '') {
-      setMessage('Please enter a coupon code.');
+    if (coupon.trim() === "") {
+      setMessage("Please enter a coupon code.");
     } else if (coupon === validCoupon) {
-      setMessage('Coupon applied successfully! 🎉');
+      setMessage("Coupon applied successfully! 🎉");
     } else {
-      setMessage('Invalid coupon code. Please try again.');
+      setMessage("Invalid coupon code. Please try again.");
     }
   };
 
@@ -84,7 +84,7 @@ const Checkout = () => {
     // Calculate the total amount after removing currency symbols
     const totalAmount = cartData?.checkoutItems.reduce((acc, item) => {
       const cleanedPrice = parseFloat(
-        item?.total_price.replace(/[^\d.-]/g, '')
+        item?.total_price.replace(/[^\d.-]/g, "")
       );
       return acc + (isNaN(cleanedPrice) ? 0 : cleanedPrice);
     }, 0);
@@ -97,7 +97,7 @@ const Checkout = () => {
       product_codes: productCodes, // Array of product codes
       total_amount: Number(totalAmount.toFixed(2)), // Ensure total_amount is a string
       address_id, // Use address_id as required by the API
-      currency: 'gbp', // Currency set to GBP
+      currency: "gbp", // Currency set to GBP
     };
   };
 
@@ -111,7 +111,7 @@ const Checkout = () => {
       if (res) {
         setPaymentInfo(res);
         setTimeout(() => {
-          navigate('/payment');
+          navigate("/payment");
         }, 200);
       }
       // const stripe = await loadStripe(StripeKey);
@@ -138,14 +138,14 @@ const Checkout = () => {
       //   }
       // });
     } catch (error) {
-      console.log(error, 'error');
+      console.log(error, "error");
     }
   };
 
   return (
-    <div className="min-h-screen mt-40 lg:mt-48 lg:px-16 py-4">
+    <div className="min-h-screen mt-40 lg:mt-48 px-4 lg:px-16 py-4">
       <Link
-        to={'/cart'}
+        to={"/cart"}
         className="text-secondary-bg p-1 bg-[#F5F6F7] px-4 rounded-full text-sm"
       >
         Return to Cart
@@ -155,9 +155,9 @@ const Checkout = () => {
           <div className="border border-[#F5F6F7] my-7  p-4 rounded-lg flex flex-col  gap-2">
             <p className="font-bold text-dark-blue">Contact:</p>
             <p className="text-text-light font-bold text-sm">
-              {user?.name || 'Guest'}
+              {user?.name || "Guest"}
             </p>
-            <p className="text-text-light  text-sm">{user?.email || 'Guest'}</p>
+            <p className="text-text-light  text-sm">{user?.email || "Guest"}</p>
             <p className="text-text-light  text-sm">{user?.phone}</p>
           </div>
           <div className="border border-[#F5F6F7] p-4 rounded-lg">
@@ -171,7 +171,7 @@ const Checkout = () => {
                   </p>
 
                   <p>
-                    {primaryAddress?.address_number}, {primaryAddress?.landmark}{' '}
+                    {primaryAddress?.address_number}, {primaryAddress?.landmark}{" "}
                     {primaryAddress?.street}
                   </p>
                   <p>
@@ -181,14 +181,14 @@ const Checkout = () => {
 
                 <div
                   className="font-medium cursor-pointer text-[18px] text-[#0D8C42]"
-                  onClick={() => setOpen('show-address-list')}
+                  onClick={() => setOpen("show-address-list")}
                 >
                   Change
                 </div>
               </div>
             ) : (
               <button
-                onClick={() => setOpen('show-address-list')}
+                onClick={() => setOpen("show-address-list")}
                 className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
               >
                 <div className="flex gap-1">
@@ -203,12 +203,12 @@ const Checkout = () => {
             </button> */}
 
             {/* Conditionally Render Off-Canvas */}
-            {open === 'add-new-address' && (
-              <AddressOffCanvas onClose={() => setOpen('')} />
+            {open === "add-new-address" && (
+              <AddressOffCanvas onClose={() => setOpen("")} />
             )}
-            {open === 'show-address-list' && (
+            {open === "show-address-list" && (
               <AddressUserList
-                onClose={() => setOpen('')}
+                onClose={() => setOpen("")}
                 onComplete={onComplete}
               />
             )}
@@ -259,7 +259,7 @@ const Checkout = () => {
             {/* next section */}
           </div>
           <div className="w-full bg-white border border-gray-200 rounded-lg p-4">
-            <h2 className="text-2xl font-semibold text-gray-800 tracking-tight">
+            <h2 className="lg:text-2xl text-xl font-semibold text-gray-800 tracking-tight">
               Donate to Charity
             </h2>
             <div className="flex flex-row items-center justify-between">
@@ -269,14 +269,14 @@ const Checkout = () => {
               </p>
               {/* <span className="text-gray-700">Enable Donation</span> */}
               <div
-                className={`ml-4 w-12 h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isToggled ? 'bg-green-500' : 'bg-gray-300'
+                className={`ml-4 w-[70px] h-5 lg:w-12 lg:h-6 flex items-center rounded-full p-1 cursor-pointer ${
+                  isToggled ? "bg-green-500" : "bg-gray-300"
                 }`}
                 onClick={handleToggle}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform relative z-0 ${
-                    isToggled ? 'translate-x-6' : ''
+                    isToggled ? "translate-x-6" : ""
                   } transition-transform`}
                 />
               </div>
@@ -294,7 +294,7 @@ const Checkout = () => {
           {/* next section */}
 
           <div className="w-full bg-white border border-gray-200 rounded-lg p-4 my-7 ">
-            <h2 className="text-2xl font-semibold text-gray-800">
+            <h2 className="lg:text-2xl text-xl font-semibold text-gray-800">
               Household Carriage
             </h2>
             <div className="flex flex-row items-center justify-between">
@@ -311,14 +311,14 @@ const Checkout = () => {
               </div>
 
               <div
-                className={`ml-4 w-12 h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isCarriageEnabled ? 'bg-green-500' : 'bg-gray-300'
+                className={`ml-4 w-[95px] h-5 lg:w-12 lg:h-6 flex items-center rounded-full p-1 cursor-pointer ${
+                  isCarriageEnabled ? "bg-green-500" : "bg-gray-300"
                 }`}
                 onClick={handleToggle2}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform ${
-                    isCarriageEnabled ? 'translate-x-6' : ''
+                    isCarriageEnabled ? "translate-x-6" : ""
                   } transition-transform`}
                 ></div>
               </div>
@@ -358,14 +358,14 @@ const Checkout = () => {
               {isCarriageEnabled
                 ? floor
                   ? `Carriage service enabled for ${floor}`
-                  : 'Carriage service enabled. Please choose your floor.'
-                : 'Carriage service disabled.'}
+                  : "Carriage service enabled. Please choose your floor."
+                : "Carriage service disabled."}
             </p>
           </div>
 
           {/* next section */}
           <div className="w-full bg-white border border-gray-200 rounded-lg p-4 py-6 ">
-            <h2 className="text-2xl font-semibold  text-dark-blue">
+            <h2 className="lg:text-2xl text-xl font-semibold  text-dark-blue">
               Do you have a coupon code?
             </h2>
 
@@ -390,9 +390,9 @@ const Checkout = () => {
             {message && (
               <p
                 className={`mt-4 text-sm ${
-                  message.includes('successfully')
-                    ? 'text-green-600'
-                    : 'text-red-600'
+                  message.includes("successfully")
+                    ? "text-green-600"
+                    : "text-red-600"
                 }`}
               >
                 {message}
@@ -407,8 +407,8 @@ const Checkout = () => {
             disabled={primaryAddress?.address_number ? false : true}
             className={
               primaryAddress?.address_number
-                ? 'bg-primary-bg w-full text-white p-2 mb-3 rounded-lg'
-                : 'bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg'
+                ? "bg-primary-bg w-full text-white p-2 mb-3 rounded-lg"
+                : "bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg"
             }
           >
             Continue to Payment

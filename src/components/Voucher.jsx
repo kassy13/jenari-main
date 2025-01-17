@@ -20,7 +20,7 @@ const VoucherCode = () => {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg p-4 py-6 my-7">
-      <h2 className="text-2xl font-semibold  text-dark-blue">
+      <h2 className="text-xl lg:text-2xl font-semibold  text-dark-blue">
         Do you have a voucher code?
       </h2>
 
