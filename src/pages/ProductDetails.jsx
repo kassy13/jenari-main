@@ -118,7 +118,7 @@
 
 // export default ProductDetails;
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../components/context/AuthContex";
 
 const ProductDetails = () => {
@@ -131,6 +131,7 @@ const ProductDetails = () => {
   console.log("selected", selectedOption);
   console.log("prod", product);
   // Fetch products on component mount (if not already loaded)
+  const navigate = useNavigate();
   useEffect(() => {
     if (!supermarketItems.length) {
       fetchProducts();
@@ -157,7 +158,7 @@ const ProductDetails = () => {
     if (selectedOption && quantity > 0) {
       // Pass option ID, product ID, and quantity to the addToCart function
       // handleAddToCart(selectedOption.id, selectedOption.product_id, quantity);
-      handleAddToCart(selectedOption, quantity);
+      handleAddToCart(selectedOption, quantity, navigate);
     }
   };
   if (!product) {
@@ -175,7 +176,7 @@ const ProductDetails = () => {
           />
         </div>
 
-        <section className="p-6 bg-gray-50 rounded-lg shadow-md max-w-lg w-full h-full">
+        <section className="p-6 bg-gray-50 rounded-lg shadow-md max-w-lg md:max-w-full w-full h-full ">
           <h1 className="text-2xl font-semibold mb-2">{product.name}</h1>
           <p className="text-lg text-gray-700 mb-1">{product.price_range}</p>
           <p className="text-sm text-green-600 font-medium mb-4">

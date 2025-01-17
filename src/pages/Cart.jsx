@@ -300,17 +300,17 @@ const Cart = () => {
                 className="grid grid-cols-10 gap-2 lg:gap-4 items-center border-b py-4 px-4 bg-white text-sm lg:text-base"
               >
                 {/* Product Details */}
-                <div className="flex flex-col lg:items-start items-center space-x-4 col-span-10 lg:col-span-4">
+                <div className="flex flex-col lg:items-start items-center space-x-4 col-span-10 lg:col-span-4 ">
                   <img
                     src={product?.product_info?.image}
                     alt={product?.product}
-                    className="w-12 h-12 object-cover rounded-md bg-gray-100 border border-gray-50"
+                    className="w-12 h-12 object-cover rounded-md bg-gray-100 border border-gray-50 ml-5"
                   />
-                  <div>
+                  <div className="py-2">
                     <p className="text-gray-700 font-extrabold text-xs lg:text-sm ">
                       {product?.product}
                     </p>
-                    <p className="text-primary-bg text-xs lg:text-sm font-bold bg-[#E7F3E633] p-1 px-1.5">
+                    <p className="text-primary-bg text-center md:text-left text-xs lg:text-sm font-bold bg-[#E7F3E633] p-1 px-1.5">
                       {product?.product_info?.name}
                     </p>
                   </div>
@@ -396,9 +396,10 @@ const Cart = () => {
           </p>
 
           <div className="mt-4">
-            <label className="flex space-x-2 pr-3">
+            <label className="flex space-x-2 pr-3" htmlFor="check">
               <div
                 className="cursor-pointer w-8 h-8"
+                id="check"
                 onClick={() => setAgreeToPolicy(!agreeToPolicy)}
               >
                 {agreeToPolicy ? (
@@ -407,7 +408,7 @@ const Cart = () => {
                   <div className="w-[24px] h-[24px] border rounded-sm" />
                 )}
               </div>
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-gray-700" id="check">
                 I have read the instruction above and I agree to
                 <a href="#" className="text-primary-bg">
                   {" "}

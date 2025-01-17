@@ -20,6 +20,14 @@ const useAppStore = create()(
       setPaymentInfo: (info) => {
         set({ paymentInfo: info });
       },
+      authToken: '',
+      user: {},
+      setAuthToken: (data) => {
+        set({ authToken: data });
+      },
+      setUserData: (data) => {
+        set({ user: data });
+      },
     }),
     {
       name: 'jenari-storage',

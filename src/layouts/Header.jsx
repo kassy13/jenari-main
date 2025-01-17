@@ -19,10 +19,12 @@ import { Link, NavLink } from "react-router-dom";
 import NavbarComponet from "../ui/NavbarComponet";
 import order from "../assets/order.svg";
 import AuthContext from "../components/context/AuthContex";
+import useAppStore from "../store";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, token, logout, handleGetCartItems } = useContext(AuthContext);
+  const { logout, handleGetCartItems } = useContext(AuthContext);
+  const { authToken, user } = useAppStore();
   const [cartItems, setCartItems] = useState([]);
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false); // State for cart dropdown
   const cartRef = useRef(null); // Ref for the cart dropdown
@@ -53,7 +55,6 @@ const Header = () => {
       fetchCartItems();
     }
   }, [user, handleGetCartItems]);
-  console.log("cart items", cartItems);
   // Close the cart dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -78,9 +79,9 @@ const Header = () => {
       <nav className="bg-header-bg text-white font-sans  ">
         <div className="flex items-center justify-between p-4 lg:py-4 lg:px-12">
           {/* Logo Section */}
-          <div className="w-32 lg:w-48">
+          <Link className="w-32 lg:w-48" to={"/"}>
             <img src={logo} alt="Logo" className="w-full h-auto object-cover" />
-          </div>
+          </Link>
 
           {/* Hamburger Menu */}
           <button
@@ -118,8 +119,14 @@ const Header = () => {
                 to={"/orders"}
                 className="flex items-center gap-2 cursor-pointer text-nowrap relative"
               >
-                <img src={order} alt="order" width={24} height={24} />
-                <p>Orders</p>
+                <img
+                  src={order}
+                  alt="order"
+                  width={24}
+                  height={24}
+                  className="md:w-10 md:h-10 lg:w-5 lg:h-5"
+                />
+                <p className="md:hidden lg:block">Orders</p>
               </Link>
             )}
 
@@ -175,7 +182,7 @@ const Header = () => {
 
             {/* Login/Register Section */}
             <div className="flex gap-4">
-              {!token || !user ? (
+              {!authToken || !user ? (
                 <Link
                   to="/signUp"
                   className="px-7 py-2 text-sm font-bold bg-primary-bg rounded-full hover:bg-opacity-85 transition-colors"
@@ -185,10 +192,10 @@ const Header = () => {
               ) : (
                 ""
               )}
-              {!token ? (
+              {!authToken ? (
                 <Link
                   to="/SignIn"
-                  className="px-7 py-2 text-sm font-bold bg-white rounded-full hover:bg-opacity-85 text-primary-bg transition-colors"
+                  className="px-7 py-2 text-sm font-bold bg-white rounded-full hover:bg-opacity-85 text-primary-bg transition-colors md:text-nowrap"
                 >
                   Login
                 </Link>
@@ -197,12 +204,12 @@ const Header = () => {
                   <Link
                     to="/"
                     onClick={logout}
-                    className="px-7 py-2 text-sm font-bold bg-white rounded-full hover:bg-opacity-85 text-primary-bg transition-colors"
+                    className="px-7 py-2 text-sm font-bold bg-white rounded-full hover:bg-opacity-85 text-primary-bg transition-colors md:text-nowrap"
                   >
                     Log out
                   </Link>
                   <p className="text-primary-bg text-sm font-bold">
-                    {user.name}
+                    {user?.name}
                   </p>
                 </div>
               )}

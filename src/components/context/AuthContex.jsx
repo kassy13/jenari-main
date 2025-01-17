@@ -4,19 +4,18 @@ import "toastify-js/src/toastify.css"; // Add this for styles
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useAppStore from "../../store";
+import PropTypes from "prop-types";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
   const [supermarketItems, setSupermarketItems] = useState([]);
   const [checkoutItems, setCheckoutItems] = useState([]);
 
-  const { saveDeliveryAddress } = useAppStore();
+  const { saveDeliveryAddress, setAuthToken, setUserData, authToken } =
+    useAppStore();
 
-  console.log(token);
   // Save cart items for checkout
   const saveCartForCheckout = (items, navigate) => {
     setCheckoutItems(items);
@@ -30,22 +29,17 @@ export const AuthProvider = ({ children }) => {
     }, 3000);
   };
 
-  console.log("checked our", checkoutItems);
-  // Fetch user and token from localStorage once on app load
-
   // Derived property for authentication status
-  const isAuthenticated = token;
-  //   console.log("auttt", isAuthenticated);
+  const isAuthenticated = authToken;
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
     const storedUser = JSON.parse(localStorage.getItem("authUser"));
 
     if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(storedUser);
+      setAuthToken(storedToken);
+      setUserData(storedUser);
     }
-    console.log(token, "from useeffect");
-  }, []);
+  }, [setAuthToken, setUserData]);
 
   // Fetch categories
   useEffect(() => {
@@ -83,30 +77,27 @@ export const AuthProvider = ({ children }) => {
 
       const data = await response.json();
 
-      // Save token and user in localStorage
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("authUser", JSON.stringify(data.user));
-
-      // Set the token and user state
-      setUser(data.user);
-      setToken(data.token);
-
-      // Success Toastify
-      Toastify({
-        text: data.message || "Login successful!",
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#4caf50",
-      }).showToast();
-
-      // Redirect after success
-      setTimeout(() => {
-        navigate("/"); // Redirect to home or dashboard
-      }, 3000);
-
-      return { success: true, message: data.message || "Login successful!" };
+      if (data) {
+        setUserData(data?.user);
+        setAuthToken(data?.token);
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("authUser", JSON.stringify(data.user));
+        // Set the token and user state
+        // Success Toastify
+        Toastify({
+          text: data?.message || "Login successful!",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "#4caf50",
+        }).showToast();
+        // Redirect after success
+        setTimeout(() => {
+          navigate("/"); // Redirect to home or dashboard
+        }, 3000);
+        return { success: true, message: data.message || "Login successful!" };
+      }
     } catch (error) {
       // Error Toastify
       Toastify({
@@ -125,12 +116,12 @@ export const AuthProvider = ({ children }) => {
 
   // Logout function
   const logout = (navigate) => {
-    setUser(null);
-    setToken(null);
-
     // Remove from localStorage
     localStorage.removeItem("authToken");
     localStorage.removeItem("authUser");
+
+    setAuthToken(null);
+    setUserData(null);
 
     // Redirect to login page after logout
     navigate("/login");
@@ -156,7 +147,7 @@ export const AuthProvider = ({ children }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add token to headers
+          Authorization: `Bearer ${authToken}`, // Add token to headers
         },
         body: JSON.stringify(formdata),
       });
@@ -212,14 +203,13 @@ export const AuthProvider = ({ children }) => {
 
   const handleGetCartItems = async () => {
     try {
-      console.log("Token:", token); // ✅ Check if token exists
-      if (!token) {
+      if (!authToken) {
         throw new Error("Token is missing. Please log in.");
       }
 
       const response = await fetch("https://api.jenari.co.uk/api/cart/list", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       });
 
@@ -235,19 +225,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // remove produc from cart
+  // remove product from cart
   const handleCartItemsDelete = async (product) => {
     const formdata = {
       cart_id: product.id,
     };
-    console.log("form data", formdata);
 
     try {
       const response = await fetch("https://api.jenari.co.uk/api/cart/remove", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add token to headers
+          Authorization: `Bearer ${authToken}`, // Add token to headers
         },
         body: JSON.stringify(formdata),
       });
@@ -257,9 +246,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log("deleted", data);
-      // Display a success message
-      toast.success(`Cart item "${product.product}" removed successfully!`);
+      if (data) {
+        toast.success(`Cart item "${product.product}" removed successfully!`);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -267,13 +256,12 @@ export const AuthProvider = ({ children }) => {
 
   // gett address
   const getAddress = async () => {
-    console.log(token, "address token");
     try {
       const response = await fetch(
         "https://api.jenari.co.uk/api/list/delivery/address",
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Ensure token is passed
+            Authorization: `Bearer ${authToken}`, // Ensure token is passed
           },
         }
       );
@@ -293,7 +281,6 @@ export const AuthProvider = ({ children }) => {
   // create new Address
   const createNewAddress = async (addressData) => {
     setIsLoading(true); // Set loading to true to disable login button while requesting
-    console.log(addressData);
     try {
       const response = await fetch(
         "https://api.jenari.co.uk/api/add/delivery/address",
@@ -301,7 +288,7 @@ export const AuthProvider = ({ children }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify(addressData),
         }
@@ -312,11 +299,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log("addredsd", data);
       setIsLoading(false); // Set loading to true to disable login button while requesting
       return data;
     } catch (error) {
-      console.error("Error adding delivery address:", error);
       setIsLoading(false); // Set loading to true to disable login button while requesting
       throw error;
     }
@@ -324,7 +309,6 @@ export const AuthProvider = ({ children }) => {
 
   const handleCheckout = async (checkoutData) => {
     setIsLoading(true);
-    console.log(checkoutData);
     // Ensure the product_codes is an array of strings
     const productCodes = Array.isArray(checkoutData.product_codes)
       ? checkoutData.product_codes
@@ -343,14 +327,13 @@ export const AuthProvider = ({ children }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify(cleanedCheckoutData), // Pass the cleaned data here
         }
       );
 
       const data = await response.json();
-      console.log("data payment", data);
       setIsLoading(false);
       return data;
     } catch (error) {
@@ -367,12 +350,11 @@ export const AuthProvider = ({ children }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       });
 
       const data = await response.json();
-      console.log("data payment", data);
       setIsLoading(false);
       return data;
     } catch (error) {
@@ -386,8 +368,6 @@ export const AuthProvider = ({ children }) => {
       value={{
         categories,
         isLoading,
-        user,
-        token,
         login,
         logout,
         isAuthenticated,
@@ -409,6 +389,9 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AuthContext;
