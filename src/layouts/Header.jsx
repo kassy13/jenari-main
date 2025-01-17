@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import logo from '../assets/logo transparent 1.svg';
 import {
   RiArrowDownLine,
@@ -19,10 +19,12 @@ import { Link, NavLink } from 'react-router-dom';
 import NavbarComponet from '../ui/NavbarComponet';
 import order from '../assets/order.svg';
 import AuthContext from '../components/context/AuthContex';
+import useAppStore from '../store';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, token, logout, handleGetCartItems } = useContext(AuthContext);
+  const { logout, handleGetCartItems } = useContext(AuthContext);
+  const { authToken, user } = useAppStore();
   const [cartItems, setCartItems] = useState([]);
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false); // State for cart dropdown
   const cartRef = useRef(null); // Ref for the cart dropdown
@@ -53,7 +55,6 @@ const Header = () => {
       fetchCartItems();
     }
   }, [user, handleGetCartItems]);
-  console.log('cart items', cartItems);
   // Close the cart dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -175,7 +176,7 @@ const Header = () => {
 
             {/* Login/Register Section */}
             <div className="flex gap-4">
-              {!token || !user ? (
+              {!authToken || !user ? (
                 <Link
                   to="/signUp"
                   className="px-7 py-2 text-sm font-bold bg-primary-bg rounded-full hover:bg-opacity-85 transition-colors"
@@ -185,7 +186,7 @@ const Header = () => {
               ) : (
                 ''
               )}
-              {!token ? (
+              {!authToken ? (
                 <Link
                   to="/SignIn"
                   className="px-7 py-2 text-sm font-bold bg-white rounded-full hover:bg-opacity-85 text-primary-bg transition-colors"
@@ -202,7 +203,7 @@ const Header = () => {
                     Log out
                   </Link>
                   <p className="text-primary-bg text-sm font-bold">
-                    {user.name}
+                    {user?.name}
                   </p>
                 </div>
               )}
@@ -211,156 +212,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu */}
-        {/* {menuOpen && (
-          <div
-            className={`absolute top-0 w-full h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50  transition-left duration-300 `}
-          >
-          
-            <button
-              onClick={toggleMenu}
-              className="absolute top-4  right-4 text-2xl focus:outline-none"
-            >
-              <RiCloseLine />
-            </button>
 
-            
-            <div className="flex text-nowrap gap-2 pt-4 ">
-              <form action="" className="relative w-full">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full py-2 pl-4 pr-10 bg-gray-white rounded-full text-sm placeholder-gray-400 text-secondary-bg focus:outline-none focus:ring-2 focus:ring-secondary-bg"
-                />
-                <RiSearchLine className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg text-black" />
-              </form>
-              <div className="relative">
-                <RiShoppingBagLine className="text-xl" size={26} />
-                {cartItems.length > 0 && (
-                  <span className="absolute top-0 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
-                    {cartItems.length}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col items-start leading-tight">
-                <p className="text-xs">My Cart</p>
-                <p className="text-xs font-bold text-primary-bg">₦0.00</p>
-              </div>
-            </div>
-
-          
-            <ul className="flex flex-col items-start gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide w-full">
-              <NavLink
-                to="/"
-                onClick={handleLinkClick}
-                className={({ isActive }) =>
-                  `flex items-center gap-2 px-2 ${
-                    isActive ? "text-secondary-bg font-semibold" : "text-white"
-                  } hover:text-secondary-bg`
-                }
-              >
-                <RiHome2Line className="text-lg" />
-                Home
-              </NavLink>
-
-              <NavLink
-                to="/supermarket"
-                onClick={handleLinkClick}
-                className={({ isActive }) =>
-                  `flex items-center gap-2 px-2 ${
-                    isActive ? "text-secondary-bg font-semibold" : "text-white"
-                  } hover:text-secondary-bg`
-                }
-              >
-                <RiStore2Line className="text-lg" />
-                Supermarket
-              </NavLink>
-
-              <NavLink
-                to="/charity"
-                onClick={handleLinkClick}
-                className={({ isActive }) =>
-                  `flex items-center gap-2  px-2 ${
-                    isActive ? "text-secondary-bg font-semibold" : "text-white"
-                  } hover:text-secondary-bg`
-                }
-              >
-                <RiHeart2Line className="text-lg" />
-                Charity
-              </NavLink>
-
-              <NavLink
-                to="/blog"
-                onClick={handleLinkClick}
-                className={({ isActive }) =>
-                  `flex items-center gap-2  px-2 ${
-                    isActive ? "text-secondary-bg font-semibold" : "text-white"
-                  } hover:text-secondary-bg`
-                }
-              >
-                <RiArticleLine className="text-lg" />
-                Blog
-              </NavLink>
-
-              <NavLink
-                to="/about"
-                onClick={handleLinkClick}
-                className={({ isActive }) =>
-                  `flex items-center gap-2  px-2 ${
-                    isActive ? "text-secondary-bg font-semibold" : "text-white"
-                  } hover:text-secondary-bg`
-                }
-              >
-             
-                <RiUserCommunityLine className="text-lg" />
-                About Us
-              </NavLink>
-
-              <NavLink
-                to="/contact"
-                onClick={handleLinkClick}
-                className={({ isActive }) =>
-                  `flex items-center gap-2  px-2 ${
-                    isActive ? "text-secondary-bg font-semibold" : "text-white"
-                  } hover:text-secondary-bg`
-                }
-              >
-                <RiContactsBook3Line className="text-lg" />
-                Contact Us
-              </NavLink>
-
-              <NavLink
-                to="/faq"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className={({ isActive }) =>
-                  `flex items-center gap-2  px-2 ${
-                    isActive ? "text-secondary-bg font-semibold" : "text-white"
-                  } hover:text-secondary-bg`
-                }
-              >
-                <RiQuestionLine className="text-lg" />
-                FAQs
-              </NavLink>
-            </ul>
-           
-            {user.name ? (
-              <Link
-                to="/signUp"
-                className="block text-sm font-bold text-white bg-primary-bg rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
-              >
-                Register
-              </Link>
-            ) : (
-              "Guest"
-            )}
-
-            <Link
-              to="/signIn"
-              className="block text-sm font-bold text-primary-bg bg-white rounded-full py-2 px-4 text-center hover:bg-opacity-85 transition-colors"
-            >
-              Login
-            </Link>
-          </div>
-        )} */}
         {/* mobile nav */}
         <div
           className={`absolute top-0 w-full min-h-dvh  lg:h-screen bg-header-bg text-white p-6 space-y-6 md:hidden z-50 transform transition-transform duration-300 ${

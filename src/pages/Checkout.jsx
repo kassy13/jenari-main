@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AddressOffCanvas from '../components/AddressOffcanvas';
 import address from '../assets/address.svg';
 import contact from '../assets/contact-book.svg';
@@ -7,10 +7,11 @@ import { RiArrowRightLine } from 'react-icons/ri';
 import onion from '../assets/potato.svg';
 import VoucherCode from '../components/Voucher';
 import PayWallet from '../components/PayWallet';
-import PaymentOffCanvas from '../components/PaymentOffcanvas';
+import PaymentOffCanvas, { StripeKey } from '../components/PaymentOffcanvas';
 import AuthContext from '../components/context/AuthContex';
 import AddressUserList from '../components/AddressUserList';
 import useAppStore from '../store';
+import { loadStripe } from '@stripe/stripe-js';
 
 const Checkout = () => {
   const [open, setOpen] = useState('');
@@ -20,12 +21,10 @@ const Checkout = () => {
   const [floor, setFloor] = useState('');
 
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const { handleCheckout, user, isLoading } = useContext(AuthContext);
+  const { handleCheckout, isLoading } = useContext(AuthContext);
   const [message, setMessage] = useState('');
 
-  const navigate = useNavigate();
-
-  const { primaryAddress, cartData, setPaymentInfo } = useAppStore();
+  const { primaryAddress, cartData, user } = useAppStore();
 
   // Function to open the payment modal
   const openPaymentModal = () => {
@@ -106,37 +105,14 @@ const Checkout = () => {
     const checkoutData = prepareCheckoutData();
 
     const res = await handleCheckout(checkoutData);
+    console.log(res);
 
     try {
-      if (res) {
-        setPaymentInfo(res);
-        setTimeout(() => {
-          navigate('/payment');
-        }, 200);
-      }
-      // const stripe = await loadStripe(StripeKey);
-      // setIsPaymentOpen(false);
+      const stripe = await loadStripe(StripeKey);
 
-      // // await stripe.redirectToCheckout({ sessionId: res?.clientSecret });
-      // const elements = stripe.elements({ clientSecret: res?.clientSecret });
-      // const paymentElement = elements.create('payment');
-      // setHandlePayment(true);
-      // paymentElement.mount('#payment-element');
-      // const submitButton = document.getElementById('submit-button');
-      // submitButton.addEventListener('click', async () => {
-      //   const { error } = await stripe.confirmPayment({
-      //     elements,
-      //     confirmParams: {
-      //       return_url: 'https://jenari.co.uk', // Add your return URL here
-      //     },
-      //   });
-
-      //   if (error) {
-      //     document.getElementById('payment-errors').textContent = error.message;
-      //   } else {
-      //     submitButton.disabled = true;
-      //   }
-      // });
+      await stripe.redirectToCheckout({
+        sessionId: res?.sessionId,
+      });
     } catch (error) {
       console.log(error, 'error');
     }
@@ -163,11 +139,11 @@ const Checkout = () => {
           <div className="border border-[#F5F6F7] p-4 rounded-lg">
             <h3 className="text-gray-700 font-medium">Delivery Address</h3>
 
-            {primaryAddress ? (
+            {primaryAddress?.label ? (
               <div className="mt-2 my-4 flex-row flex items-center justify-between">
                 <div>
                   <p className="font-bold text-[20px] text-[#1F3D4F]">
-                    {primaryAddress.label}
+                    {primaryAddress?.label}
                   </p>
 
                   <p>
