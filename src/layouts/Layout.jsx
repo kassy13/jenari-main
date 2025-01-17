@@ -1,47 +1,11 @@
-// import React, { useEffect, useState } from "react";
-// import Header from "./Header";
-// import { Outlet } from "react-router-dom";
-// import Footer from "./Footer";
-
-// const Layout = ({ customLoader }) => {
-//   const [pageLoading, setPageLoading] = useState(true);
-
-//   useEffect(() => {
-//     const handleLoad = () => {
-//       setPageLoading(false);
-//     };
-
-//     window.addEventListener("load", handleLoad);
-
-//     return () => {
-//       window.removeEventListener("load", handleLoad);
-//     };
-//   }, []);
-//   return (
-//     <>
-//       {pageLoading ? (
-//         <div className="flex items-center justify-center h-screen">
-//           {customLoader || <div className="loader">Loading...</div>}
-//         </div>
-//       ) : (
-//         <div>
-//           <Header />
-//           <Outlet />
-//           <Footer />
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default Layout;
 // Layout.jsx
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import Header from "./Header";
-import { Outlet } from "react-router-dom";
-import Footer from "./Footer";
-import FullPageLoader from "../ui/loaders/FullPageLoader";
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
+import Header from './Header';
+import { Outlet } from 'react-router-dom';
+import Footer from './Footer';
+import FullPageLoader from '../ui/loaders/FullPageLoader';
 
 const Layout = ({ customLoader }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -69,6 +33,9 @@ const Layout = ({ customLoader }) => {
       <Footer />
     </>
   );
+};
+Layout.propTypes = {
+  customLoader: PropTypes.element,
 };
 
 export default Layout;

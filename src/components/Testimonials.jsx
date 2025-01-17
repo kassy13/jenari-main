@@ -5,27 +5,43 @@ const Testimonials = () => {
   const options = [
     {
       id: 1,
-      title: '“This a game changer”',
+      title: 'Exceptional Quality and Authenticity',
       description:
-        'Finally bought from @JANERI and I gotta say, best decision made ever, not going back again ooo',
-      name: 'Clinton Ajayi',
-      position: '',
+        '“Jenari has been a lifesaver! The quality of the products is unmatched, and I can finally get authentic African food items delivered straight to my door. Even the hard-to-find brands are available here. Highly recommend!”',
+      name: 'Chinwe Okafor',
+      position: 'Salford',
     },
     {
       id: 2,
-      title: '“I love JANERI and everything about them”',
+      title: 'Convenient and Reliable Service',
       description:
-        'Love everything about this app, I can literally shop while scrolling through content...damn!! big ups to the team, this is a product i can confidently share to my friends and family. ',
-      name: 'Ifeoluwa King',
-      position: '',
+        '“I was blown away by how easy it was to shop on Jenari. The website is user-friendly, and the doorstep delivery makes everything so convenient. My order arrived on time and in perfect condition!”',
+      name: 'Adewale Olatunji',
+      position: 'Bolton',
     },
     {
       id: 3,
-      title: '“Top 3 Platform I’ve used this year”',
+      title: 'Freshness You Can Trust',
       description:
-        'Love everything about this app, I can literally shop while scrolling through content...damn!! big ups to the team, this is a product i can confidently share to my friends and family. ',
-      name: 'Clinton Ajayi',
-      position: 'CEO at Vendorsgate Ltd.',
+        '“The freshness of the food I received from Jenari is incredible. I’ve shopped elsewhere before, but nothing compares to the quality and care they provide. It’s a must-try for anyone craving authentic African cuisine.”',
+      name: 'Fatima Abubakar',
+      position: 'Oldham',
+    },
+    {
+      id: 4,
+      title: 'Affordable and Free Delivery Perks',
+      description:
+        '“Jenari is my go-to marketplace! The prices are super competitive, and I love the free delivery on orders over £100. It’s such a great deal for families like mine who order in bulk.”',
+      name: 'Ngozi Chukwu',
+      position: 'Rochdale',
+    },
+    {
+      id: 5,
+      title: '⁠Excellent Customer Service',
+      description:
+        '“I had a question about my order, and the customer service team was so helpful and polite. They resolved my query quickly, and I felt truly valued as a customer. Jenari is a marketplace I trust and will continue to shop with!”',
+      name: 'Ibrahim Musa',
+      position: 'Wigan',
     },
   ];
   return (
