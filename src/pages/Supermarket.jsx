@@ -12,23 +12,12 @@ const Supermarket = () => {
   const [currentProduct, setCurrentProduct] = useState(null); // current product state
   const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false); // Control modal visibility
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
-  const itemsPerPage = 8; // Number of items per page
+  const itemsPerPage = 28; // Number of items per page
   const location = useLocation();
   const navigate = useNavigate();
   const { getCategoryFromParams, supermarketItems, fetchProducts, isLoading } =
     useContext(AuthContext);
 
-  // Handle click on product options
-  // const handleOptionClick = (options) => {
-  //   if (options.length > 0) {
-  //     setCurrentProduct(options); // Save the options or product info
-  //     setIsOffCanvasOpen(true); // Open the off-canvas modal
-  //   }
-  // };
-  // const handleOptionClick = (selectedOption) => {
-  //   setCurrentProduct(selectedOption); // Save the selected option or product info
-  //   setIsOffCanvasOpen(true); // Open the off-canvas modal
-  // };
   const handleOptionClick = (options) => {
     // Always pass options as an array (even if it contains just one option)
     setCurrentProduct(options);
@@ -72,7 +61,7 @@ const Supermarket = () => {
               id={item.id}
               image={item.image || "default-image-url"}
               text={item.name || "Product Name"}
-              subtext={item.subtext || "Subtext"}
+              // subtext={item.description || "Subtext"}
               inSeason={item.status || false}
               options={item.product_options || []}
               optionNum={item.product_options.length}

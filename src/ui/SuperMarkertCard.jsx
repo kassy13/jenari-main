@@ -86,13 +86,18 @@ const SuperMarkertCard = ({
         <span className="font-extrabold text-text-header text-xs">{price}</span>
       </div>
       <div className="flex justify-between my-2 text-xs">
-        <div className="flex items-center p-1 gap-1 px-3 rounded-lg bg-gray-300">
+        <div
+          className="flex items-center p-1 gap-1 px-3 rounded-lg bg-gray-300 cursor-pointer"
+          onClick={() => onOptionClick(options)}
+        >
           <RiShoppingCart2Line size={12} />
           <p className="pt-1">Add to Cart</p>
         </div>
         <p
           className={`text-white p-1 px-3 text-center flex items-center rounded-lg ${
-            inSeason === "In Season" ? " bg-primary-bg" : "bg-secondary-bg"
+            inSeason === "In Season" || inSeason === "Available"
+              ? " bg-primary-bg"
+              : "bg-secondary-bg"
           }`}
         >
           {inSeason}
