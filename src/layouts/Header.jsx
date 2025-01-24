@@ -113,7 +113,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Cart and Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4 ">
             {user && (
               <Link
                 to={"/orders"}
