@@ -1,14 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
-import { RiCloseFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import AuthContext from "./context/AuthContex";
+import { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { RiCloseFill } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from './context/AuthContex';
+import { formatAmount } from '../utils';
 
 const Offcanvas = ({ options, onClose, authToken }) => {
   const navigate = useNavigate();
-  console.log("options", options);
-  console.log(authToken, "tokennn");
   const { isAuthenticated, handleAddToCart } = useContext(AuthContext);
 
   // Initialize quantities and totals based on options
@@ -20,7 +19,7 @@ const Offcanvas = ({ options, onClose, authToken }) => {
       setQuantities(
         options.map((option) => ({
           quantity: 1,
-          total: parseFloat(option.price.replace(/[^0-9.-]+/g, "")), // Set the total as the price on load
+          total: parseFloat(option.price.replace(/[^0-9.-]+/g, '')), // Set the total as the price on load
         }))
       );
     }
@@ -29,7 +28,7 @@ const Offcanvas = ({ options, onClose, authToken }) => {
   // Handle changes in quantity
   const handleQuantityChange = (index, rawPrice, value) => {
     const newQuantities = [...quantities];
-    const numericPrice = parseFloat(rawPrice.replace(/[^0-9.-]+/g, "")); // Extract numeric value
+    const numericPrice = parseFloat(rawPrice.replace(/[^0-9.-]+/g, '')); // Extract numeric value
     const quantity = Math.max(1, parseInt(value, 10) || 1); // Ensure at least 1
     newQuantities[index] = {
       quantity,
@@ -49,14 +48,14 @@ const Offcanvas = ({ options, onClose, authToken }) => {
       >
         <h2 className="text-lg font-semibold mb-4">Product Options</h2>
 
-        {options.length === 0 ? (
+        {options?.length === 0 ? (
           <p className="text-center text-gray-600">No options available</p>
         ) : (
           <div className="space-y-4">
-            {options.map((option, index) => {
-              const rawPrice = option.price || "₦ 0"; // Default price to "₦ 0" if not provided
+            {options?.map((option, index) => {
+              const rawPrice = option.price || '₦ 0'; // Default price to "₦ 0" if not provided
               const numericPrice = parseFloat(
-                rawPrice.replace(/[^0-9.-]+/g, "")
+                rawPrice.replace(/[^0-9.-]+/g, '')
               ); // Extract numeric value
               const { quantity, total } = quantities[index] || {
                 quantity: 1,
@@ -66,9 +65,11 @@ const Offcanvas = ({ options, onClose, authToken }) => {
               return (
                 <div key={index} className="p-4 border rounded-lg space-y-2">
                   <p className="font-medium">
-                    {option.name || "Unnamed Option"}
+                    {option.name || 'Unnamed Option'}
                   </p>
-                  <p className="text-sm text-gray-600">Price: {option.price}</p>
+                  <p className="text-sm text-gray-600">
+                    Price: £{formatAmount(option.price)}
+                  </p>
                   <div className="flex items-center space-x-4">
                     <label htmlFor={`quantity-${index}`} className="text-sm">
                       Quantity:
@@ -85,8 +86,10 @@ const Offcanvas = ({ options, onClose, authToken }) => {
                     />
                   </div>
                   <p className="text-sm text-gray-700">
-                    Total:{" "}
-                    <span className="font-semibold">₦ {total.toFixed(2)}</span>
+                    Total:{' '}
+                    <span className="font-semibold">
+                      £{formatAmount(total)}
+                    </span>
                   </p>
                   <button
                     onClick={() => handleAddToCart(option, quantity, navigate)}
@@ -109,6 +112,11 @@ const Offcanvas = ({ options, onClose, authToken }) => {
       </div>
     </div>
   );
+};
+Offcanvas.propTypes = {
+  options: PropTypes.array.isRequired,
+  onClose: PropTypes.func.isRequired,
+  authToken: PropTypes.string,
 };
 
 export default Offcanvas;

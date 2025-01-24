@@ -130,7 +130,7 @@ const NavbarComponent = () => {
             Charity
           </NavLink>
 
-          <NavLink
+          {/* <NavLink
             to="/blog"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={({ isActive }) =>
@@ -141,7 +141,7 @@ const NavbarComponent = () => {
           >
             <RiArticleLine className="text-lg" />
             Blog
-          </NavLink>
+          </NavLink> */}
 
           <NavLink
             to="/about"

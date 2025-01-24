@@ -16,6 +16,10 @@ const useAppStore = create()(
       saveToCart: (data) => {
         set({ cartData: data });
       },
+      cartProducts: [],
+      setCartProducts: (products) => {
+        set({ cartProducts: products });
+      },
       paymentInfo: {},
       setPaymentInfo: (info) => {
         set({ paymentInfo: info });
