@@ -59,28 +59,6 @@ const Cart = () => {
 
   // Handle quantity change in cart items
   const handleQuantityChange = (productId, action) => {
-    // setCartProducts((prevProducts) => {
-    //   return prevProducts.map((product) => {
-    //     if (product.id === productId) {
-    //       const priceValue = parseFloat(product.price);
-
-    //       const newQuantity =
-    //         action === 'increase' ? product.quantity + 1 : product.quantity - 1;
-
-    //       if (newQuantity < 1) return product;
-
-    //       const newTotal = priceValue * newQuantity;
-
-    //       return {
-    //         ...product,
-    //         quantity: newQuantity,
-    //         total_price: newTotal,
-    //       };
-    //     }
-    //     return product;
-    //   });
-    // });
-
     const data = cartProducts.map((product) => {
       if (product.id === productId) {
         const priceValue = parseFloat(product.price);
@@ -101,7 +79,7 @@ const Cart = () => {
       return product;
     });
 
-    console.log(data);
+    setCartProducts(data);
   };
 
   // Handle product deletion from cart

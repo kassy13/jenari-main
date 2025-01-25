@@ -286,6 +286,7 @@ export const AuthProvider = ({ children }) => {
 
       const data = await response.json();
       setCartProducts(data?.cartItems);
+      return data?.cartItems;
     } catch (err) {
       console.error(err);
       return [];
