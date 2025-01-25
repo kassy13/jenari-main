@@ -1,24 +1,17 @@
-import React from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import avatar from "../assets/avatar.svg";
-import avatar2 from "../assets/Facebook.svg";
-import avatar3 from "../assets/instagram.svg";
-import avatar4 from "../assets/carrot.png";
-import avatar5 from "../assets/instagram.svg";
-import avatar6 from "../assets/about.svg";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+
 // Import Swiper styles
-import "swiper/css";
-import SwiperCard from "../ui/SwiperCard";
+import 'swiper/css';
+import SwiperCard from '../ui/SwiperCard';
 
 // Import Swiper core and modules
-import SwiperCore from "swiper";
-
-// Register Swiper modules
-SwiperCore.use([Autoplay]);
+import SwiperCore from 'swiper';
 
 const SwiperCards = () => {
+  // Register Swiper modules
+  SwiperCore.use([Autoplay]);
   return (
     <div className="mx-6 my-6 lg:my-12 lg:px-16">
       <p className="text-[24px] lg:text-3xl text-secondary-bg font-extrabold tracking-wide text-center lg:pt-6">
@@ -52,61 +45,52 @@ const SwiperCards = () => {
       >
         <SwiperSlide>
           <SwiperCard
-            title={"“This a game changer”"}
+            title={'⁠Exceptional Quality and Authenticity'}
             testimonial={
-              "Finally bought from @JANERI and I gotta say, best decision made ever, not going back again ooo"
+              '“Jenari has been a lifesaver! The quality of the products is unmatched, and I can finally get authentic African food items delivered straight to my door. Even the hard-to-find brands are available here. Highly recommend!”'
             }
-            name={"John King"}
-            position={"Shareholder, Liverpool"}
-            img={avatar}
+            name={'Chinwe Okafor'}
+            position={'Salford'}
           />
         </SwiperSlide>
         <SwiperSlide>
           <SwiperCard
-            title={"“I love JANERI and everything about them”"}
+            title={'Convenient and Reliable Service'}
             testimonial={
-              "I Love everything about this app, I can literally shop while scrolling through content...damn!! big ups to the team, this is a product i can confidently share to my friends and family. "
+              '“I was blown away by how easy it was to shop on Jenari. The website is user-friendly, and the doorstep delivery makes everything so convenient. My order arrived on time and in perfect condition!”'
             }
-            name={"John King"}
-            position={"Shareholder, Liverpool"}
-            img={avatar2}
+            name={'Adewale Olatunji'}
+            position={'Bolton'}
           />
         </SwiperSlide>
         <SwiperSlide>
           <SwiperCard
-            title={"“Top 3 Platform I’ve used this year”"}
+            title={'Freshness You Can Trust'}
             testimonial={
-              "Love everything about this app, I can literally shop while scrolling through content...damn!! big ups to the team, this is a product i can confidently share to my friends and family. "
+              '“The freshness of the food I received from Jenari is incredible. I’ve shopped elsewhere before, but nothing compares to the quality and care they provide. It’s a must-try for anyone craving authentic African cuisine.”'
             }
-            name={"John King"}
-            position={"Shareholder, Liverpool"}
-            img={avatar3}
+            name={'Fatima Abubakar'}
+            position={'Oldham'}
           />
         </SwiperSlide>
         <SwiperSlide>
           <SwiperCard
-            title={
-              "“diversify my portfolio with stable, high-return investments”."
-            }
+            title={'Affordable and Free Delivery Perks'}
             testimonial={
-              "Appex Assets helped me diversify my portfolio with stable, high-return real estate investment. Talk about having your money work for you. A 10 in my book if you ask me."
+              '“Jenari is my go-to marketplace! The prices are super competitive, and I love the free delivery on orders over £100. It’s such a great deal for families like mine who order in bulk.”'
             }
-            name={"John King"}
-            position={"Shareholder, Liverpool"}
-            img={avatar4}
+            name={'Ngozi Chukwu'}
+            position={'Rochdale'}
           />
         </SwiperSlide>
         <SwiperSlide>
           <SwiperCard
-            title={
-              "“diversify my portfolio with stable, high-return investments”."
-            }
+            title={'⁠Excellent Customer Service'}
             testimonial={
-              "Appex Assets helped me diversify my portfolio with stable, high-return real estate investment. Talk about having your money work for you. A 10 in my book if you ask me."
+              '“I had a question about my order, and the customer service team was so helpful and polite. They resolved my query quickly, and I felt truly valued as a customer. Jenari is a marketplace I trust and will continue to shop with!”'
             }
-            name={"John King"}
-            position={"Shareholder, Liverpool"}
-            img={avatar5}
+            name={'Ibrahim Musa'}
+            position={'Wigan'}
           />
         </SwiperSlide>
       </Swiper>
