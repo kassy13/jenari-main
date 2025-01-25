@@ -4,6 +4,7 @@ import Offcanvas from '../components/Offcanvas';
 import PaginationFooter from '../ui/PaginationFooter';
 import AuthContext from '../components/context/AuthContex';
 import SuperMarketCard from '../ui/SuperMarketCard';
+import Breadcrumb from '../components/Breadcrumb';
 
 const Supermarket = () => {
   // const [supermarketItems, setSupermarketItems] = useState([]);
@@ -14,11 +15,18 @@ const Supermarket = () => {
   const [currentProduct, setCurrentProduct] = useState(null); // current product state
   const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false); // Control modal visibility
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const [activeCategory, setActiveCategory] = useState({});
   const itemsPerPage = 28; // Number of items per page
   const location = useLocation();
   const navigate = useNavigate();
   const { getCategoryFromParams, supermarketItems, fetchProducts, isLoading } =
     useContext(AuthContext);
+
+  useEffect(() => {
+    const selectedCategory = localStorage.getItem('selected_category');
+    const category = JSON.parse(selectedCategory);
+    setActiveCategory(category);
+  }, []);
 
   const handleOptionClick = (options) => {
     console.log(options, 'options');
@@ -61,6 +69,13 @@ const Supermarket = () => {
         {getCategoryFromParams() ? 'Filtered Products' : 'All Products'}
       </h1>
 
+      <Breadcrumb
+        items={[
+          { label: 'Home', href: '/' },
+          { label: activeCategory?.category_name },
+        ]}
+      />
+
       {isLoading ? (
         <p>Loading products...</p>
       ) : error ? (
@@ -85,7 +100,7 @@ const Supermarket = () => {
           </div>
 
           {displayedItems?.length === 0 && (
-            <div>
+            <div className="flex justify-center items-center h-96">
               <p className="text-red-500">No products found</p>
             </div>
           )}

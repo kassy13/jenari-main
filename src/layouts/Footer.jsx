@@ -1,17 +1,17 @@
-import { RiInstagramLine, RiTwitterLine, RiYoutubeLine } from "react-icons/ri";
-import { LuFacebook } from "react-icons/lu";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import AuthContext from "../components/context/AuthContex";
+import { RiInstagramLine, RiTwitterLine, RiYoutubeLine } from 'react-icons/ri';
+import { LuFacebook } from 'react-icons/lu';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../components/context/AuthContex';
 
 const Footer = () => {
   const navigate = useNavigate();
   const { categories } = useContext(AuthContext);
 
-  const handleCategoryClick = (id) => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/supermarket?category=${id}`); // Use the id instead of slug
-    setIsDropdownOpen(false); // Close dropdown after navigation
+  const handleCategoryClick = (category) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    localStorage.setItem('selected_category', JSON.stringify(category));
+    navigate(`/supermarket?category=${category?.id}`); // Use the id instead of slug
   };
   return (
     <footer className="bg-header-bg py-10 px-6 text-white flex flex-col-reverse  row gap-5 lg:grid lg:grid-cols-3 ">
@@ -55,93 +55,11 @@ const Footer = () => {
         {/* Categories Section */}
         <div>
           <h3 className="text-xl font-bold mb-4">Categories</h3>
-          {/* <ul className="space-y-2">
-            <li>
-              <Link
-                to="/categories/fresh-produce"
-                className="hover:text-secondary text-sm transition"
-              >
-                Fresh Produce
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/swallow-tubers-grains"
-                className="hover:text-secondary text-sm transition"
-              >
-                Swallow, Tubers & Grains
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/fruits"
-                className="hover:text-secondary text-sm transition"
-              >
-                Fruits
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/protein-sources"
-                className="hover:text-secondary text-sm transition"
-              >
-                Protein Sources
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/food-bundles"
-                className="hover:text-secondary text-sm transition"
-              >
-                Food Bundles
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/soup-ingredients"
-                className="hover:text-secondary text-sm transition"
-              >
-                Soup Ingredients & Cooking Essentials
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/health-organic-foods"
-                className="hover:text-secondary text-sm transition"
-              >
-                Health & Organic Foods
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/household-essentials"
-                className="hover:text-secondary text-sm transition"
-              >
-                Household Essentials
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/baking-dairy-eggs"
-                className="hover:text-secondary text-sm transition"
-              >
-                Baking Essentials, Dairy & Eggs
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories/packaged-foods"
-                className="hover:text-secondary text-sm transition"
-              >
-                Packaged Foods, Beverages & Drinks
-              </Link>
-            </li>
-          </ul> */}
           {categories.map((item, index) => (
             <ul className="space-y-2" key={index}>
               <li
                 className="hover:text-secondary-bg text-sm transition py-2 cursor-pointer"
-                onClick={() => handleCategoryClick(item.id)}
+                onClick={() => handleCategoryClick(item)}
               >
                 {item.category_name}
               </li>
@@ -156,7 +74,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/about"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="hover:text-secondary text-sm transition"
               >
                 About Us
@@ -165,7 +83,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/contact"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="hover:text-secondary text-sm transition"
               >
                 Contact Us
@@ -174,7 +92,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/faq"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="hover:text-secondary text-sm transition"
               >
                 FAQ
@@ -190,7 +108,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/return-policy"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="hover:text-secondary text-sm transition"
               >
                 Return Policy
@@ -199,7 +117,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/privacy-policy"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="hover:text-secondary text-sm transition"
               >
                 Privacy Policy
@@ -208,7 +126,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/terms-conditions"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="hover:text-secondary text-sm transition"
               >
                 Terms & Conditions
@@ -217,7 +135,7 @@ const Footer = () => {
             <li>
               <Link
                 to="/cookie-policy"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="hover:text-secondary text-sm transition"
               >
                 Cookie Policy

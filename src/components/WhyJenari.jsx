@@ -1,4 +1,3 @@
-import React from 'react';
 import img from '../assets/features 1.svg';
 
 const WhyJenari = () => {
@@ -9,27 +8,40 @@ const WhyJenari = () => {
           Why we’re different
         </h1>
         <ol className="text-text-light py-4 list-decimal">
-          <li className="pb-3">
-            One-Stop Shopping: Compare prices, explore varieties, and discover
-            rare products from multiple sellers—all in one place.
+          <li className="pb-4">
+            <span className="font-medium text-base pr-1 text-black">
+              One-Stop Shopping:
+            </span>{' '}
+            Compare prices, explore varieties, and discover rare products from
+            multiple sellers—all in one place.
           </li>
-          <li className="pb-3">
-            No Hidden Costs: We charge only a minimal delivery fee, ensuring you
-            save money without sacrificing quality.Empowering farmers and
+          <li className="pb-4">
+            <span className="font-medium text-base pr-1 text-black">
+              No Hidden Costs:
+            </span>{' '}
+            We charge only a minimal delivery fee, ensuring you save money
+            without sacrificing quality.Empowering farmers and reducing waste.
+          </li>
+          <li className="pb-4">
+            <span className="font-medium text-base pr-1 text-black">
+              Fast and Reliable Delivery:
+            </span>{' '}
+            Your order arrives within 24 hours (Monday to Saturday), tailored
+            for your busy lifestyle.
+          </li>
+          <li className="pb-4">
+            <span className="font-medium text-base pr-1 text-black">
+              Cultural Connection:
+            </span>{' '}
+            Whether it’s a staple ingredient or a cherished treat, we deliver
+            with care, celebrating the essence of African culture.
+          </li>
+          <li className="pb-4">
+            <span className="font-medium text-base pr-1 text-black">
+              Sustainability and Community:
+            </span>{' '}
+            Every purchase supports a better food system, empowering farmers and
             reducing waste.
-          </li>
-          <li className="pb-3">
-            Fast and Reliable Delivery: Your order arrives within 24 hours
-            (Monday to Saturday), tailored for your busy lifestyle.
-          </li>
-          <li className="pb-3">
-            Cultural Connection: Whether it’s a staple ingredient or a cherished
-            treat, we deliver with care, celebrating the essence of African
-            culture.
-          </li>
-          <li className="pb-3">
-            Sustainability and Community: Every purchase supports a better food
-            system, empowering farmers and reducing waste.
           </li>
         </ol>
       </div>

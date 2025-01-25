@@ -36,6 +36,12 @@ const Categories = () => {
   const { categories } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const handleCategoryClick = (category) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    localStorage.setItem('selected_category', JSON.stringify(category));
+    navigate(`/supermarket?category=${category?.id}`); // Use the id instead of slug
+  };
+
   return (
     <div className="shop-by-category mx-6 lg:mx-12 my-20 md:mt-44 mt-40 lg:mt-12">
       {/* Header */}
@@ -53,9 +59,7 @@ const Categories = () => {
               key={category.id}
               style={{ backgroundColor: categoryColorList?.[index]?.color }} // Use inline styles to apply background color
               className="rounded-xl w-full"
-              onClick={() =>
-                navigate(`/supermarket?category=${categories?.[index]?.id}`)
-              }
+              onClick={() => handleCategoryClick(category)}
             >
               <div className="w-[16rem] md:w-full">
                 <img
