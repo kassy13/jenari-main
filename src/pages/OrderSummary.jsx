@@ -1,14 +1,18 @@
 import React from "react";
 import onion from "../assets/carrot.png";
 import basket from "../assets/green basket.svg";
+import { Link } from "react-router-dom";
 
 const OrderSummary = () => {
   return (
     <div className="mt-44 md:mt-56">
       <div className="flex justify-center items-start pb-12">
-        <p className="inline bg-secondary-bg text-white p-2 px-5 rounded-full ">
+        <Link
+          className="inline bg-secondary-bg text-white p-2 px-5 rounded-full "
+          to={"/orders"}
+        >
           View Order summary{" "}
-        </p>
+        </Link>
       </div>
       <div className="flex flex-col md:grid md:grid-cols-2 px-4 md:px-20 gap-12 mb-12">
         <div className=" ">
