@@ -9,7 +9,6 @@ import Breadcrumb from '../components/Breadcrumb';
 const Supermarket = () => {
   // const [supermarketItems, setSupermarketItems] = useState([]);
   // const [loading, setLoading] = useState(true);
-  const { handleAddToCartOption } = useContext(AuthContext);
 
   const [error, setError] = useState(null);
   const [currentProduct, setCurrentProduct] = useState(null); // current product state
@@ -19,8 +18,13 @@ const Supermarket = () => {
   const itemsPerPage = 28; // Number of items per page
   const location = useLocation();
   const navigate = useNavigate();
-  const { getCategoryFromParams, supermarketItems, fetchProducts, isLoading } =
-    useContext(AuthContext);
+  const {
+    getCategoryFromParams,
+    supermarketItems,
+    fetchProducts,
+    isLoading,
+    handleAddToCartOption,
+  } = useContext(AuthContext);
 
   useEffect(() => {
     const selectedCategory = localStorage.getItem('selected_category');
@@ -29,7 +33,6 @@ const Supermarket = () => {
   }, []);
 
   const handleOptionClick = (options) => {
-    console.log(options, 'options');
     // Always pass options as an array (even if it contains just one option)
     if (options?.product_options?.length > 0) {
       setCurrentProduct(options?.product_options);

@@ -12,7 +12,11 @@ const Cart = () => {
   const [agreeToPolicy, setAgreeToPolicy] = useState(false);
   const [totalPrices, setTotalPrices] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const { handleGetCartItems, handleCartItemsDelete } = useContext(AuthContext);
+  const {
+    handleGetCartItems,
+    handleCartItemsDelete,
+    handleCartItemsDeleteAll,
+  } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const { saveToCart, cartProducts, setCartProducts } = useAppStore();
@@ -20,8 +24,8 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       const items = await handleGetCartItems();
-      const updatedItems = items.map((item) => {
-        const priceValue = parseFloat(item.product_info?.price);
+      const updatedItems = items?.map((item) => {
+        const priceValue = parseFloat(item.price);
         const initialTotalPrice = priceValue * item.quantity;
         return {
           ...item,
@@ -35,21 +39,16 @@ const Cart = () => {
 
   // Calculate the total price of cart items
   const calculateTotal = () => {
-    const total = cartProducts.reduce((acc, item) => {
+    const total = cartProducts?.reduce((acc, item) => {
       let priceValue = 0;
-      if (
-        item.product_info &&
-        item.product_info.price &&
-        typeof item.product_info.price === 'string'
-      ) {
-        priceValue = parseFloat(item.product_info.price);
-      }
+      priceValue = parseFloat(item.price);
+
       if (priceValue > 0) {
         return acc + priceValue * item.quantity;
       }
       return acc;
     }, 0);
-    return total.toFixed(2);
+    return total?.toFixed(2);
   };
 
   // Update the total price whenever cart products change
@@ -60,33 +59,60 @@ const Cart = () => {
 
   // Handle quantity change in cart items
   const handleQuantityChange = (productId, action) => {
-    setCartProducts((prevProducts) => {
-      return prevProducts.map((product) => {
-        if (product.id === productId) {
-          const priceValue = parseFloat(product.product_info.price);
+    // setCartProducts((prevProducts) => {
+    //   return prevProducts.map((product) => {
+    //     if (product.id === productId) {
+    //       const priceValue = parseFloat(product.price);
 
-          const newQuantity =
-            action === 'increase' ? product.quantity + 1 : product.quantity - 1;
+    //       const newQuantity =
+    //         action === 'increase' ? product.quantity + 1 : product.quantity - 1;
 
-          if (newQuantity < 1) return product;
+    //       if (newQuantity < 1) return product;
 
-          const newTotal = (priceValue * newQuantity).toFixed(2);
+    //       const newTotal = priceValue * newQuantity;
 
-          return {
-            ...product,
-            quantity: newQuantity,
-            total_price: `${formatAmount(newTotal)}`,
-          };
-        }
-        return product;
-      });
+    //       return {
+    //         ...product,
+    //         quantity: newQuantity,
+    //         total_price: newTotal,
+    //       };
+    //     }
+    //     return product;
+    //   });
+    // });
+
+    const data = cartProducts.map((product) => {
+      if (product.id === productId) {
+        const priceValue = parseFloat(product.price);
+
+        const newQuantity =
+          action === 'increase' ? product.quantity + 1 : product.quantity - 1;
+
+        if (newQuantity < 1) return product;
+
+        const newTotal = priceValue * newQuantity;
+
+        return {
+          ...product,
+          quantity: newQuantity,
+          total_price: newTotal,
+        };
+      }
+      return product;
     });
+
+    console.log(data);
   };
 
   // Handle product deletion from cart
   const handleDeleteProduct = (product) => {
     handleCartItemsDelete(product);
     setCartProducts(cartProducts.filter((item) => item.id !== product.id));
+  };
+
+  const handleDeleteAllItem = async () => {
+    await handleCartItemsDeleteAll();
+    setCartProducts([]);
   };
 
   // Handle Proceed to Checkout
@@ -134,7 +160,7 @@ const Cart = () => {
               </div>
 
               {cartProducts &&
-                cartProducts.map((product) => (
+                cartProducts?.map((product) => (
                   <div
                     key={product.id}
                     className="grid grid-cols-10 gap-2 lg:gap-4 items-center border-b py-4 px-4 bg-white text-sm lg:text-base"
@@ -183,12 +209,12 @@ const Cart = () => {
 
                     {/* Unit Price */}
                     <span className="hidden lg:block text-text-light col-span-2">
-                      {formatAmount(product?.product_info?.price)}
+                      £{formatAmount(product?.price)}
                     </span>
 
                     {/* Total Price */}
                     <span className="hidden lg:block text-gray-700 col-span-2 font-bold">
-                      {formatAmount(product?.total_price)}
+                      £{formatAmount(product?.total_price)}
                     </span>
 
                     {/* Delete Button */}
@@ -217,7 +243,10 @@ const Cart = () => {
                   <RiShoppingCart2Fill size={20} className="mb-1" /> Add More
                   Items
                 </button>
-                <button className="flex items-center justify-center bg-[#F5F6F7] text-red-500 p-2.5 px-7 gap-3 border rounded-full">
+                <button
+                  onClick={() => handleDeleteAllItem()}
+                  className="flex items-center justify-center bg-[#F5F6F7] text-red-500 p-2.5 px-7 gap-3 border rounded-full"
+                >
                   <RiDeleteBin5Fill size={20} className="mb-1" /> Remove All
                 </button>
               </div>

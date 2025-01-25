@@ -2,9 +2,7 @@
 import { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import Categories from '../components/Categories';
-import BestSelling from '../components/BestSelling';
 import NewStock from '../components/NewStock';
-import Clearance from '../components/Clearance';
 import ShopHome from '../components/ShopHome';
 import Features from '../components/Features';
 import Choose from '../components/Choose';
@@ -34,9 +32,9 @@ const Index = () => {
     <>
       <Hero />
       <Categories />
-      <BestSelling />
+      {/* <BestSelling /> */}
       <NewStock />
-      <Clearance />
+      {/* <Clearance /> */}
       <ShopHome />
       <Features />
       <Choose />

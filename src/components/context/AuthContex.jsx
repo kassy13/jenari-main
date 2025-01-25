@@ -245,6 +245,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // fetching products
+  const fetchLatestProducts = async (categoryId = null) => {
+    const endpoint = categoryId
+      ? `https://api.jenari.co.uk/api/list-product?category_id=${categoryId}`
+      : 'https://api.jenari.co.uk/api/list-product';
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(endpoint);
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      const data = await response.json();
+      setSupermarketItems(data.products?.reverse()?.slice(0, 60) || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Product details
 
   const handleGetCartItems = async () => {
@@ -294,6 +315,33 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (data) {
         toast.success(`Cart item "${product.product}" removed successfully!`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleCartItemsDeleteAll = async () => {
+    const formdata = {
+      remove_all: 1,
+    };
+
+    try {
+      const response = await fetch('https://api.jenari.co.uk/api/cart/remove', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`, // Add token to headers
+        },
+        body: JSON.stringify(formdata),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add item to cart.');
+      }
+
+      const data = await response.json();
+      if (data) {
+        toast.success(`All cart item removed successfully!`);
       }
     } catch (err) {
       console.log(err);
@@ -420,6 +468,8 @@ export const AuthProvider = ({ children }) => {
         handleCartItemsDelete,
         fetchProducts,
         supermarketItems,
+        fetchLatestProducts,
+        handleCartItemsDeleteAll,
         getCategoryFromParams,
         setIsLoading,
         saveCartForCheckout,

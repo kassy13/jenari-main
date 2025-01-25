@@ -117,9 +117,9 @@ const Header = () => {
             >
               <div className="relative">
                 <RiShoppingBagLine className="text-xl" size={26} />
-                {cartProducts.length > 0 && (
+                {cartProducts?.length > 0 && (
                   <span className="absolute top-0 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
-                    {cartProducts.length}
+                    {cartProducts?.length}
                   </span>
                 )}
               </div>
