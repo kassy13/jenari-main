@@ -21,6 +21,7 @@ import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment";
 import Orders from "./pages/Orders";
 import OrderSummary from "./pages/OrderSummary";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           </Route>
           <Route path="signUp" element={<SignUp />} />
           <Route path="signIn" element={<LogIn />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
