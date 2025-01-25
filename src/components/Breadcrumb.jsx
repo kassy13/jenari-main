@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { ChevronRight } from 'lucide-react';
+import PropTypes from "prop-types";
+import { ChevronRight } from "lucide-react";
 
 const Breadcrumb = ({ items }) => {
   return (
@@ -10,7 +10,7 @@ const Breadcrumb = ({ items }) => {
           {item.href ? (
             <a
               href={item.href}
-              className="text-blue-600 text-medium hover:underline text-sm font-medium"
+              className="text-secondary-bg text-medium hover:underline text-sm font-medium"
             >
               {item.label}
             </a>

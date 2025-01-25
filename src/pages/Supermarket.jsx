@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Offcanvas from '../components/Offcanvas';
-import PaginationFooter from '../ui/PaginationFooter';
-import AuthContext from '../components/context/AuthContex';
-import SuperMarketCard from '../ui/SuperMarketCard';
-import Breadcrumb from '../components/Breadcrumb';
+import { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Offcanvas from "../components/Offcanvas";
+import PaginationFooter from "../ui/PaginationFooter";
+import AuthContext from "../components/context/AuthContex";
+import SuperMarketCard from "../ui/SuperMarketCard";
+import Breadcrumb from "../components/Breadcrumb";
 
 const Supermarket = () => {
   // const [supermarketItems, setSupermarketItems] = useState([]);
@@ -27,7 +27,7 @@ const Supermarket = () => {
   } = useContext(AuthContext);
 
   useEffect(() => {
-    const selectedCategory = localStorage.getItem('selected_category');
+    const selectedCategory = localStorage.getItem("selected_category");
     const category = JSON.parse(selectedCategory);
     setActiveCategory(category);
   }, []);
@@ -41,7 +41,7 @@ const Supermarket = () => {
       const data = {
         product_id: options.id,
         quantity: 1,
-        option: '0',
+        option: "0",
         product_code: options.product_code,
       };
       handleAddToCartOption(data, navigate);
@@ -53,7 +53,7 @@ const Supermarket = () => {
   useEffect(() => {
     // Extract 'category' from the URL instead of 'category_id'
     const params = new URLSearchParams(location.search);
-    const categoryId = params.get('category'); // Use 'category'
+    const categoryId = params.get("category"); // Use 'category'
 
     // Fetch products based on the extracted category
     fetchProducts(categoryId);
@@ -69,12 +69,13 @@ const Supermarket = () => {
   return (
     <div className="px-6 mt-28 lg:mt-40 lg:px-16 py-16">
       <h1 className="text-[#1F3D4F] text-3xl tracking-tighter font-semibold">
-        {getCategoryFromParams() ? 'Filtered Products' : 'All Products'}
+        {getCategoryFromParams() ? "Filtered Products" : "All Products"}
       </h1>
 
       <Breadcrumb
         items={[
-          { label: 'Home', href: '/' },
+          { label: "Home", href: "/" },
+
           { label: activeCategory?.category_name },
         ]}
       />
@@ -90,8 +91,8 @@ const Supermarket = () => {
               <SuperMarketCard
                 key={index}
                 id={item.id}
-                image={item.image || 'default-image-url'}
-                text={item.name || 'Product Name'}
+                image={item.image || "default-image-url"}
+                text={item.name || "Product Name"}
                 // subtext={item.description || "Subtext"}
                 inSeason={item.status || false}
                 options={item.product_options || []}

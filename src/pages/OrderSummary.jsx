@@ -14,7 +14,7 @@ const OrderSummary = () => {
           View Order summary{" "}
         </Link>
       </div>
-      <div className="flex flex-col md:grid md:grid-cols-2 px-4 md:px-20 gap-12 mb-12">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 px-4 md:px-20 gap-12 mb-12">
         <div className=" ">
           <div className="p-4 flex  justify-between items-center w-full border border-[#F0F4FF] rounded-xl mb-12">
             <div className="flex  items-center  gap-1">

@@ -1,11 +1,11 @@
-import { RiCloseLargeLine } from 'react-icons/ri';
-import useAppStore from '../store';
-import { formatAmount } from '../utils';
+import { RiCloseLargeLine } from "react-icons/ri";
+import useAppStore from "../store";
+import { formatAmount } from "../utils";
 
 export const StripeKey =
-  'pk_test_51QLnFJDe8RptjC2BVhdx0unweCoD7jviNQiQxvwVazp4lZaNY74uA1CclFRXc3PxS6RDLjvqq90MHaJsDSpX3D8h00VLulWZas';
-import PropTypes from 'prop-types';
-import { TailSpin } from 'react-loader-spinner';
+  "pk_test_51QLnFJDe8RptjC2BVhdx0unweCoD7jviNQiQxvwVazp4lZaNY74uA1CclFRXc3PxS6RDLjvqq90MHaJsDSpX3D8h00VLulWZas";
+import PropTypes from "prop-types";
+import { TailSpin } from "react-loader-spinner";
 
 const PaymentOffCanvas = ({ onClose, onclick, isLoading }) => {
   const { cartData } = useAppStore();
@@ -17,7 +17,7 @@ const PaymentOffCanvas = ({ onClose, onclick, isLoading }) => {
       onClick={onClose} // Close when clicking outside
     >
       <div
-        className="bg-white w-1/3 p-6 shadow-lg mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
+        className="bg-white w-full md:w-2/3 lg:w-1/3 p-6 shadow-lg mt-28 lg:mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
         onClick={(e) => e.stopPropagation()} // Prevents closing on inner clicks
       >
         <div className="flex flex-row items-center justify-between">
