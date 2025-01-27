@@ -14,7 +14,7 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas }) => {
 
       {/* Offcanvas Panel */}
       <div
-        className={`fixed top-[100px] right-0 max-h-[calc(100vh-100px)] bg-white z-[999] md:w-[40%] shadow-lg transform transition-transform duration-300 overflow-y-scroll  ${
+        className={`fixed top-[75px] md:top-[100px] right-0 max-h-[calc(100vh-100px)] bg-white z-[999] md:w-[40%] shadow-lg transform transition-transform duration-300 overflow-y-scroll  ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

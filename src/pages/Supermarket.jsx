@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Offcanvas from '../components/Offcanvas';
-import PaginationFooter from '../ui/PaginationFooter';
-import AuthContext from '../components/context/AuthContex';
-import SuperMarketCard from '../ui/SuperMarketCard';
-import Breadcrumb from '../components/Breadcrumb';
+import { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Offcanvas from "../components/Offcanvas";
+import PaginationFooter from "../ui/PaginationFooter";
+import AuthContext from "../components/context/AuthContex";
+import SuperMarketCard from "../ui/SuperMarketCard";
+import Breadcrumb from "../components/Breadcrumb";
 
 const Supermarket = () => {
   // const [supermarketItems, setSupermarketItems] = useState([]);
@@ -15,22 +15,59 @@ const Supermarket = () => {
   const [isOffCanvasOpen, setIsOffCanvasOpen] = useState(false); // Control modal visibility
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [activeCategory, setActiveCategory] = useState({});
+  const [filteredItems, setFilteredItems] = useState([]);
   const itemsPerPage = 28; // Number of items per page
   const location = useLocation();
   const navigate = useNavigate();
   const {
     getCategoryFromParams,
     supermarketItems,
+    setSupermarketItems,
     fetchProducts,
     isLoading,
     handleAddToCartOption,
   } = useContext(AuthContext);
 
   useEffect(() => {
-    const selectedCategory = localStorage.getItem('selected_category');
+    const selectedCategory = localStorage.getItem("selected_category");
     const category = JSON.parse(selectedCategory);
     setActiveCategory(category);
   }, []);
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+  //   const categoryId = params.get("category");
+  //   const searchResults = location.state?.results || []; // Get search results
+
+  //   console.log("search result", searchResults);
+
+  //   if (searchResults.length > 0) {
+  //     setSupermarketItems(searchResults); // Display search results
+  //   } else if (categoryId) {
+  //     fetchProducts(categoryId); // Fetch products by category
+  //   } else {
+  //     fetchProducts(); // Fetch all products
+  //   }
+  // }, [fetchProducts]);
+
+  // Filter supermarketItems based on category or search input
+
+  useEffect(() => {
+    if (supermarketItems.length > 0) {
+      const params = new URLSearchParams(location.search);
+      const categoryId = params.get("category");
+      if (categoryId) {
+        // Filter by category
+        setFilteredItems(
+          supermarketItems.filter((item) => item.category_id === categoryId)
+        );
+      } else {
+        // No category filtering, show all items
+        setFilteredItems(supermarketItems);
+      }
+    }
+  }, [supermarketItems, location]);
+  console.log("filtered", filteredItems);
 
   const handleOptionClick = (options) => {
     // Always pass options as an array (even if it contains just one option)
@@ -41,7 +78,7 @@ const Supermarket = () => {
       const data = {
         product_id: options.id,
         quantity: 1,
-        option: '0',
+        option: "0",
         product_code: options.product_code,
       };
       handleAddToCartOption(data, navigate);
@@ -53,28 +90,61 @@ const Supermarket = () => {
   useEffect(() => {
     // Extract 'category' from the URL instead of 'category_id'
     const params = new URLSearchParams(location.search);
-    const categoryId = params.get('category'); // Use 'category'
+    const categoryId = params.get("category"); // Use 'category'
 
     // Fetch products based on the extracted category
     fetchProducts(categoryId);
   }, [location]);
-  const totalPages = Math.ceil(supermarketItems.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   // Get items for the current page
-  const displayedItems = supermarketItems.slice(
+  const displayedItems = filteredItems.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const searchQuery = params.get("search"); // Get the 'search' query parameter
 
+    if (searchQuery) {
+      // Filter the items based on the search query
+      const results = supermarketItems.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredItems(results);
+    } else {
+      // If no search query, display all items
+      setFilteredItems(supermarketItems);
+    }
+  }, [location.search, supermarketItems]);
+
+  // Scroll to top when search query or category changes
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const searchQuery = params.get("search"); // Get the 'search' query parameter
+
+    if (searchQuery) {
+      const results = supermarketItems.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredItems(results);
+    } else {
+      setFilteredItems(supermarketItems); // Display all items if no search query
+    }
+
+    // Scroll to top when location changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.search, supermarketItems]);
   return (
     <div className="px-6 mt-28 lg:mt-40 lg:px-16 py-16">
       <h1 className="text-[#1F3D4F] text-3xl tracking-tighter font-semibold">
-        {getCategoryFromParams() ? 'Filtered Products' : 'All Products'}
+        {getCategoryFromParams() ? "Filtered Products" : "All Products"}
       </h1>
 
       <Breadcrumb
         items={[
-          { label: 'Home', href: '/' },
+          { label: "Home", href: "/" },
+
           { label: activeCategory?.category_name },
         ]}
       />
@@ -90,8 +160,8 @@ const Supermarket = () => {
               <SuperMarketCard
                 key={index}
                 id={item.id}
-                image={item.image || 'default-image-url'}
-                text={item.name || 'Product Name'}
+                image={item.image || "default-image-url"}
+                text={item.name || "Product Name"}
                 // subtext={item.description || "Subtext"}
                 inSeason={item.status || false}
                 options={item.product_options || []}
@@ -102,7 +172,12 @@ const Supermarket = () => {
             ))}
           </div>
 
-          {displayedItems?.length === 0 && (
+          {/* {displayedItems?.length === 0 && (
+            <div className="flex justify-center items-center h-96">
+              <p className="text-red-500">No products found</p>
+            </div>
+          )} */}
+          {filteredItems?.length === 0 && (
             <div className="flex justify-center items-center h-96">
               <p className="text-red-500">No products found</p>
             </div>
