@@ -1,9 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import Carousel from '../ui/Carousel';
-import { RiArrowLeftLine, RiArrowRightLine } from 'react-icons/ri';
-import AuthContext from './context/AuthContex';
-import { useNavigate } from 'react-router-dom';
-import Offcanvas from './Offcanvas';
+import { useContext, useEffect, useRef, useState } from "react";
+import Carousel from "../ui/Carousel";
+import { RiArrowLeftLine, RiArrowRightLine } from "react-icons/ri";
+import AuthContext from "./context/AuthContex";
+import { useNavigate } from "react-router-dom";
+import Offcanvas from "./Offcanvas";
 
 const NewStock = () => {
   const swiperRef = useRef(null);
@@ -27,9 +27,9 @@ const NewStock = () => {
   };
 
   const handleCategoryClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    localStorage.clear('selected_category');
-    navigate('/supermarket'); // Use the id instead of slug
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    localStorage.clear("selected_category");
+    navigate("/supermarket"); // Use the id instead of slug
   };
 
   const handleOptionClick = (options) => {
@@ -42,7 +42,7 @@ const NewStock = () => {
       const data = {
         product_id: options.id,
         quantity: 1,
-        option: '0',
+        option: "0",
         product_code: options.product_code,
         name: options.name,
       };
@@ -76,7 +76,7 @@ const NewStock = () => {
         </div>
         <Carousel
           items={supermarketItems}
-          slidesPerView={4}
+          slidesPerView={1}
           spaceBetween={20}
           onSwiperRef={(swiper) => {
             swiperRef.current = swiper;
@@ -85,7 +85,7 @@ const NewStock = () => {
         />
         <div className="flex justify-center items-center my-10">
           <div
-            className="p-4 bg-gray-50 rounded-xl text-bold text-[20px] text-black"
+            className="p-4 px-12 bg-gray-50 rounded-xl text-bold text-base text-gray-600"
             onClick={handleCategoryClick}
             role="button"
           >
