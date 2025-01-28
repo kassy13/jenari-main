@@ -1,12 +1,12 @@
-import { useEffect, useState, useContext } from "react";
-import { RiDeleteBin5Fill, RiShoppingCart2Fill } from "react-icons/ri";
-import AuthContext from "../components/context/AuthContex";
-import { Link, useNavigate } from "react-router-dom";
-import { formatAmount } from "../utils";
-import checkbox from "../assets/checkbox.svg";
-import emptyCart from "../assets/empty-cart.svg";
-import useAppStore from "../store";
-import { TailSpin } from "react-loader-spinner";
+import { useEffect, useState, useContext } from 'react';
+import { RiDeleteBin5Fill, RiShoppingCart2Fill } from 'react-icons/ri';
+import AuthContext from '../components/context/AuthContex';
+import { Link, useNavigate } from 'react-router-dom';
+import { formatAmount } from '../utils';
+import checkbox from '../assets/checkbox.svg';
+import emptyCart from '../assets/empty-cart.svg';
+import useAppStore from '../store';
+import { TailSpin } from 'react-loader-spinner';
 
 const Cart = () => {
   const [agreeToPolicy, setAgreeToPolicy] = useState(false);
@@ -64,7 +64,7 @@ const Cart = () => {
         const priceValue = parseFloat(product.price);
 
         const newQuantity =
-          action === "increase" ? product.quantity + 1 : product.quantity - 1;
+          action === 'increase' ? product.quantity + 1 : product.quantity - 1;
 
         if (newQuantity < 1) return product;
 
@@ -106,14 +106,14 @@ const Cart = () => {
 
     const data = {
       checkoutItems,
-      totalWeight: "7kg",
+      totalWeight: '7kg',
       total_amount: totalPrices,
     };
     saveToCart(data);
 
     setTimeout(() => {
       setIsLoading(false);
-      navigate("/checkout"); // Redirect to home or dashboard
+      navigate('/checkout'); // Redirect to home or dashboard
     }, 3000);
 
     // Save the cart items to AuthContext
@@ -162,7 +162,7 @@ const Cart = () => {
                         <button
                           className="w-7 h-7 border-[0.4px] border-gray-400 bg-gray-200 rounded-full hover:bg-gray-300"
                           onClick={() =>
-                            handleQuantityChange(product?.id, "decrease")
+                            handleQuantityChange(product?.id, 'decrease')
                           }
                         >
                           -
@@ -171,7 +171,7 @@ const Cart = () => {
                         <button
                           className="w-7 h-7 rounded-full border-[0.4px] border-primary-bg hover:bg-gray-300"
                           onClick={() =>
-                            handleQuantityChange(product?.id, "increase")
+                            handleQuantityChange(product?.id, 'increase')
                           }
                         >
                           +
@@ -216,7 +216,7 @@ const Cart = () => {
               <div className="bg-white py-5 px-5 flex flex-col lg:flex-row gap-5 lg:gap-0 justify-between">
                 <button
                   className="flex items-center justify-center bg-primary-bg text-white p-2.5 px-7 gap-3 rounded-full"
-                  onClick={() => navigate("/supermarket")}
+                  onClick={() => navigate('/supermarket')}
                 >
                   <RiShoppingCart2Fill size={20} className="mb-1" /> Add More
                   Items
@@ -232,12 +232,12 @@ const Cart = () => {
 
             <div className="lg:max-w-md mx-auto md:w-full bg-white shadow-lg rounded-lg p-6 border border-gray-100 self-start">
               <h2 className="text-xl font-semibold mb-4 text-text-light flex justify-between tracking-tight">
-                Subtotal:{" "}
+                Subtotal:{' '}
                 <span className="text-black">£{formatAmount(totalPrices)}</span>
               </h2>
 
               <h2 className="text-sm text-text-light font-semibold mt-4 flex justify-between">
-                Total weight:{" "}
+                Total weight:{' '}
                 <span className="text-black text-base">0.7 kg</span>
               </h2>
               <p className="text-sm mt-2 text-text-light">
@@ -264,8 +264,8 @@ const Cart = () => {
                   </div>
                   <span className="text-sm text-gray-700" id="check">
                     I have read the instruction above and I agree to
-                    <a href="#" className="text-primary-bg">
-                      {" "}
+                    <a href="/return-policy" className="text-primary-bg">
+                      {' '}
                       JENARI’s Return Policy
                     </a>
                   </span>
@@ -275,8 +275,8 @@ const Cart = () => {
               <button
                 className={`w-full mt-6 py-2 px-4 text-white font-semibold rounded-full ${
                   agreeToPolicy
-                    ? "bg-primary-bg hover:opacity-80"
-                    : "bg-[#F6F6F6] text-gray-500 cursor-not-allowed"
+                    ? 'bg-primary-bg hover:opacity-80'
+                    : 'bg-[#F6F6F6] text-gray-500 cursor-not-allowed'
                 }`}
                 disabled={!agreeToPolicy}
                 onClick={handleProceedToCheckout}
@@ -293,7 +293,7 @@ const Cart = () => {
                     />
                   </div>
                 ) : (
-                  "Proceed to Checkout"
+                  'Proceed to Checkout'
                 )}
               </button>
             </div>
@@ -310,7 +310,7 @@ const Cart = () => {
           </p>
 
           <Link
-            to={"/supermarket"}
+            to={'/supermarket'}
             className="w-1/2 mt-8 py-2 px-4 text-white bg-primary-bg font-semibold flex items-center justify-center rounded-full"
           >
             <p>Start shopping</p>

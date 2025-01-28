@@ -1,11 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AuthContext from '../components/context/AuthContex';
+import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the product ID from the route
-  const { supermarketItems, fetchProducts, handleAddToCart } =
-    useContext(AuthContext); // Use context to access products
+  const {
+    supermarketItems,
+    fetchProducts,
+    handleAddToCart,
+    handleAddToCartOption,
+  } = useContext(AuthContext); // Use context to access products
   const [product, setProduct] = useState(null); // State to store the current product
   const [quantity, setQuantity] = useState(1); // Default quantity set to 1
   const [selectedOption, setSelectedOption] = useState(null); // Store the selected product option
@@ -34,12 +39,27 @@ const ProductDetails = () => {
   };
 
   const handleAddToCartClick = () => {
-    if (selectedOption && quantity > 0) {
-      // Pass option ID, product ID, and quantity to the addToCart function
-      // handleAddToCart(selectedOption.id, selectedOption.product_id, quantity);
-      handleAddToCart(selectedOption, quantity, navigate);
+    if (product?.product_options?.length > 0) {
+      if (selectedOption && quantity > 0) {
+        // Pass option ID, product ID, and quantity to the addToCart function
+        // handleAddToCart(selectedOption.id, selectedOption.product_id, quantity);
+        handleAddToCart(selectedOption, quantity, navigate);
+      } else {
+        toast.error('Please select a option to add to cart');
+      }
+    } else {
+      console.log('we are here');
+      const data = {
+        product_id: product.id,
+        quantity: 1,
+        option: '0',
+        product_code: product.product_code,
+        name: product.name,
+      };
+      handleAddToCartOption(data, navigate);
     }
   };
+
   if (!product) {
     return <p>Loading product details...</p>;
   }
@@ -115,7 +135,6 @@ const ProductDetails = () => {
           <button
             onClick={handleAddToCartClick} // Trigger the add-to-cart function
             className="w-full bg-primary-bg text-white py-2 rounded-full hover:bg-opacity-85 focus:outline-none focus:ring focus:ring-primary-bg"
-            disabled={!selectedOption || quantity === 0}
           >
             Add to Cart
           </button>
