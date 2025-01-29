@@ -160,7 +160,7 @@ const Header = () => {
             </form>
             {/* Results Modal */}
             {showResults && filteredResults.length > 0 && (
-              <div className="absolute top-full  bg-white text-black shadow-lg rounded-lg w-1/3 max-h-96 overflow-y-hidden py-4 z-50">
+              <div className="absolute top-full bg-white text-black shadow-lg rounded-lg w-1/3 max-h-96 overflow-y-scroll py-4 z-50">
                 <ul className="overflow-y-scroll h-full">
                   {filteredResults?.map((item, index) => (
                     <li

@@ -20,7 +20,7 @@ const WhyJenari = () => {
               No Hidden Costs:
             </span>{' '}
             We charge only a minimal delivery fee, ensuring you save money
-            without sacrificing quality.Empowering farmers and reducing waste.
+            without sacrificing quality. Empowering farmers and reducing waste.
           </li>
           <li className="pb-4">
             <span className="font-medium text-base pr-1 text-black">
