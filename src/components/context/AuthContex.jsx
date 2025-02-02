@@ -126,9 +126,9 @@ export const AuthProvider = ({ children }) => {
     // Remove from localStorage
     localStorage.removeItem('authToken');
     localStorage.removeItem('authUser');
-
     setAuthToken(null);
     setUserData(null);
+    setCartProducts([]);
 
     // Redirect to login page after logout
     navigate('/login');

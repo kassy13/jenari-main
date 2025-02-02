@@ -31,6 +31,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState(''); // For search input
   const [filteredResults, setFilteredResults] = useState([]); // For search results
   const [showResults, setShowResults] = useState(false); // Toggle search modal
+
   const navigate = useNavigate();
   // const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleLinkClick = () => {
@@ -44,7 +45,7 @@ const Header = () => {
   };
   // Fetch cart items when the component mounts
   useEffect(() => {
-    if (user) {
+    if (authToken) {
       // Check if user is authenticated
       const fetchCartItems = async () => {
         try {
@@ -55,7 +56,7 @@ const Header = () => {
       };
       fetchCartItems();
     }
-  }, [user]);
+  }, [authToken, handleGetCartItems]);
   // Close the cart dropdown if clicked outside
   // useEffect(() => {
   //   const handleClickOutside = (event) => {
@@ -189,7 +190,7 @@ const Header = () => {
 
           {/* Desktop Cart and Actions */}
           <div className="hidden md:flex items-center gap-4 ">
-            {user && (
+            {authToken && (
               <Link
                 to={'/orders'}
                 className="flex items-center gap-2 cursor-pointer text-nowrap relative"
@@ -213,10 +214,14 @@ const Header = () => {
             >
               <div className="relative">
                 <RiShoppingBagLine className="text-xl" size={26} />
-                {cartProducts?.length > 0 && (
-                  <span className="absolute top-0 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
-                    {cartProducts?.length}
-                  </span>
+                {authToken && (
+                  <>
+                    {cartProducts?.length > 0 && (
+                      <span className="absolute top-0 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
+                        {cartProducts?.length}
+                      </span>
+                    )}
+                  </>
                 )}
               </div>
               <div className="flex flex-col items-start leading-tight">
