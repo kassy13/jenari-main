@@ -28,10 +28,12 @@ const Carousel = ({
 }) => {
   const handleOptionSelection = (selectedOption) => {
     // If options is a single object, wrap it in an array, otherwise use it as it is
-    const optionsToPass = Array.isArray(selectedOption)
-      ? selectedOption
-      : [selectedOption];
-    handleOptionClick(optionsToPass); // Pass the options array to the parent
+    // const optionsToPass = Array.isArray(selectedOption)
+    //   ? selectedOption
+    //   : [selectedOption];
+    // handleOptionClick(optionsToPass); // Pass the options array to the parent
+    console.log(selectedOption, 'selectedOption');
+    handleOptionClick(selectedOption);
   };
 
   return (
@@ -99,7 +101,7 @@ const Carousel = ({
                     </div>
 
                     {/* Dropdown Menu */}
-                    <ul className="absolute left-0 top-10 z-50 hidden w-max bg-white border rounded-lg shadow-lg mt-1 group-hover:block">
+                    <ul className="absolute left-0 top-10 z-50 hidden overflow-x-scroll h-20 w-max py-4 bg-white border rounded-lg shadow-lg mt-1 group-hover:block">
                       {item?.product_options.length > 0 ? (
                         item?.product_options.map((option, index) => (
                           <li

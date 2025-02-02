@@ -12,6 +12,7 @@ import AuthContext from '../components/context/AuthContex';
 import AddressUserList from '../components/AddressUserList';
 import useAppStore from '../store';
 import { loadStripe } from '@stripe/stripe-js';
+import { formatAmount } from '../utils';
 
 const Checkout = () => {
   const [open, setOpen] = useState('');
@@ -24,7 +25,7 @@ const Checkout = () => {
   const { handleCheckout, isLoading } = useContext(AuthContext);
   const [message, setMessage] = useState('');
 
-  const { primaryAddress, cartData, user } = useAppStore();
+  const { primaryAddress, cartData, user, cartProducts } = useAppStore();
 
   // Function to open the payment modal
   const openPaymentModal = () => {
@@ -82,7 +83,6 @@ const Checkout = () => {
 
     // Calculate the total amount after removing currency symbols
     const totalAmount = cartData?.checkoutItems.reduce((acc, item) => {
-      console.log(item);
       const cleanedPrice = parseFloat(item?.total_price);
       return acc + (isNaN(cleanedPrice) ? 0 : cleanedPrice);
     }, 0);
@@ -102,7 +102,6 @@ const Checkout = () => {
   const handleCheckoutClick = async () => {
     // Get the checkout data
     const checkoutData = prepareCheckoutData();
-    console.log(checkoutData);
 
     const res = await handleCheckout(checkoutData);
 
@@ -200,35 +199,39 @@ const Checkout = () => {
           <div className=" bg-white border border-gray-200 rounded-lg overflow-hidden flex self-start my-7 ">
             {/* Product Info */}
             <div className="p-4 flex  justify-between items-center w-full">
-              <div className="flex flex-col  gap-1 w-full ">
-                {cartData?.checkoutItems?.map((items, index) => {
+              <div className="flex flex-col gap-1 w-full ">
+                {cartProducts?.map((items, index) => {
+                  console.log(items);
                   return (
-                    <div key={index} className="mb-3 border-b">
-                      <div>
+                    <div
+                      key={index}
+                      className="mb-3 flex flex-row items-center justify-between border-b"
+                    >
+                      <div className="flex flex-row items-center">
                         <img
                           className="w-20 h-20 gap-1 object-cover"
-                          src={onion}
+                          src={items?.product_info?.image}
                           alt="Red Onions"
                         />
+
+                        <div className="ml-4">
+                          <h2 className="text-xl font-semibold text-[#6D6D6D]">
+                            {items?.product_info?.name}
+                          </h2>
+                          <p className="text-[#525252] mt-1">
+                            Quantity: {items?.quantity}
+                          </p>
+                        </div>
                       </div>
                       <div className="mb-3">
-                        <h2 className="text-xl font-semibold text-[#6D6D6D]">
-                          {items?.name}
-                        </h2>
-                        <p className="text-[#525252] mt-1">Small, 250g</p>
-                        <p className="text-[#525252] mt-1">
-                          Quantity:{items?.quantity}
-                        </p>
-                        <p className="text-[#525252] mt-1">
-                          Quantity:{items?.total_price}
+                        <p className="font-bold text-black text-[20px] mt-1">
+                          £{formatAmount(items?.total_price)}
                         </p>
                       </div>
                     </div>
                   );
                 })}
               </div>
-
-              <p className="text-lg font-bold text-primary-bg">£50.00</p>
             </div>
 
             {/* next section */}

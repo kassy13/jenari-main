@@ -11,6 +11,7 @@ import { TailSpin } from 'react-loader-spinner';
 const Cart = () => {
   const [agreeToPolicy, setAgreeToPolicy] = useState(false);
   const [totalPrices, setTotalPrices] = useState(0);
+  const [totalWeight, setTotalWeight] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
   const {
     handleGetCartItems,
@@ -24,6 +25,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       const items = await handleGetCartItems();
+      console.log(items);
       const updatedItems = items?.map((item) => {
         const priceValue = parseFloat(item.price);
         const initialTotalPrice = priceValue * item.quantity;
@@ -51,9 +53,24 @@ const Cart = () => {
     return total?.toFixed(2);
   };
 
+  const calculateTotalWeight = () => {
+    const total = cartProducts?.reduce((acc, item) => {
+      console.log(item);
+      // let priceValue = 0;
+      // priceValue = parseFloat(item.price);
+
+      // if (priceValue > 0) {
+      //   return acc + priceValue * item.quantity;
+      // }
+      // return acc;
+    }, 0);
+    return total?.toFixed(2);
+  };
+
   // Update the total price whenever cart products change
   useEffect(() => {
     setTotalPrices(calculateTotal());
+    // setTotalWeight(calculateTotalWeight());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartProducts]);
 
@@ -238,7 +255,7 @@ const Cart = () => {
 
               <h2 className="text-sm text-text-light font-semibold mt-4 flex justify-between">
                 Total weight:{' '}
-                <span className="text-black text-base">0.7 kg</span>
+                <span className="text-black text-base">{totalWeight}kg</span>
               </h2>
               <p className="text-sm mt-2 text-text-light">
                 Delivery fee and other bills will be calculated at checkout

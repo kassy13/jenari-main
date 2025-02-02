@@ -189,7 +189,7 @@ export const AuthProvider = ({ children }) => {
         product_id: option.product_id,
         product_code: option.product_code,
         quantity: option.quantity,
-        options: '0',
+        options: option?.option,
       };
 
       const response = await fetch('https://api.jenari.co.uk/api/add/to/cart', {
