@@ -12,10 +12,11 @@ import EmptyOrderList from '../components/EmptyOrderList';
 
 const Orders = () => {
   const [activeTab, setActiveTab] = useState('Confirmed');
-  const { fetchOrderList, updateOrderList } = useContext(AuthContext);
+  const { fetchOrderList, updateOrderList, handleCartItemsDeleteAll } =
+    useContext(AuthContext);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 4;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const totalPages = 4;
 
   const queryParams = useQueryParams();
   const session_id = queryParams.get('session_id'); // Get 'name' query param
@@ -32,7 +33,6 @@ const Orders = () => {
   const cancelledOrders = userOrders?.filter(
     (orders) => orders.status === 'cancelled'
   );
-  console.log(confirmedOrders);
 
   useEffect(() => {
     const updateOrder = async () => {
@@ -42,9 +42,9 @@ const Orders = () => {
           order_id: orderInfo?.order?.id,
           status: 'confirmed',
         };
-
         const res = await updateOrderList(data);
         if (res) {
+          await handleCartItemsDeleteAll();
           const removeErrorParam = () => {
             if (searchParams.has('session_id')) {
               searchParams.delete('session_id');
@@ -112,7 +112,7 @@ const Orders = () => {
           {cancelledOrders?.length === 0 && <EmptyOrderList />}
         </div>
       )}
-      <PaginationFooter currentPage={currentPage} totalPages={totalPages} />
+      {/* <PaginationFooter currentPage={currentPage} totalPages={totalPages} /> */}
     </div>
   );
 };

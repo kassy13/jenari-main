@@ -48,14 +48,14 @@ const PaymentOffCanvas = ({ onClose, onclick, isLoading }) => {
           {/* Delivery Fee */}
           <div className="flex justify-between">
             <span className="text-gray-700">Delivery fee:</span>
-            <span className="text-gray-800">£3.00</span>
+            <span className="text-gray-800">£4.00</span>
           </div>
 
           {/* Total */}
           <div className="flex justify-between">
             <span className="text-gray-700 font-semibold">Total:</span>
             <span className="text-gray-800 font-semibold">
-              £{formatAmount(cartData?.total_amount + 3)}
+              £{formatAmount((Number(cartData?.total_amount) + 4).toString())}
             </span>
           </div>
 
@@ -80,7 +80,9 @@ const PaymentOffCanvas = ({ onClose, onclick, isLoading }) => {
                   />
                 </div>
               ) : (
-                `Pay £${formatAmount(cartData?.total_amount + 3)} with Stripe`
+                `Pay £${formatAmount(
+                  (Number(cartData?.total_amount) + 4).toString()
+                )} with Stripe`
               )}
             </div>
           </div>

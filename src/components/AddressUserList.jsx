@@ -1,13 +1,16 @@
-import { useContext, useEffect } from "react";
-import { RiCloseLargeLine } from "react-icons/ri";
-import AuthContext from "./context/AuthContex";
-import useAppStore from "../store";
+import { useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { RiCloseLargeLine } from 'react-icons/ri';
+import AuthContext from './context/AuthContex';
+import useAppStore from '../store';
+import { AiOutlineDelete } from 'react-icons/ai';
 
-const AddressUserList = ({ onClose, onComplete }) => {
+const AddressUserList = ({ onClose, onComplete, onDelete }) => {
   const { getAddress } = useContext(AuthContext);
   const { deliveryAddresses, setPrimaryAddress } = useAppStore();
 
   const handleDeliveryAddresses = (address) => {
+    console.log(address);
     setPrimaryAddress(address);
     onClose();
   };
@@ -46,23 +49,35 @@ const AddressUserList = ({ onClose, onComplete }) => {
 
           <div className="mt-2 overflow-y-scroll h-100">
             {deliveryAddresses?.map((address, index) => {
+              console.log(address);
               return (
                 <div
                   key={index}
-                  onClick={() => handleDeliveryAddresses(address)}
-                  className="border cursor-pointer border-[#F0F4FF] mb-4 p-4 rounded-lg"
+                  className="border cursor-pointer flex flex-row items-center justify-between border-[#F0F4FF] mb-4 p-4 rounded-lg"
                 >
-                  <p className="font-bold text-[20px] text-[#1F3D4F]">
-                    {address.label}
-                  </p>
+                  <div
+                    role="button"
+                    onClick={() => handleDeliveryAddresses(address)}
+                  >
+                    <p className="font-bold text-[20px] text-[#1F3D4F]">
+                      {address.address_1}
+                    </p>
 
-                  <p>
-                    {address?.address_number}, {address?.landmark}{" "}
-                    {address?.street}
-                  </p>
-                  <p>
-                    {address?.state}, {address?.country}
-                  </p>
+                    {address?.address_2 && (
+                      <p className="font-bold text-[20px] text-[#1F3D4F]">
+                        {address.address_2}
+                      </p>
+                    )}
+
+                    <p>
+                      {address?.post_code}, {address?.county} {address?.street}
+                    </p>
+                    <p>{address?.country}</p>
+                  </div>
+
+                  <div onClick={() => onDelete(address)}>
+                    <AiOutlineDelete />
+                  </div>
                 </div>
               );
             })}
@@ -79,6 +94,11 @@ const AddressUserList = ({ onClose, onComplete }) => {
       </div>
     </div>
   );
+};
+AddressUserList.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default AddressUserList;

@@ -491,6 +491,33 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const handleAddressDelete = async (payload) => {
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        'https://api.jenari.co.uk/api/delete/delivery/address',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(payload), // Pass the cleaned data here
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      setIsLoading(false);
+
+      return true;
+    } catch (error) {
+      console.error('Checkout error:', error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -517,6 +544,7 @@ export const AuthProvider = ({ children }) => {
         fetchOrderList,
         handleAddToCartOption,
         updateOrderList,
+        handleAddressDelete,
       }}
     >
       {children}

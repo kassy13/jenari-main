@@ -1,10 +1,9 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AddressOffCanvas from '../components/AddressOffcanvas';
 import address from '../assets/address.svg';
 import contact from '../assets/contact-book.svg';
 import { RiArrowRightLine } from 'react-icons/ri';
-import onion from '../assets/potato.svg';
 import VoucherCode from '../components/Voucher';
 import PayWallet from '../components/PayWallet';
 import PaymentOffCanvas, { StripeKey } from '../components/PaymentOffcanvas';
@@ -13,16 +12,20 @@ import AddressUserList from '../components/AddressUserList';
 import useAppStore from '../store';
 import { loadStripe } from '@stripe/stripe-js';
 import { formatAmount } from '../utils';
+import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 
 const Checkout = () => {
   const [open, setOpen] = useState('');
+  const [currentAddress, setCurrentAddress] = useState('');
   // Toggle state
   const [isToggled, setIsToggled] = useState(false);
   const [isCarriageEnabled, setIsCarriageEnabled] = useState(false);
   const [floor, setFloor] = useState('');
 
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const { handleCheckout, isLoading } = useContext(AuthContext);
+  const { handleCheckout, isLoading, handleAddressDelete } =
+    useContext(AuthContext);
   const [message, setMessage] = useState('');
 
   const { primaryAddress, cartData, user, cartProducts } = useAppStore();
@@ -64,6 +67,14 @@ const Checkout = () => {
     }, 400);
   };
 
+  const onDelete = async (selectedAddress) => {
+    setOpen('');
+    setTimeout(() => {
+      setOpen('delete-address');
+      setCurrentAddress(selectedAddress);
+    }, 400);
+  };
+
   // Apply Coupon Function
   const applyCoupon = () => {
     if (coupon.trim() === '') {
@@ -93,7 +104,7 @@ const Checkout = () => {
     // Return the checkout data in the correct format
     return {
       product_codes: productCodes, // Array of product codes
-      total_amount: Number(totalAmount.toFixed(2) * 100), // Ensure total_amount is a string
+      total_amount: Number((totalAmount + 4) * 100), // Ensure total_amount is a string
       address_id, // Use address_id as required by the API
       currency: 'gbp', // Currency set to GBP
     };
@@ -113,6 +124,30 @@ const Checkout = () => {
       });
     } catch (error) {
       console.log(error, 'error');
+    }
+  };
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      padding: '40px',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+  const deleteAddress = async () => {
+    const data = {
+      address_id: currentAddress?.id,
+    };
+
+    const res = await handleAddressDelete(data);
+    if (res) {
+      setOpen('');
+      toast.success('Address deleted successfully');
     }
   };
 
@@ -137,20 +172,17 @@ const Checkout = () => {
           <div className="border border-[#F5F6F7] p-4 rounded-lg">
             <h3 className="text-gray-700 font-medium">Delivery Address</h3>
 
-            {primaryAddress?.label ? (
+            {primaryAddress?.address_1 ? (
               <div className="mt-2 my-4 flex-row flex items-center justify-between">
                 <div>
                   <p className="font-bold text-[20px] text-[#1F3D4F]">
-                    {primaryAddress?.label}
+                    {primaryAddress?.address_1}
                   </p>
 
                   <p>
-                    {primaryAddress?.address_number}, {primaryAddress?.landmark}{' '}
-                    {primaryAddress?.street}
+                    {primaryAddress?.post_code}, {primaryAddress?.county}
                   </p>
-                  <p>
-                    {primaryAddress?.state}, {primaryAddress?.country}
-                  </p>
+                  <p>{primaryAddress?.country}</p>
                 </div>
 
                 <div
@@ -161,16 +193,24 @@ const Checkout = () => {
                 </div>
               </div>
             ) : (
-              <button
-                onClick={() => setOpen('show-address-list')}
-                className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
-              >
-                <div className="flex gap-1">
-                  <img src={contact} alt="" className="w-6 h-6" />
-                  Select an address
-                </div>
-                <RiArrowRightLine color="#3BB77E]" />
-              </button>
+              <div>
+                <button
+                  onClick={() => setOpen('show-address-list')}
+                  className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
+                >
+                  <div className="flex gap-1">
+                    <img src={contact} alt="" className="w-6 h-6" />
+                    Select an address
+                  </div>
+                  <RiArrowRightLine color="#3BB77E]" />
+                </button>
+                <button
+                  className="mt-2 bg-[#F6F6F6] w-full py-2 rounded-3xl"
+                  onClick={() => setOpen('add-new-address-3rd-party')}
+                >
+                  Send to somebody else
+                </button>
+              </div>
             )}
             {/* <button className="bg-[#F6F6F6] text-dark-blue rounded-full px-3 py-2 text-center w-full">
               Send to somebody else
@@ -180,10 +220,18 @@ const Checkout = () => {
             {open === 'add-new-address' && (
               <AddressOffCanvas onClose={() => setOpen('')} />
             )}
+
+            {open === 'add-new-address-3rd-party' && (
+              <AddressOffCanvas
+                onClose={() => setOpen('')}
+                sendToSomeone={true}
+              />
+            )}
             {open === 'show-address-list' && (
               <AddressUserList
                 onClose={() => setOpen('')}
                 onComplete={onComplete}
+                onDelete={onDelete}
               />
             )}
           </div>
@@ -201,7 +249,6 @@ const Checkout = () => {
             <div className="p-4 flex  justify-between items-center w-full">
               <div className="flex flex-col gap-1 w-full ">
                 {cartProducts?.map((items, index) => {
-                  console.log(items);
                   return (
                     <div
                       key={index}
@@ -382,9 +429,9 @@ const Checkout = () => {
           <PayWallet />
           <button
             onClick={openPaymentModal}
-            disabled={primaryAddress?.address_number ? false : true}
+            disabled={primaryAddress?.address_1 ? false : true}
             className={
-              primaryAddress?.address_number
+              primaryAddress?.address_1
                 ? 'bg-primary-bg w-full text-white p-2 mb-3 rounded-lg'
                 : 'bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg'
             }
@@ -401,6 +448,38 @@ const Checkout = () => {
           )}
         </div>
       </div>
+
+      <Modal
+        isOpen={open === 'delete-address'}
+        onRequestClose={() => setOpen('')}
+        contentLabel="Example Modal"
+        ariaHideApp={false}
+        style={customStyles}
+      >
+        <div>
+          <h2 className="font-bold text-[24px] text-black">Delete Address</h2>
+          <p className="pt-2 font-normal text-base text-gray-600">
+            Are you sure you want to delete this address?
+          </p>
+          <div className="flex justify-end mt-10 gap-4">
+            <button
+              onClick={() => setOpen('')}
+              className="bg-gray-300 text-white py-2 px-4 rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                deleteAddress();
+                setOpen('');
+              }}
+              className="bg-red-500 text-white py-2 px-4 rounded-lg"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
