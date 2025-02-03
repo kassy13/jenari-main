@@ -56,7 +56,7 @@ const Header = () => {
       };
       fetchCartItems();
     }
-  }, [authToken, handleGetCartItems]);
+  }, [authToken]);
   // Close the cart dropdown if clicked outside
   // useEffect(() => {
   //   const handleClickOutside = (event) => {

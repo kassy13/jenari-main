@@ -27,12 +27,6 @@ const Carousel = ({
   handleOptionClick,
 }) => {
   const handleOptionSelection = (selectedOption) => {
-    // If options is a single object, wrap it in an array, otherwise use it as it is
-    // const optionsToPass = Array.isArray(selectedOption)
-    //   ? selectedOption
-    //   : [selectedOption];
-    // handleOptionClick(optionsToPass); // Pass the options array to the parent
-    console.log(selectedOption, 'selectedOption');
     handleOptionClick(selectedOption);
   };
 
@@ -78,12 +72,9 @@ const Carousel = ({
                 <img
                   src={item.image}
                   alt={item.text}
-                  className="w-full h-full p-2 object-contain rounded-lg"
+                  className="w-full h-full p-2 object-cover rounded-lg"
                 />
               </div>
-            </div>
-            <div className="bg-gray-300 inline-block p-1 rounded-full absolute top-3 left-3">
-              <RiHeartLine size={20} />
             </div>
             <div className="flex items-center justify-between">
               <p className="text-center mt-2 text-sm font-bold text-text-header">
