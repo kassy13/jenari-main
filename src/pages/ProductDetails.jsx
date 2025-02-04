@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import AuthContext from '../components/context/AuthContex';
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import AuthContext from "../components/context/AuthContex";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the product ID from the route
@@ -34,9 +34,11 @@ const ProductDetails = () => {
   };
 
   const handleAddToCartClick = () => {
+    console.log("clicked");
     if (selectedOption && quantity > 0) {
       // Pass option ID, product ID, and quantity to the addToCart function
       // handleAddToCart(selectedOption.id, selectedOption.product_id, quantity);
+
       handleAddToCart(selectedOption, quantity, navigate);
     }
   };

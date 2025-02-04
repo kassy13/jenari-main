@@ -147,6 +147,7 @@ export const AuthProvider = ({ children }) => {
         quantity,
         options: "1",
       };
+      console.log("form data", formdata);
 
       const response = await fetch("https://api.jenari.co.uk/api/add/to/cart", {
         method: "POST",
@@ -161,6 +162,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json();
+      console.log("data", data);
       toast.success(`${option.name} added to cart successfully!`);
 
       // Optional: Redirect to payment page
