@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { RiCloseLargeLine } from 'react-icons/ri';
-import AuthContext from './context/AuthContex';
-import useAppStore from '../store';
-import { AiOutlineDelete } from 'react-icons/ai';
+import { useContext, useEffect } from "react";
+import PropTypes from "prop-types";
+import { RiCloseLargeLine } from "react-icons/ri";
+import AuthContext from "./context/AuthContex";
+import useAppStore from "../store";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const AddressUserList = ({ onClose, onComplete, onDelete }) => {
   const { getAddress } = useContext(AuthContext);
@@ -29,7 +29,7 @@ const AddressUserList = ({ onClose, onComplete, onDelete }) => {
       onClick={onClose} // Close when clicking outside
     >
       <div
-        className="bg-white w-[80%] lg:w-[40%] p-6 shadow-lg flex flex-col justify-between mt-32 lg:mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
+        className="bg-white w-full lg:w-[40%] p-6 shadow-lg flex flex-col justify-between mt-32 lg:mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
         onClick={(e) => e.stopPropagation()}
       >
         <div>

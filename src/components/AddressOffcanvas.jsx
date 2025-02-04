@@ -1,19 +1,19 @@
-import { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
-import { RiCloseLargeLine } from 'react-icons/ri';
-import AuthContext from './context/AuthContex';
-import { TailSpin } from 'react-loader-spinner';
-import { Toastify } from 'toastify';
-import { cleanData } from '../utils';
+import { useContext, useState } from "react";
+import PropTypes from "prop-types";
+import { RiCloseLargeLine } from "react-icons/ri";
+import AuthContext from "./context/AuthContex";
+import { TailSpin } from "react-loader-spinner";
+import { Toastify } from "toastify";
+import { cleanData } from "../utils";
 
 const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
-  const [city, setCity] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [county, setCounty] = useState('');
-  const [postCode, setPostCode] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [deliveryName, setDeliveryName] = useState('');
+  const [city, setCity] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [county, setCounty] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [deliveryName, setDeliveryName] = useState("");
   const [isPrimaryAddress, setIsPrimaryAddress] = useState(false);
 
   // Sample areas and countries for dropdown
@@ -27,10 +27,10 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
     city,
     county,
     post_code: postCode,
-    country: 'United Kingdom',
+    country: "United Kingdom",
     phone: phoneNumber,
     delivery_name: deliveryName,
-    primary_Address: isPrimaryAddress === false ? '0' : '1',
+    primary_Address: isPrimaryAddress === false ? "0" : "1",
   };
 
   // Call the request function from AuthContext (handled outside this component)
@@ -43,14 +43,14 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
     // Trigger address creation
     createNewAddress(addressData)
       .then((response) => {
-        console.log('Response:', response);
+        console.log("Response:", response);
         onClose(); // Close the off-canvas
       })
       .catch((error) => {
-        console.error('Failed to add address:', error);
+        console.error("Failed to add address:", error);
         Toastify({
-          text: 'Error adding address. Please try again',
-          backgroundColor: 'red',
+          text: "Error adding address. Please try again",
+          backgroundColor: "red",
           duration: 3000,
         }).showToast();
       });
@@ -62,16 +62,16 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
       onClick={onClose} // Close when clicking outside
     >
       <div
-        className="bg-white  lg:w-2/4 p-6 shadow-lg mt-40 overflow-y-scroll scrollbar-hide relative z-[999999]"
+        className="bg-white  lg:w-2/4 w-full p-6 shadow-lg lg:mt-40 mt-28 overflow-y-scroll scrollbar-hide relative z-[999999]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-row items-center justify-between">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4 pt-6">
-            {sendToSomeone ? 'Recipient delivery address' : 'Add Address'}
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4 pt-12">
+            {sendToSomeone ? "Recipient delivery address" : "Add Address"}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 bg-gray-300 rounded-full hover:bg-gray-400"
+            className="p-2 bg-gray-300 rounded-full hover:bg-gray-400 mb-6"
           >
             <RiCloseLargeLine />
           </button>
@@ -82,7 +82,7 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
           {sendToSomeone && (
             <>
               <div>
-                <label className="block text-gray-700 mb-2">
+                <label className="block text-gray-700 lg:mb-2 ">
                   Delivery name
                 </label>
                 <input
@@ -235,7 +235,7 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
                   />
                 </div>
               ) : (
-                'Add New Address'
+                "Add New Address"
               )}
             </button>
           </div>
