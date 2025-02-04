@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import AuthContext from '../components/context/AuthContex';
-import { toast } from 'react-toastify';
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import AuthContext from "../components/context/AuthContex";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the product ID from the route
@@ -39,24 +38,10 @@ const ProductDetails = () => {
   };
 
   const handleAddToCartClick = () => {
-    if (product?.product_options?.length > 0) {
-      if (selectedOption && quantity > 0) {
-        // Pass option ID, product ID, and quantity to the addToCart function
-        // handleAddToCart(selectedOption.id, selectedOption.product_id, quantity);
-        handleAddToCart(selectedOption, quantity, navigate);
-      } else {
-        toast.error('Please select a option to add to cart');
-      }
-    } else {
-      console.log('we are here');
-      const data = {
-        product_id: product.id,
-        quantity: 1,
-        option: '0',
-        product_code: product.product_code,
-        name: product.name,
-      };
-      handleAddToCartOption(data, navigate);
+    if (selectedOption && quantity > 0) {
+      // Pass option ID, product ID, and quantity to the addToCart function
+      // handleAddToCart(selectedOption.id, selectedOption.product_id, quantity);
+      handleAddToCart(selectedOption, quantity, navigate);
     }
   };
 
