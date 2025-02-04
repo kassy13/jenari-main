@@ -4,8 +4,12 @@ import AuthContext from "../components/context/AuthContex";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the product ID from the route
-  const { supermarketItems, fetchProducts, handleAddToCart } =
-    useContext(AuthContext); // Use context to access products
+  const {
+    supermarketItems,
+    fetchProducts,
+    handleAddToCart,
+    handleAddToCartOption,
+  } = useContext(AuthContext); // Use context to access products
   const [product, setProduct] = useState(null); // State to store the current product
   const [quantity, setQuantity] = useState(1); // Default quantity set to 1
   const [selectedOption, setSelectedOption] = useState(null); // Store the selected product option
@@ -34,14 +38,13 @@ const ProductDetails = () => {
   };
 
   const handleAddToCartClick = () => {
-    console.log("clicked");
     if (selectedOption && quantity > 0) {
       // Pass option ID, product ID, and quantity to the addToCart function
       // handleAddToCart(selectedOption.id, selectedOption.product_id, quantity);
-
       handleAddToCart(selectedOption, quantity, navigate);
     }
   };
+
   if (!product) {
     return <p>Loading product details...</p>;
   }
@@ -117,7 +120,6 @@ const ProductDetails = () => {
           <button
             onClick={handleAddToCartClick} // Trigger the add-to-cart function
             className="w-full bg-primary-bg text-white py-2 rounded-full hover:bg-opacity-85 focus:outline-none focus:ring focus:ring-primary-bg"
-            disabled={!selectedOption || quantity === 0}
           >
             Add to Cart
           </button>

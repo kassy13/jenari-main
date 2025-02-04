@@ -1,11 +1,11 @@
-import { RiCloseLargeLine } from "react-icons/ri";
-import useAppStore from "../store";
-import { formatAmount } from "../utils";
+import { RiCloseLargeLine } from 'react-icons/ri';
+import useAppStore from '../store';
+import { formatAmount } from '../utils';
 
 export const StripeKey =
-  "pk_test_51QLnFJDe8RptjC2BVhdx0unweCoD7jviNQiQxvwVazp4lZaNY74uA1CclFRXc3PxS6RDLjvqq90MHaJsDSpX3D8h00VLulWZas";
-import PropTypes from "prop-types";
-import { TailSpin } from "react-loader-spinner";
+  'pk_test_51QLnFJDe8RptjC2BVhdx0unweCoD7jviNQiQxvwVazp4lZaNY74uA1CclFRXc3PxS6RDLjvqq90MHaJsDSpX3D8h00VLulWZas';
+import PropTypes from 'prop-types';
+import { TailSpin } from 'react-loader-spinner';
 
 const PaymentOffCanvas = ({ onClose, onclick, isLoading }) => {
   const { cartData } = useAppStore();
@@ -48,14 +48,14 @@ const PaymentOffCanvas = ({ onClose, onclick, isLoading }) => {
           {/* Delivery Fee */}
           <div className="flex justify-between">
             <span className="text-gray-700">Delivery fee:</span>
-            <span className="text-gray-800">£3.00</span>
+            <span className="text-gray-800">£4.00</span>
           </div>
 
           {/* Total */}
           <div className="flex justify-between">
             <span className="text-gray-700 font-semibold">Total:</span>
             <span className="text-gray-800 font-semibold">
-              £{formatAmount(cartData?.total_amount + 3)}
+              £{formatAmount((Number(cartData?.total_amount) + 4).toString())}
             </span>
           </div>
 
@@ -80,7 +80,9 @@ const PaymentOffCanvas = ({ onClose, onclick, isLoading }) => {
                   />
                 </div>
               ) : (
-                `Pay £${formatAmount(cartData?.total_amount + 3)} with Stripe`
+                `Pay £${formatAmount(
+                  (Number(cartData?.total_amount) + 4).toString()
+                )} with Stripe`
               )}
             </div>
           </div>

@@ -1,10 +1,10 @@
-import { createContext, useState, useEffect } from "react";
-import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css"; // Add this for styles
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import useAppStore from "../../store";
-import PropTypes from "prop-types";
+import { createContext, useState, useEffect } from 'react';
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css'; // Add this for styles
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import useAppStore from '../../store';
+import PropTypes from 'prop-types';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -19,26 +19,28 @@ export const AuthProvider = ({ children }) => {
     setUserData,
     authToken,
     setCartProducts,
+    setOrderInfo,
+    setUserOrders,
   } = useAppStore();
 
   // Save cart items for checkout
   const saveCartForCheckout = (items, navigate) => {
     setCheckoutItems(items);
     Toastify({
-      text: "Cart items saved for checkout!",
-      backgroundColor: "green",
+      text: 'Cart items saved for checkout!',
+      backgroundColor: 'green',
       duration: 3000,
     }).showToast();
     setTimeout(() => {
-      navigate("/checkout"); // Redirect to home or dashboard
+      navigate('/checkout'); // Redirect to home or dashboard
     }, 3000);
   };
 
   // Derived property for authentication status
   const isAuthenticated = authToken;
   useEffect(() => {
-    const storedToken = localStorage.getItem("authToken");
-    const storedUser = JSON.parse(localStorage.getItem("authUser"));
+    const storedToken = localStorage.getItem('authToken');
+    const storedUser = JSON.parse(localStorage.getItem('authUser'));
 
     if (storedToken && storedUser) {
       setAuthToken(storedToken);
@@ -51,12 +53,12 @@ export const AuthProvider = ({ children }) => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "https://api.jenari.co.uk/api/list-categories"
+          'https://api.jenari.co.uk/api/list-categories'
         );
         const data = await response.json();
         setCategories(data.categories || []); // Ensure categories exist
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error('Error fetching categories:', error);
       } finally {
         setIsLoading(false);
       }
@@ -69,15 +71,15 @@ export const AuthProvider = ({ children }) => {
   const login = async (formData, navigate) => {
     setIsLoading(true); // Set loading to true to disable login button while requesting
     try {
-      const response = await fetch("https://api.jenari.co.uk/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('https://api.jenari.co.uk/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "An error occurred");
+        throw new Error(errorData.message || 'An error occurred');
       }
 
       const data = await response.json();
@@ -85,35 +87,35 @@ export const AuthProvider = ({ children }) => {
       if (data) {
         setUserData(data?.user);
         setAuthToken(data?.token);
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("authUser", JSON.stringify(data.user));
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('authUser', JSON.stringify(data.user));
         // Set the token and user state
         // Success Toastify
         Toastify({
-          text: data?.message || "Login successful!",
+          text: data?.message || 'Login successful!',
           duration: 3000,
           close: true,
-          gravity: "top",
-          position: "center",
-          backgroundColor: "#4caf50",
+          gravity: 'top',
+          position: 'center',
+          backgroundColor: '#4caf50',
         }).showToast();
         // Redirect after success
         setTimeout(() => {
-          navigate("/"); // Redirect to home or dashboard
+          navigate('/'); // Redirect to home or dashboard
         }, 3000);
-        return { success: true, message: data.message || "Login successful!" };
+        return { success: true, message: data.message || 'Login successful!' };
       }
     } catch (error) {
       // Error Toastify
       Toastify({
-        text: error.message || "Login failed. Please try again.",
+        text: error.message || 'Login failed. Please try again.',
         duration: 3000,
         close: true,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#f44336",
+        gravity: 'top',
+        position: 'center',
+        backgroundColor: '#f44336',
       }).showToast();
-      return { success: false, message: error.message || "Login failed." };
+      return { success: false, message: error.message || 'Login failed.' };
     } finally {
       setIsLoading(false); // Set loading to false after request
     }
@@ -122,21 +124,21 @@ export const AuthProvider = ({ children }) => {
   // Logout function
   const logout = (navigate) => {
     // Remove from localStorage
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("authUser");
-
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authUser');
     setAuthToken(null);
     setUserData(null);
+    setCartProducts([]);
 
     // Redirect to login page after logout
-    navigate("/login");
+    navigate('/login');
   };
 
   // Adding to cart
   const handleAddToCart = async (option, quantity, navigate) => {
     if (!isAuthenticated) {
-      toast.error("Please log in to add items to the cart.");
-      navigate("/signIn"); // Redirect to the login page
+      toast.error('Please log in to add items to the cart.');
+      navigate('/signIn'); // Redirect to the login page
       return;
     }
 
@@ -145,20 +147,20 @@ export const AuthProvider = ({ children }) => {
         product_id: option.product_id,
         product_code: option.product_code,
         quantity,
-        options: "1",
+        options: '1',
       };
       console.log("form data", formdata);
 
-      const response = await fetch("https://api.jenari.co.uk/api/add/to/cart", {
-        method: "POST",
+      const response = await fetch('https://api.jenari.co.uk/api/add/to/cart', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`, // Add token to headers
         },
         body: JSON.stringify(formdata),
       });
       if (!response.ok) {
-        throw new Error("Failed to add item to cart.");
+        throw new Error('Failed to add item to cart.');
       }
 
       const data = await response.json();
@@ -167,20 +169,20 @@ export const AuthProvider = ({ children }) => {
 
       // Optional: Redirect to payment page
       setTimeout(() => {
-        navigate("/cart");
+        navigate('/cart');
       }, 3000);
 
       return data; // Return data for additional handling if needed
     } catch (error) {
-      console.error("Error adding to cart:", error);
-      toast.error("Could not add item to cart. Please try again.");
+      console.error('Error adding to cart:', error);
+      toast.error('Could not add item to cart. Please try again.');
     }
   };
 
   const handleAddToCartOption = async (option, navigate) => {
     if (!isAuthenticated) {
-      toast.error("Please log in to add items to the cart.");
-      navigate("/signIn"); // Redirect to the login page
+      toast.error('Please log in to add items to the cart.');
+      navigate('/signIn'); // Redirect to the login page
       return;
     }
 
@@ -189,19 +191,19 @@ export const AuthProvider = ({ children }) => {
         product_id: option.product_id,
         product_code: option.product_code,
         quantity: option.quantity,
-        options: "0",
+        options: option?.option,
       };
 
-      const response = await fetch("https://api.jenari.co.uk/api/add/to/cart", {
-        method: "POST",
+      const response = await fetch('https://api.jenari.co.uk/api/add/to/cart', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`, // Add token to headers
         },
         body: JSON.stringify(formdata),
       });
       if (!response.ok) {
-        throw new Error("Failed to add item to cart.");
+        throw new Error('Failed to add item to cart.');
       }
 
       const data = await response.json();
@@ -209,20 +211,20 @@ export const AuthProvider = ({ children }) => {
 
       // Optional: Redirect to payment page
       setTimeout(() => {
-        navigate("/cart");
+        navigate('/cart');
       }, 3000);
 
       return data; // Return data for additional handling if needed
     } catch (error) {
-      console.error("Error adding to cart:", error);
-      toast.error("Could not add item to cart. Please try again.");
+      console.error('Error adding to cart:', error);
+      toast.error('Could not add item to cart. Please try again.');
     }
   };
 
   // Fetch products
   const getCategoryFromParams = () => {
     const params = new URLSearchParams(location.search);
-    const categoryId = params.get("category_id");
+    const categoryId = params.get('category_id');
     return categoryId;
   };
 
@@ -230,13 +232,13 @@ export const AuthProvider = ({ children }) => {
   const fetchProducts = async (categoryId = null) => {
     const endpoint = categoryId
       ? `https://api.jenari.co.uk/api/list-product?category_id=${categoryId}`
-      : "https://api.jenari.co.uk/api/list-product";
+      : 'https://api.jenari.co.uk/api/list-product';
 
     try {
       setIsLoading(true);
       const response = await fetch(endpoint);
       if (!response.ok) {
-        throw new Error("Failed to fetch products");
+        throw new Error('Failed to fetch products');
       }
       const data = await response.json();
       setSupermarketItems(data.products || []);
@@ -251,13 +253,13 @@ export const AuthProvider = ({ children }) => {
   const fetchLatestProducts = async (categoryId = null) => {
     const endpoint = categoryId
       ? `https://api.jenari.co.uk/api/list-product?category_id=${categoryId}`
-      : "https://api.jenari.co.uk/api/list-product";
+      : 'https://api.jenari.co.uk/api/list-product';
 
     try {
       setIsLoading(true);
       const response = await fetch(endpoint);
       if (!response.ok) {
-        throw new Error("Failed to fetch products");
+        throw new Error('Failed to fetch products');
       }
       const data = await response.json();
       setSupermarketItems(data.products?.reverse()?.slice(0, 60) || []);
@@ -273,17 +275,17 @@ export const AuthProvider = ({ children }) => {
   const handleGetCartItems = async () => {
     try {
       if (!authToken) {
-        throw new Error("Token is missing. Please log in.");
+        throw new Error('Token is missing. Please log in.');
       }
 
-      const response = await fetch("https://api.jenari.co.uk/api/cart/list", {
+      const response = await fetch('https://api.jenari.co.uk/api/cart/list', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch cart items.");
+        throw new Error('Failed to fetch cart items.');
       }
 
       const data = await response.json();
@@ -303,16 +305,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     try {
-      const response = await fetch("https://api.jenari.co.uk/api/cart/remove", {
-        method: "POST",
+      const response = await fetch('https://api.jenari.co.uk/api/cart/remove', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`, // Add token to headers
         },
         body: JSON.stringify(formdata),
       });
       if (!response.ok) {
-        throw new Error("Failed to add item to cart.");
+        throw new Error('Failed to add item to cart.');
       }
 
       const data = await response.json();
@@ -330,16 +332,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     try {
-      const response = await fetch("https://api.jenari.co.uk/api/cart/remove", {
-        method: "POST",
+      const response = await fetch('https://api.jenari.co.uk/api/cart/remove', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`, // Add token to headers
         },
         body: JSON.stringify(formdata),
       });
       if (!response.ok) {
-        throw new Error("Failed to add item to cart.");
+        throw new Error('Failed to add item to cart.');
       }
 
       const data = await response.json();
@@ -355,7 +357,7 @@ export const AuthProvider = ({ children }) => {
   const getAddress = async () => {
     try {
       const response = await fetch(
-        "https://api.jenari.co.uk/api/list/delivery/address",
+        'https://api.jenari.co.uk/api/list/delivery/address',
         {
           headers: {
             Authorization: `Bearer ${authToken}`, // Ensure token is passed
@@ -363,7 +365,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch delivery Address.");
+        throw new Error('Failed to fetch delivery Address.');
       }
 
       const data = await response.json();
@@ -379,18 +381,18 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true); // Set loading to true to disable login button while requesting
     try {
       const response = await fetch(
-        "https://api.jenari.co.uk/api/add/delivery/address",
+        'https://api.jenari.co.uk/api/add/delivery/address',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify(addressData),
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to add address");
+        throw new Error('Failed to add address');
       }
 
       const data = await response.json();
@@ -417,11 +419,11 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        "https://api.jenari.co.uk/api/cart/checkout",
+        'https://api.jenari.co.uk/api/cart/checkout',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify(cleanedCheckoutData), // Pass the cleaned data here
@@ -430,9 +432,10 @@ export const AuthProvider = ({ children }) => {
 
       const data = await response.json();
       setIsLoading(false);
+      setOrderInfo(data, 'response');
       return data;
     } catch (error) {
-      console.error("Checkout error:", error);
+      console.error('Checkout error:', error);
       setIsLoading(false);
     }
   };
@@ -441,19 +444,78 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://api.jenari.co.uk/api/list/orders", {
-        method: "GET",
+      const response = await fetch('https://api.jenari.co.uk/api/list/orders', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       });
 
       const data = await response.json();
       setIsLoading(false);
+      console.log(data);
+      setUserOrders(data?.orders);
       return data;
     } catch (error) {
-      console.error("Checkout error:", error);
+      console.error('Checkout error:', error);
+      setIsLoading(false);
+    }
+  };
+
+  const updateOrderList = async (payload) => {
+    setIsLoading(true);
+    // Ensure the product_codes is an array of strings
+
+    try {
+      const response = await fetch(
+        'https://api.jenari.co.uk/api/update/order',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(payload), // Pass the cleaned data here
+        }
+      );
+
+      const data = await response.json();
+      setIsLoading(false);
+      if (!data?.error) {
+        setOrderInfo({});
+        toast.success('Order confirmation updated successfully');
+        return true;
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddressDelete = async (payload) => {
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        'https://api.jenari.co.uk/api/delete/delivery/address',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(payload), // Pass the cleaned data here
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      setIsLoading(false);
+
+      return true;
+    } catch (error) {
+      console.error('Checkout error:', error);
       setIsLoading(false);
     }
   };
@@ -483,6 +545,8 @@ export const AuthProvider = ({ children }) => {
         handleCheckout,
         fetchOrderList,
         handleAddToCartOption,
+        updateOrderList,
+        handleAddressDelete,
       }}
     >
       {children}

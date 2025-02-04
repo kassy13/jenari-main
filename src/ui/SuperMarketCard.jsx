@@ -81,9 +81,16 @@ const SuperMarketCard = ({
       </div>
       <div>
         <p className="text-text-light text-xs">{subtext}</p>
-        <span className="font-extrabold text-text-header text-xs">
-          £{formatAmount(price)}
-        </span>
+        {options?.length > 1 ? (
+          <span className="font-extrabold text-text-header text-xs">
+            £{formatAmount(options?.[0]?.price)} -{' '}
+            {formatAmount(options?.[options?.length - 1]?.price)}
+          </span>
+        ) : (
+          <span className="font-extrabold text-text-header text-xs">
+            £{formatAmount(price)}
+          </span>
+        )}
       </div>
       <div className="flex justify-between my-2 text-xs">
         <div

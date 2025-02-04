@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import logo from "../assets/logo transparent 1.svg";
+import { useContext, useEffect, useRef, useState } from 'react';
+import logo from '../assets/logo transparent 1.svg';
 import {
   RiArrowDownLine,
   RiShoppingBagLine,
@@ -13,14 +13,13 @@ import {
   RiContactsBook3Line,
   RiQuestionLine,
   RiSearchLine,
-  RiMapLine,
-} from "react-icons/ri";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import NavbarComponet from "../ui/NavbarComponet";
-import order from "../assets/order.svg";
-import AuthContext from "../components/context/AuthContex";
-import useAppStore from "../store";
-import { formatAmount } from "../utils";
+} from 'react-icons/ri';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import NavbarComponet from '../ui/NavbarComponet';
+import order from '../assets/order.svg';
+import AuthContext from '../components/context/AuthContex';
+import useAppStore from '../store';
+import { formatAmount } from '../utils';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,14 +28,15 @@ const Header = () => {
   const { authToken, user, cartProducts } = useAppStore();
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false); // State for cart dropdown
   const cartRef = useRef(null); // Ref for the cart dropdown
-  const [searchQuery, setSearchQuery] = useState(""); // For search input
+  const [searchQuery, setSearchQuery] = useState(''); // For search input
   const [filteredResults, setFilteredResults] = useState([]); // For search results
   const [showResults, setShowResults] = useState(false); // Toggle search modal
+
   const navigate = useNavigate();
   // const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleLinkClick = () => {
     setMenuOpen(false); // Hide menu when a link is clicked
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const toggleMenu = (e) => {
     e.preventDefault();
@@ -45,31 +45,31 @@ const Header = () => {
   };
   // Fetch cart items when the component mounts
   useEffect(() => {
-    if (user) {
+    if (authToken) {
       // Check if user is authenticated
       const fetchCartItems = async () => {
         try {
           await handleGetCartItems(); // Fetch cart items from the API
         } catch (error) {
-          console.error("Failed to fetch cart items", error);
+          console.error('Failed to fetch cart items', error);
         }
       };
       fetchCartItems();
     }
-  }, [user]);
+  }, [authToken]);
   // Close the cart dropdown if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (cartRef.current && !cartRef.current.contains(event.target)) {
-        setCartDropdownOpen(false); // Close the cart dropdown if clicked outside
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (cartRef.current && !cartRef.current.contains(event.target)) {
+  //       setCartDropdownOpen(false); // Close the cart dropdown if clicked outside
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
 
   const toggleCartDropdown = (e) => {
     e.preventDefault();
@@ -78,11 +78,11 @@ const Header = () => {
 
   const handleSearch = (e) => {
     const query = e.target.value;
-    console.log("Search Query:", query); // Debugging
+    console.log('Search Query:', query); // Debugging
     setSearchQuery(query);
     // setMenuOpen(false);
 
-    if (query.trim() === "") {
+    if (query.trim() === '') {
       setFilteredResults([]);
       setShowResults(false);
       return;
@@ -100,15 +100,15 @@ const Header = () => {
     if (searchQuery.trim()) {
       setShowResults(false); // Close the modal
       // setMenuOpen(false);
-      setSearchQuery("");
+      setSearchQuery('');
       navigate(`/supermarket?search=${encodeURIComponent(searchQuery.trim())}`);
     }
 
-    setSearchQuery("");
+    setSearchQuery('');
     setShowResults(false);
   };
   const handleKeyPress = (e) => {
-    if (e.key === "Enter" && searchQuery.trim()) {
+    if (e.key === 'Enter' && searchQuery.trim()) {
       e.preventDefault();
       setShowResults(false);
       setMenuOpen(false);
@@ -116,14 +116,13 @@ const Header = () => {
       navigate(`/supermarket?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-  console.log("cart", cartProducts);
 
   return (
     <div className="fixed w-full top-0 z-[99]">
       <nav className="bg-header-bg text-white font-sans  ">
         <div className="flex items-center justify-between p-4 lg:py-4 lg:px-12">
           {/* Logo Section */}
-          <Link className="w-32 lg:w-48" to={"/"}>
+          <Link className="w-32 lg:w-48" to={'/'}>
             <img src={logo} alt="Logo" className="w-full h-auto object-cover" />
           </Link>
 
@@ -162,16 +161,16 @@ const Header = () => {
             </form>
             {/* Results Modal */}
             {showResults && filteredResults.length > 0 && (
-              <div className="absolute top-full  bg-white text-black shadow-lg rounded-lg w-1/3 max-h-96 overflow-y-hidden py-4 z-50">
+              <div className="absolute top-full bg-white text-black shadow-lg rounded-lg w-1/3 max-h-96 overflow-y-scroll py-4 z-50">
                 <ul className="overflow-y-scroll h-full">
-                  {filteredResults.map((item, index) => (
+                  {filteredResults?.map((item, index) => (
                     <li
                       key={index}
                       onClick={() => {
                         navigate(`/product-details/${item.id}`, {
                           state: { searchQuery, results: [item] },
                         });
-                        setSearchQuery(""); // Clear the input field
+                        setSearchQuery(''); // Clear the input field
                         setShowResults(false); // Close the modal
                       }}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
@@ -180,7 +179,7 @@ const Header = () => {
                         src={item.image}
                         alt=""
                         className="w-9 h-9 bg-gray-200 shadow"
-                      />{" "}
+                      />{' '}
                       {item.name}
                     </li>
                   ))}
@@ -191,9 +190,9 @@ const Header = () => {
 
           {/* Desktop Cart and Actions */}
           <div className="hidden md:flex items-center gap-4 ">
-            {user && (
+            {authToken && (
               <Link
-                to={"/orders"}
+                to={'/orders'}
                 className="flex items-center gap-2 cursor-pointer text-nowrap relative"
               >
                 <img
@@ -215,10 +214,14 @@ const Header = () => {
             >
               <div className="relative">
                 <RiShoppingBagLine className="text-xl" size={26} />
-                {cartProducts?.length > 0 && (
-                  <span className="absolute top-0 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
-                    {cartProducts?.length}
-                  </span>
+                {authToken && (
+                  <>
+                    {cartProducts?.length > 0 && (
+                      <span className="absolute top-0 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
+                        {cartProducts?.length}
+                      </span>
+                    )}
+                  </>
                 )}
               </div>
               <div className="flex flex-col items-start leading-tight">
@@ -232,31 +235,33 @@ const Header = () => {
               {cartDropdownOpen && cartProducts?.length > 0 && (
                 <div
                   className="absolute top-12 right-0 z-50 mt-2 w-96 bg-white text-black shadow-lg rounded-lg p-4"
-                  style={{ minWidth: "480px" }} // Adjust size as needed
+                  style={{ minWidth: '480px' }} // Adjust size as needed
                 >
                   <h4 className="font-semibold text-lg mb-2">Cart Items</h4>
                   <ul className="space-y-2">
-                    {cartProducts?.map((item, index) => (
-                      <li key={index} className="flex  gap-2 items-center">
-                        <img
-                          src={item.product_info.image}
-                          alt="img"
-                          className="w-9 h-9 shadow-lg"
-                        />
-                        <span>{item.product}</span>
-                        <span>
-                          {item.quantity} x £{formatAmount(item.price)}
-                        </span>
-                      </li>
-                    ))}
+                    {cartProducts?.map((item, index) => {
+                      console.log(item);
+                      return (
+                        <li key={index} className="flex  gap-2 items-center">
+                          <img
+                            src={item?.product_info?.image}
+                            alt="img"
+                            className="w-10 h-10"
+                          />
+                          <span>{item.product}</span>
+                          <span>
+                            {item.quantity} x £{formatAmount(item.price)}
+                          </span>
+                        </li>
+                      );
+                    })}
                   </ul>
-                  <div className="mt-4 text-center">
-                    <Link
-                      to="/cart"
-                      className="text-primary-bg hover:underline"
-                    >
-                      View Cart
-                    </Link>
+                  <div
+                    className="mt-4 text-center text-primary-bg hover:underline"
+                    role="button"
+                    onClick={() => navigate('/cart')}
+                  >
+                    View Cart
                   </div>
                 </div>
               )}
@@ -272,7 +277,7 @@ const Header = () => {
                   Register
                 </Link>
               ) : (
-                ""
+                ''
               )}
               {!authToken ? (
                 <Link
@@ -302,7 +307,7 @@ const Header = () => {
         {/* mobile menu */}
         <div
           className={`absolute top-0 w-full min-h-dvh  lg:h-screen bg-header-bg pt-8  text-white p-6 space-y-6 md:hidden z-50 transform transition-transform duration-300 ${
-            menuOpen ? "translate-x-0" : "translate-x-full"
+            menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           <button
@@ -315,7 +320,7 @@ const Header = () => {
           <div className="flex justify-end text-nowrap gap-2 pt-4 ">
             {user && (
               <Link
-                to={"/orders"}
+                to={'/orders'}
                 className="flex items-center gap-2 cursor-pointer text-nowrap relative"
               >
                 <img src={order} alt="order" width={24} height={24} />
@@ -345,16 +350,16 @@ const Header = () => {
             {cartDropdownOpen && cartProducts?.length > 0 && (
               <div
                 className="absolute top-28 left-0 z-50 mt-2  bg-white text-black shadow-lg rounded-lg p-4 w-full text-[13px] max-h-96"
-                style={{ maxWidth: "" }} // Adjust size as needed
+                style={{ maxWidth: '' }} // Adjust size as needed
               >
                 <ul className="space-y-2 overflow-y-scroll">
                   <h4 className="font-semibold text-lg mb-2">Cart Items</h4>
                   {cartProducts?.map((item, index) => (
                     <li key={index} className="flex  gap-2 items-center">
                       <img
-                        src={item.product_info.image}
+                        src={item?.product_info?.image}
                         alt="img"
-                        className="w-9 h-9 shadow-lg"
+                        className="w-10 h-10"
                       />
                       <span>{item.product}</span>
                       <span>
@@ -363,10 +368,12 @@ const Header = () => {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-4 text-center">
-                  <Link to="/cart" className="text-primary-bg hover:underline">
-                    View Cart
-                  </Link>
+                <div
+                  className="mt-4 text-center text-primary-bg hover:underline"
+                  role="button"
+                  onClick={() => navigate('/cart')}
+                >
+                  View Cart
                 </div>
               </div>
             )}
@@ -393,7 +400,7 @@ const Header = () => {
                         navigate(`/product-details/${item.id}`, {
                           state: { searchQuery, results: [item] },
                         });
-                        setSearchQuery(""); // Clear the input field
+                        setSearchQuery(''); // Clear the input field
                         setShowResults(false); // Close the modal
                       }}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
@@ -402,7 +409,7 @@ const Header = () => {
                         src={item.image}
                         alt=""
                         className="w-9 h-9 bg-gray-200 shadow"
-                      />{" "}
+                      />{' '}
                       {item.name}
                     </li>
                   ))}
@@ -416,7 +423,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2 px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -429,7 +436,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2 px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -442,7 +449,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -455,7 +462,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -468,7 +475,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -481,7 +488,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -491,10 +498,10 @@ const Header = () => {
 
             <NavLink
               to="/faq"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -511,7 +518,7 @@ const Header = () => {
               Register
             </Link>
           ) : (
-            ""
+            ''
           )}
           {!user ? (
             <Link

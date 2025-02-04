@@ -1,30 +1,34 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import AddressOffCanvas from "../components/AddressOffcanvas";
-import address from "../assets/address.svg";
-import contact from "../assets/contact-book.svg";
-import { RiArrowRightLine } from "react-icons/ri";
-import onion from "../assets/potato.svg";
-import VoucherCode from "../components/Voucher";
-import PayWallet from "../components/PayWallet";
-import PaymentOffCanvas, { StripeKey } from "../components/PaymentOffcanvas";
-import AuthContext from "../components/context/AuthContex";
-import AddressUserList from "../components/AddressUserList";
-import useAppStore from "../store";
-import { loadStripe } from "@stripe/stripe-js";
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import AddressOffCanvas from '../components/AddressOffcanvas';
+import address from '../assets/address.svg';
+import contact from '../assets/contact-book.svg';
+import { RiArrowRightLine } from 'react-icons/ri';
+import VoucherCode from '../components/Voucher';
+import PayWallet from '../components/PayWallet';
+import PaymentOffCanvas, { StripeKey } from '../components/PaymentOffcanvas';
+import AuthContext from '../components/context/AuthContex';
+import AddressUserList from '../components/AddressUserList';
+import useAppStore from '../store';
+import { loadStripe } from '@stripe/stripe-js';
+import { formatAmount } from '../utils';
+import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 
 const Checkout = () => {
-  const [open, setOpen] = useState("");
+  const [open, setOpen] = useState('');
+  const [currentAddress, setCurrentAddress] = useState('');
   // Toggle state
   const [isToggled, setIsToggled] = useState(false);
   const [isCarriageEnabled, setIsCarriageEnabled] = useState(false);
-  const [floor, setFloor] = useState("");
+  const [floor, setFloor] = useState('');
 
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const { handleCheckout, isLoading } = useContext(AuthContext);
-  const [message, setMessage] = useState("");
+  const { handleCheckout, isLoading, handleAddressDelete } =
+    useContext(AuthContext);
+  const [message, setMessage] = useState('');
 
-  const { primaryAddress, cartData, user } = useAppStore();
+  const { primaryAddress, cartData, user, cartProducts } = useAppStore();
 
   // Function to open the payment modal
   const openPaymentModal = () => {
@@ -41,36 +45,44 @@ const Checkout = () => {
 
   // Floor options
   const floors = [
-    "Ground Floor",
-    "1st Floor",
-    "2nd Floor",
-    "3rd Floor",
-    "4th Floor",
+    'Ground Floor',
+    '1st Floor',
+    '2nd Floor',
+    '3rd Floor',
+    '4th Floor',
   ];
 
   // Toggle function
   const handleToggle = () => setIsToggled(!isToggled);
 
-  const [coupon, setCoupon] = useState("");
+  const [coupon, setCoupon] = useState('');
 
   // Dummy valid coupon code for validation
-  const validCoupon = "DISCOUNT10";
+  const validCoupon = 'DISCOUNT10';
 
   const onComplete = async () => {
-    setOpen("");
+    setOpen('');
     setTimeout(() => {
-      setOpen("add-new-address");
+      setOpen('add-new-address');
+    }, 400);
+  };
+
+  const onDelete = async (selectedAddress) => {
+    setOpen('');
+    setTimeout(() => {
+      setOpen('delete-address');
+      setCurrentAddress(selectedAddress);
     }, 400);
   };
 
   // Apply Coupon Function
   const applyCoupon = () => {
-    if (coupon.trim() === "") {
-      setMessage("Please enter a coupon code.");
+    if (coupon.trim() === '') {
+      setMessage('Please enter a coupon code.');
     } else if (coupon === validCoupon) {
-      setMessage("Coupon applied successfully! 🎉");
+      setMessage('Coupon applied successfully! 🎉');
     } else {
-      setMessage("Invalid coupon code. Please try again.");
+      setMessage('Invalid coupon code. Please try again.');
     }
   };
 
@@ -82,9 +94,7 @@ const Checkout = () => {
 
     // Calculate the total amount after removing currency symbols
     const totalAmount = cartData?.checkoutItems.reduce((acc, item) => {
-      const cleanedPrice = parseFloat(
-        item?.total_price.replace(/[^\d.-]/g, "")
-      );
+      const cleanedPrice = parseFloat(item?.total_price);
       return acc + (isNaN(cleanedPrice) ? 0 : cleanedPrice);
     }, 0);
 
@@ -94,9 +104,9 @@ const Checkout = () => {
     // Return the checkout data in the correct format
     return {
       product_codes: productCodes, // Array of product codes
-      total_amount: Number(totalAmount.toFixed(2)), // Ensure total_amount is a string
+      total_amount: Number((totalAmount + 4) * 100), // Ensure total_amount is a string
       address_id, // Use address_id as required by the API
-      currency: "gbp", // Currency set to GBP
+      currency: 'gbp', // Currency set to GBP
     };
   };
 
@@ -113,14 +123,38 @@ const Checkout = () => {
         sessionId: res?.sessionId,
       });
     } catch (error) {
-      console.log(error, "error");
+      console.log(error, 'error');
+    }
+  };
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      padding: '40px',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+  const deleteAddress = async () => {
+    const data = {
+      address_id: currentAddress?.id,
+    };
+
+    const res = await handleAddressDelete(data);
+    if (res) {
+      setOpen('');
+      toast.success('Address deleted successfully');
     }
   };
 
   return (
     <div className="min-h-screen mt-40 lg:mt-48 px-4 lg:px-16 py-4">
       <Link
-        to={"/cart"}
+        to={'/cart'}
         className="text-secondary-bg p-1 bg-[#F5F6F7] px-4 rounded-full text-sm"
       >
         Return to Cart
@@ -130,61 +164,74 @@ const Checkout = () => {
           <div className="border border-[#F5F6F7] my-7  p-4 rounded-lg flex flex-col  gap-2">
             <p className="font-bold text-dark-blue">Contact:</p>
             <p className="text-text-light font-bold text-sm">
-              {user?.name || "Guest"}
+              {user?.name || 'Guest'}
             </p>
-            <p className="text-text-light  text-sm">{user?.email || "Guest"}</p>
+            <p className="text-text-light  text-sm">{user?.email || 'Guest'}</p>
             <p className="text-text-light  text-sm">{user?.phone}</p>
           </div>
           <div className="border border-[#F5F6F7] p-4 rounded-lg">
             <h3 className="text-gray-700 font-medium">Delivery Address</h3>
 
-            {primaryAddress?.label ? (
+            {primaryAddress?.address_1 ? (
               <div className="mt-2 my-4 flex-row flex items-center justify-between">
                 <div>
                   <p className="font-bold text-[20px] text-[#1F3D4F]">
-                    {primaryAddress?.label}
+                    {primaryAddress?.address_1}
                   </p>
 
                   <p>
-                    {primaryAddress?.address_number}, {primaryAddress?.landmark}{" "}
-                    {primaryAddress?.street}
+                    {primaryAddress?.post_code}, {primaryAddress?.county}
                   </p>
-                  <p>
-                    {primaryAddress?.state}, {primaryAddress?.country}
-                  </p>
+                  <p>{primaryAddress?.country}</p>
                 </div>
 
                 <div
                   className="font-medium cursor-pointer text-[18px] text-[#0D8C42]"
-                  onClick={() => setOpen("show-address-list")}
+                  onClick={() => setOpen('show-address-list')}
                 >
                   Change
                 </div>
               </div>
             ) : (
-              <button
-                onClick={() => setOpen("show-address-list")}
-                className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
-              >
-                <div className="flex gap-1">
-                  <img src={contact} alt="" className="w-6 h-6" />
-                  Select an address
-                </div>
-                <RiArrowRightLine color="#3BB77E]" />
-              </button>
+              <div>
+                <button
+                  onClick={() => setOpen('show-address-list')}
+                  className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
+                >
+                  <div className="flex gap-1">
+                    <img src={contact} alt="" className="w-6 h-6" />
+                    Select an address
+                  </div>
+                  <RiArrowRightLine color="#3BB77E]" />
+                </button>
+                <button
+                  className="mt-2 bg-[#F6F6F6] w-full py-2 rounded-3xl"
+                  onClick={() => setOpen('add-new-address-3rd-party')}
+                >
+                  Send to somebody else
+                </button>
+              </div>
             )}
             {/* <button className="bg-[#F6F6F6] text-dark-blue rounded-full px-3 py-2 text-center w-full">
               Send to somebody else
             </button> */}
 
             {/* Conditionally Render Off-Canvas */}
-            {open === "add-new-address" && (
-              <AddressOffCanvas onClose={() => setOpen("")} />
+            {open === 'add-new-address' && (
+              <AddressOffCanvas onClose={() => setOpen('')} />
             )}
-            {open === "show-address-list" && (
+
+            {open === 'add-new-address-3rd-party' && (
+              <AddressOffCanvas
+                onClose={() => setOpen('')}
+                sendToSomeone={true}
+              />
+            )}
+            {open === 'show-address-list' && (
               <AddressUserList
-                onClose={() => setOpen("")}
+                onClose={() => setOpen('')}
                 onComplete={onComplete}
+                onDelete={onDelete}
               />
             )}
           </div>
@@ -200,35 +247,38 @@ const Checkout = () => {
           <div className=" bg-white border border-gray-200 rounded-lg overflow-hidden flex self-start my-7 ">
             {/* Product Info */}
             <div className="p-4 flex  justify-between items-center w-full">
-              <div className="flex flex-col  gap-1 w-full ">
-                {cartData?.checkoutItems?.map((items, index) => {
+              <div className="flex flex-col gap-1 w-full ">
+                {cartProducts?.map((items, index) => {
                   return (
-                    <div key={index} className="mb-3 border-b">
-                      <div>
+                    <div
+                      key={index}
+                      className="mb-3 flex flex-row items-center justify-between border-b"
+                    >
+                      <div className="flex flex-row items-center">
                         <img
                           className="w-20 h-20 gap-1 object-cover"
-                          src={onion}
+                          src={items?.product_info?.image}
                           alt="Red Onions"
                         />
+
+                        <div className="ml-4">
+                          <h2 className="text-xl font-semibold text-[#6D6D6D]">
+                            {items?.product_info?.name}
+                          </h2>
+                          <p className="text-[#525252] mt-1">
+                            Quantity: {items?.quantity}
+                          </p>
+                        </div>
                       </div>
                       <div className="mb-3">
-                        <h2 className="text-xl font-semibold text-[#6D6D6D]">
-                          {items?.name}
-                        </h2>
-                        <p className="text-[#525252] mt-1">Small, 250g</p>
-                        <p className="text-[#525252] mt-1">
-                          Quantity:{items?.quantity}
-                        </p>
-                        <p className="text-[#525252] mt-1">
-                          Quantity:{items?.total_price}
+                        <p className="font-bold text-black text-[20px] mt-1">
+                          £{formatAmount(items?.total_price)}
                         </p>
                       </div>
                     </div>
                   );
                 })}
               </div>
-
-              <p className="text-lg font-bold text-primary-bg">£50.00</p>
             </div>
 
             {/* next section */}
@@ -245,13 +295,13 @@ const Checkout = () => {
               {/* <span className="text-gray-700">Enable Donation</span> */}
               <div
                 className={`ml-4 w-[70px] h-5 md:w-12 lg:h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isToggled ? "bg-green-500" : "bg-gray-300"
+                  isToggled ? 'bg-green-500' : 'bg-gray-300'
                 }`}
                 onClick={handleToggle}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform relative z-0 ${
-                    isToggled ? "translate-x-6" : ""
+                    isToggled ? 'translate-x-6' : ''
                   } transition-transform`}
                 />
               </div>
@@ -287,13 +337,13 @@ const Checkout = () => {
 
               <div
                 className={`ml-4 w-[95px] h-5 md:w-12 lg:h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isCarriageEnabled ? "bg-green-500" : "bg-gray-300"
+                  isCarriageEnabled ? 'bg-green-500' : 'bg-gray-300'
                 }`}
                 onClick={handleToggle2}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform ${
-                    isCarriageEnabled ? "translate-x-6" : ""
+                    isCarriageEnabled ? 'translate-x-6' : ''
                   } transition-transform`}
                 ></div>
               </div>
@@ -333,8 +383,8 @@ const Checkout = () => {
               {isCarriageEnabled
                 ? floor
                   ? `Carriage service enabled for ${floor}`
-                  : "Carriage service enabled. Please choose your floor."
-                : "Carriage service disabled."}
+                  : 'Carriage service enabled. Please choose your floor.'
+                : 'Carriage service disabled.'}
             </p>
           </div>
 
@@ -365,9 +415,9 @@ const Checkout = () => {
             {message && (
               <p
                 className={`mt-4 text-sm ${
-                  message.includes("successfully")
-                    ? "text-green-600"
-                    : "text-red-600"
+                  message.includes('successfully')
+                    ? 'text-green-600'
+                    : 'text-red-600'
                 }`}
               >
                 {message}
@@ -379,11 +429,11 @@ const Checkout = () => {
           <PayWallet />
           <button
             onClick={openPaymentModal}
-            disabled={primaryAddress?.address_number ? false : true}
+            disabled={primaryAddress?.address_1 ? false : true}
             className={
-              primaryAddress?.address_number
-                ? "bg-primary-bg w-full text-white p-2 mb-3 rounded-lg"
-                : "bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg"
+              primaryAddress?.address_1
+                ? 'bg-primary-bg w-full text-white p-2 mb-3 rounded-lg'
+                : 'bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg'
             }
           >
             Continue to Payment
@@ -398,6 +448,38 @@ const Checkout = () => {
           )}
         </div>
       </div>
+
+      <Modal
+        isOpen={open === 'delete-address'}
+        onRequestClose={() => setOpen('')}
+        contentLabel="Example Modal"
+        ariaHideApp={false}
+        style={customStyles}
+      >
+        <div>
+          <h2 className="font-bold text-[24px] text-black">Delete Address</h2>
+          <p className="pt-2 font-normal text-base text-gray-600">
+            Are you sure you want to delete this address?
+          </p>
+          <div className="flex justify-end mt-10 gap-4">
+            <button
+              onClick={() => setOpen('')}
+              className="bg-gray-300 text-white py-2 px-4 rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                deleteAddress();
+                setOpen('');
+              }}
+              className="bg-red-500 text-white py-2 px-4 rounded-lg"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

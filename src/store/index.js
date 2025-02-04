@@ -32,6 +32,14 @@ const useAppStore = create()(
       setUserData: (data) => {
         set({ user: data });
       },
+      orderInfo: {},
+      setOrderInfo: (info) => {
+        set({ orderInfo: info });
+      },
+      userOrders: [],
+      setUserOrders: (orders) => {
+        set({ userOrders: orders });
+      },
     }),
     {
       name: 'jenari-storage',
