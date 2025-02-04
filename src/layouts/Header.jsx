@@ -347,12 +347,12 @@ const Header = () => {
             </div>
             <p className="text-primary-bg text-sm font-bold">{user?.name}</p>
             {/* Cart Items Dropdown (visible when cart is clicked) */}
-            {cartDropdownOpen && cartProducts?.length > 0 && (
+            {/* {cartDropdownOpen && cartProducts?.length > 0 && (
               <div
-                className="absolute top-28 left-0 z-50 mt-2  bg-white text-black shadow-lg rounded-lg p-4 w-full text-[13px] max-h-96 overflow-y-hidden"
+                className="absolute top-28 left-0 z-50 mt-2  bg-white text-black shadow-lg rounded-lg p-4 w-full text-[13px] max-h-96 overflow-y-scroll "
                 style={{ maxWidth: "" }} // Adjust size as needed
               >
-                <ul className="space-y-2 overflow-y-scroll ">
+                <ul className="space-y-2  overflow-y-hidden ">
                   <h4 className="font-semibold text-lg mb-2">Cart Items</h4>
                   {cartProducts?.map((item, index) => (
                     <li key={index} className="flex  gap-2 items-center">
@@ -370,6 +370,48 @@ const Header = () => {
                 </ul>
                 <div
                   className="mt-4 text-center text-primary-bg hover:underline"
+                  role="button"
+                  onClick={() => navigate("/cart")}
+                >
+                  View Cart
+                </div>
+              </div>
+            )} */}
+
+            {cartDropdownOpen && cartProducts?.length > 0 && (
+              <div
+                className="absolute top-28 left-0 z-50 mt-2 bg-white text-black shadow-lg rounded-lg p-4 w-full text-[13px] max-h-96 flex flex-col"
+                style={{ maxWidth: "" }} // Adjust size as needed
+              >
+                {/* Scrollable Cart Items */}
+                <ul className="space-y-2 overflow-y-auto max-h-64 flex-1">
+                  <h4 className="font-semibold text-lg mb-2">Cart Items</h4>
+                  {cartProducts?.map((item, index) => (
+                    <li
+                      key={index}
+                      className="flex gap-2 items-center"
+                      onClick={() => {
+                        setCartDropdownOpen(false); // Close the cart dropdown
+                        setMenuOpen(false); // Close the menu if it's open
+                        navigate(`/product-details/${item.id}`);
+                      }}
+                    >
+                      <img
+                        src={item?.product_info?.image}
+                        alt="img"
+                        className="w-10 h-10"
+                      />
+                      <span>{item.product}</span>
+                      <span>
+                        {item.quantity} x £{formatAmount(item.price)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Always Visible "View Cart" Button */}
+                <div
+                  className="mt-4 text-center text-primary-bg hover:underline border-t pt-2"
                   role="button"
                   onClick={() => navigate("/cart")}
                 >

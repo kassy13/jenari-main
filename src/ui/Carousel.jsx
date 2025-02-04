@@ -1,23 +1,23 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Navigation,
   Pagination,
   Scrollbar,
   A11y,
   Autoplay,
-} from 'swiper/modules';
+} from "swiper/modules";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import {
   RiArrowDownSLine,
   RiHeartLine,
   RiShoppingCart2Line,
-} from 'react-icons/ri';
-import PropTypes from 'prop-types';
-import { formatAmount } from '../utils';
+} from "react-icons/ri";
+import PropTypes from "prop-types";
+import { formatAmount } from "../utils";
 
 const Carousel = ({
   items,
@@ -63,8 +63,8 @@ const Carousel = ({
           <div>
             <div
               style={{
-                backgroundColor: item.color || '#f0f0f0',
-                borderRadius: '10px',
+                backgroundColor: item.color || "#f0f0f0",
+                borderRadius: "10px",
               }}
               className="image-container relative"
             >
@@ -100,7 +100,7 @@ const Carousel = ({
                             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                             onClick={() => handleOptionSelection(option)}
                           >
-                            {option.name || 'Unnamed Option'}
+                            {option.name || "Unnamed Option"}
                           </li>
                         ))
                       ) : (
