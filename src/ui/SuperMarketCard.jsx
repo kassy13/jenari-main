@@ -1,9 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  RiArrowDownSLine,
-  RiHeartLine,
-  RiShoppingCart2Line,
-} from 'react-icons/ri';
+import { RiArrowDownSLine, RiShoppingCart2Line } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { formatAmount } from '../utils';
 
@@ -27,12 +23,9 @@ const SuperMarketCard = ({
   };
 
   return (
-    <div>
-      <div className="image-container relative">
-        <div className="bg-gray-400 inline-block p-1 rounded-full absolute top-3 left-3 z-30">
-          <RiHeartLine size={20} color="white" />
-        </div>
-        <Link to={`/product-details/${id}`} className="w-full  rounded-lg ">
+    <div className="max-w-sm bg-white rounded-2xl shadow-lg p-2 overflow-hidden relative transition transform hover:scale-105 hover:shadow-xl">
+      <div className="image-container">
+        <Link to={`/product-details/${id}`} className="w-full rounded-lg">
           <img
             src={image}
             alt={text}
@@ -41,7 +34,7 @@ const SuperMarketCard = ({
         </Link>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex xs:flex-col lg:justify-start lg:flex-row lg:justify-between lg:items-center mt-2">
         <Link
           to={`/product-details/${id}`}
           className="text-left text-sm font-bold text-text-header cursor-pointer"
@@ -49,7 +42,7 @@ const SuperMarketCard = ({
           {text}
         </Link>
         {options?.length > 0 && (
-          <div className="relative group">
+          <div className="relative group self-start">
             <div className="flex items-center mt-2 text-sm font-bold gap-1 bg-[#E7F3E6] text-primary-bg p-1 rounded px-4">
               <div className="flex items-center gap-1 text-sm font-medium cursor-pointer bg-[#E7F3E6] text-primary-bg p-1 rounded px-4">
                 <span className="text-xs">{optionNum}</span>
@@ -57,7 +50,6 @@ const SuperMarketCard = ({
                 <RiArrowDownSLine size={16} />
               </div>
 
-              {/* Dropdown Menu */}
               <ul className="absolute left-0 top-10 z-50 hidden w-max bg-white border rounded-lg shadow-lg mt-1 group-hover:block">
                 {options.length > 0 ? (
                   options.map((option, index) => (
@@ -79,7 +71,7 @@ const SuperMarketCard = ({
           </div>
         )}
       </div>
-      <div>
+      <div className="mt-2">
         <p className="text-text-light text-xs">{subtext}</p>
         {options?.length > 1 ? (
           <span className="font-extrabold text-text-header text-xs">
@@ -103,7 +95,7 @@ const SuperMarketCard = ({
         <p
           className={`text-white p-1 px-3 text-center flex items-center rounded-lg ${
             inSeason === 'In Season' || inSeason === 'Available'
-              ? ' bg-primary-bg'
+              ? 'bg-primary-bg'
               : 'bg-secondary-bg'
           }`}
         >

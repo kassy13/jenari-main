@@ -5,6 +5,7 @@ import PaginationFooter from '../ui/PaginationFooter';
 import AuthContext from '../components/context/AuthContex';
 import SuperMarketCard from '../ui/SuperMarketCard';
 import Breadcrumb from '../components/Breadcrumb';
+import ShopItemCard from '../ui/ShopItemCard';
 
 const Supermarket = () => {
   const [error, setError] = useState(null);
@@ -121,7 +122,6 @@ const Supermarket = () => {
       <Breadcrumb
         items={[
           { label: 'Home', href: '/' },
-
           { label: activeCategory?.category_name },
         ]}
       />
@@ -132,7 +132,7 @@ const Supermarket = () => {
         <p className="text-red-500">Error: {error}</p>
       ) : (
         <>
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 mt-9 mb-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 my-9 sm:grid-cols-2 xs:grid-cols-2">
             {displayedItems.map((item, index) => (
               <SuperMarketCard
                 key={index}
@@ -148,11 +148,6 @@ const Supermarket = () => {
             ))}
           </div>
 
-          {/* {displayedItems?.length === 0 && (
-            <div className="flex justify-center items-center h-96">
-              <p className="text-red-500">No products found</p>
-            </div>
-          )} */}
           {filteredItems?.length === 0 && (
             <div className="flex justify-center items-center h-96">
               <p className="text-red-500">No products found</p>
