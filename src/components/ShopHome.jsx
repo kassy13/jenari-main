@@ -1,4 +1,4 @@
-import about from '../assets/about.png';
+import about from "../assets/about.png";
 
 const ShopHome = () => {
   return (
@@ -7,7 +7,7 @@ const ShopHome = () => {
         <img
           src={about}
           alt=""
-          className="w-full h-full lg:h-[120%] object-contain"
+          className="w-full h-full lg:h-[70vh] object-contain"
         />
       </div>
     </div>
