@@ -1,9 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import Carousel from '../ui/Carousel';
-import { RiArrowLeftLine, RiArrowRightLine } from 'react-icons/ri';
-import AuthContext from './context/AuthContex';
-import { useNavigate } from 'react-router-dom';
-import Offcanvas from './Offcanvas';
+import { useContext, useEffect, useRef, useState } from "react";
+import Carousel from "../ui/Carousel";
+import { RiArrowLeftLine, RiArrowRightLine } from "react-icons/ri";
+import AuthContext from "./context/AuthContex";
+import { useNavigate } from "react-router-dom";
+import Offcanvas from "./Offcanvas";
 
 const NewStock = () => {
   const swiperRef = useRef(null);
@@ -27,9 +27,9 @@ const NewStock = () => {
   };
 
   const handleCategoryClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    localStorage.clear('selected_category');
-    navigate('/supermarket'); // Use the id instead of slug
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    localStorage.clear("selected_category");
+    navigate("/supermarket"); // Use the id instead of slug
   };
 
   const handleOptionClick = (options) => {
@@ -42,7 +42,7 @@ const NewStock = () => {
         const data = {
           product_id: options.product_id,
           quantity: 1,
-          option: '1',
+          option: "1",
           product_code: options.product_code,
           name: options.name,
         };
@@ -51,7 +51,7 @@ const NewStock = () => {
         const data = {
           product_id: options.id,
           quantity: 1,
-          option: '0',
+          option: "0",
           product_code: options.product_code,
           name: options.name,
         };
@@ -86,7 +86,7 @@ const NewStock = () => {
         </div>
         <Carousel
           items={supermarketItems}
-          slidesPerView={1}
+          // slidesPerView={3}
           spaceBetween={20}
           onSwiperRef={(swiper) => {
             swiperRef.current = swiper;

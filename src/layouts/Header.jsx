@@ -239,10 +239,20 @@ const Header = () => {
                 >
                   <h4 className="font-semibold text-lg mb-2 ">Cart Items</h4>
                   <ul className="space-y-2">
-                    {cartProducts?.map((item, index) => {
+                    {/* {cartProducts?.map((item, index) => {
                       console.log(item);
                       return (
-                        <li key={index} className="flex  gap-2 items-center">
+                        <li
+                          key={index}
+                          className="flex  gap-2 items-center"
+                          onClick={() => {
+                            navigate(`/product-details/${item.id}`, {
+                              state: { searchQuery, results: [item] },
+                            });
+                            setSearchQuery(""); // Clear the input field
+                            setShowResults(false); // Close the modal
+                          }}
+                        >
                           <img
                             src={item?.product_info?.image}
                             alt="img"
@@ -254,7 +264,30 @@ const Header = () => {
                           </span>
                         </li>
                       );
-                    })}
+                    })} */}
+                    {cartProducts?.map((item, index) => (
+                      <li
+                        key={index}
+                        className="flex gap-2 items-center"
+                        onClick={() => {
+                          navigate(`/product-details/${item.id}`, {
+                            state: { product: item }, // Pass the entire product object
+                          });
+                          setCartDropdownOpen(false); // Close the cart dropdown
+                          setMenuOpen(false); // Close the menu if it's open
+                        }}
+                      >
+                        <img
+                          src={item?.product_info?.image}
+                          alt="img"
+                          className="w-10 h-10"
+                        />
+                        <span>{item.product}</span>
+                        <span>
+                          {item.quantity} x £{formatAmount(item.price)}
+                        </span>
+                      </li>
+                    ))}
                   </ul>
                   <div
                     className="mt-4 text-center text-primary-bg hover:underline"
@@ -391,9 +424,12 @@ const Header = () => {
                       key={index}
                       className="flex gap-2 items-center"
                       onClick={() => {
+                        navigate(`/product-details/${item.id}`, {
+                          state: { searchQuery, results: [item] },
+                        });
+
                         setCartDropdownOpen(false); // Close the cart dropdown
                         setMenuOpen(false); // Close the menu if it's open
-                        navigate(`/product-details/${item.id}`);
                       }}
                     >
                       <img

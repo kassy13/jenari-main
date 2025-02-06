@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Offcanvas from '../components/Offcanvas';
-import PaginationFooter from '../ui/PaginationFooter';
-import AuthContext from '../components/context/AuthContex';
-import SuperMarketCard from '../ui/SuperMarketCard';
-import Breadcrumb from '../components/Breadcrumb';
-import ShopItemCard from '../ui/ShopItemCard';
+import { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Offcanvas from "../components/Offcanvas";
+import PaginationFooter from "../ui/PaginationFooter";
+import AuthContext from "../components/context/AuthContex";
+import SuperMarketCard from "../ui/SuperMarketCard";
+import Breadcrumb from "../components/Breadcrumb";
+import ShopItemCard from "../ui/ShopItemCard";
 
 const Supermarket = () => {
   const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ const Supermarket = () => {
   } = useContext(AuthContext);
 
   useEffect(() => {
-    const selectedCategory = localStorage.getItem('selected_category');
+    const selectedCategory = localStorage.getItem("selected_category");
     const category = JSON.parse(selectedCategory);
     setActiveCategory(category);
   }, []);
@@ -34,7 +34,7 @@ const Supermarket = () => {
   useEffect(() => {
     if (supermarketItems.length > 0) {
       const params = new URLSearchParams(location.search);
-      const categoryId = params.get('category');
+      const categoryId = params.get("category");
       if (categoryId) {
         // Filter by category
         setFilteredItems(
@@ -56,7 +56,7 @@ const Supermarket = () => {
       const data = {
         product_id: options.id,
         quantity: 1,
-        option: '0',
+        option: "0",
         product_code: options.product_code,
       };
       handleAddToCartOption(data, navigate);
@@ -68,7 +68,7 @@ const Supermarket = () => {
   useEffect(() => {
     // Extract 'category' from the URL instead of 'category_id'
     const params = new URLSearchParams(location.search);
-    const categoryId = params.get('category'); // Use 'category'
+    const categoryId = params.get("category"); // Use 'category'
 
     // Fetch products based on the extracted category
     fetchProducts(categoryId);
@@ -82,7 +82,7 @@ const Supermarket = () => {
   );
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const searchQuery = params.get('search'); // Get the 'search' query parameter
+    const searchQuery = params.get("search"); // Get the 'search' query parameter
 
     if (searchQuery) {
       // Filter the items based on the search query
@@ -99,7 +99,7 @@ const Supermarket = () => {
   // Scroll to top when search query or category changes
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const searchQuery = params.get('search'); // Get the 'search' query parameter
+    const searchQuery = params.get("search"); // Get the 'search' query parameter
 
     if (searchQuery) {
       const results = supermarketItems.filter((item) =>
@@ -111,17 +111,17 @@ const Supermarket = () => {
     }
 
     // Scroll to top when location changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.search, supermarketItems]);
   return (
     <div className="px-6 mt-28 lg:mt-40 lg:px-16 py-16">
       <h1 className="text-[#1F3D4F] text-3xl tracking-tighter font-semibold">
-        {getCategoryFromParams() ? 'Filtered Products' : 'All Products'}
+        {getCategoryFromParams() ? "Filtered Products" : "All Products"}
       </h1>
 
       <Breadcrumb
         items={[
-          { label: 'Home', href: '/' },
+          { label: "Home", href: "/" },
           { label: activeCategory?.category_name },
         ]}
       />
@@ -132,13 +132,13 @@ const Supermarket = () => {
         <p className="text-red-500">Error: {error}</p>
       ) : (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 my-9 sm:grid-cols-2 xs:grid-cols-2">
+          <div className="grid grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-4 my-9 sm:grid-cols-2 xs:grid-cols-2">
             {displayedItems.map((item, index) => (
               <SuperMarketCard
                 key={index}
                 id={item.id}
-                image={item.image || 'default-image-url'}
-                text={item.name || 'Product Name'}
+                image={item.image || "default-image-url"}
+                text={item.name || "Product Name"}
                 inSeason={item.status || false}
                 options={item.product_options || []}
                 optionNum={item.product_options.length}

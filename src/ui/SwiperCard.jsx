@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const SwiperCard = ({ title, testimonial, img, name, position }) => {
   return (
@@ -6,7 +6,7 @@ const SwiperCard = ({ title, testimonial, img, name, position }) => {
       <p className="lg:text-base text-apexgreen_secondary font-grotesque tracking-tight font-extrabold text-[#170F49] min-h-10">
         {title}
       </p>
-      <p className="text-base text-apexlight_text font-inter py-4 text-[#6F6C90] min-h-36">
+      <p className="text-base text-apexlight_text font-inter py-4 text-[#6F6C90] min-h-44">
         {testimonial}
       </p>
       <div className="border-t-[0.1px] border-gray-300 flex  items-center gap-2 py-2 pt-4">
