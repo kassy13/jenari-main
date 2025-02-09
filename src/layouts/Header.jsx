@@ -195,6 +195,7 @@ const Header = () => {
                           setSearchQuery(""); // Clear the input field
                           setShowResults(false); // Close the modal
                           window.scrollTo({ top: 0, behavior: "smooth" });
+                          setMenuOpen(false);
                         }}
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
                       >
@@ -482,6 +483,7 @@ const Header = () => {
                         setSearchQuery(""); // Clear the input field
                         setShowResults(false); // Close the modal
                         window.scrollTo({ top: 0, behavior: "smooth" });
+                        setMenuOpen(false);
                       }}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
                     >
