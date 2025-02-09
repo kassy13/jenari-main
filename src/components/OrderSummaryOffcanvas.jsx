@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import useAppStore from '../store';
-import { formatAmount } from '../utils';
-import moment from 'moment';
+import PropTypes from "prop-types";
+import useAppStore from "../store";
+import { formatAmount } from "../utils";
+import moment from "moment";
 
 const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
   const { primaryAddress, user } = useAppStore();
@@ -11,15 +11,15 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
       {/* Overlay (visible when the offcanvas is open) */}
       <div
         className={`fixed inset-0  bg-black bg-opacity-50 z-[99]  transition-opacity ${
-          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={toggleOffCanvas} // Close the offcanvas when clicking outside
       ></div>
 
       {/* Offcanvas Panel */}
       <div
-        className={`fixed top-[75px] md:top-[100px] right-0 max-h-[calc(100vh-100px)] bg-white z-[999] md:w-[40%] shadow-lg transform transition-transform duration-300 overflow-y-scroll  ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed top-[75px] md:top-[100px] right-0 max-h-[calc(100vh)] w-full bg-white z-[999] md:w-[40%] shadow-lg transform transition-transform duration-300 overflow-y-scroll  ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Offcanvas Content */}
@@ -46,7 +46,7 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
               </p>
             </li>
             <li className="border-t-2 border-gray-300 my-4 w-full -translate-y-5">
-              {' '}
+              {" "}
             </li>
             <li className=" flex flex-col items-center justify-between h-full  b">
               <p className="bg-gray-200 rounded-full text-center p-3 px-5">2</p>
@@ -55,7 +55,7 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
               </p>
             </li>
             <li className="border-t-2 border-gray-300 my-4 w-full -translate-y-5">
-              {' '}
+              {" "}
             </li>
             <li className=" flex flex-col items-center justify-between h-full  b">
               <p className="bg-gray-200 rounded-full text-center p-3 px-5">3</p>
@@ -70,7 +70,7 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
               Delivery Information
             </h3>
             <p className="text-sm text-gray-500 pb-4 pt-2">
-              {primaryAddress?.address_1} {primaryAddress?.county},{' '}
+              {primaryAddress?.address_1} {primaryAddress?.county},{" "}
               {primaryAddress?.country}
             </p>
             <p className="font-bold text-[#404040] pb-2 text-base">
@@ -79,11 +79,11 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
             <p className="text-[#A3A3A3] py-1">{user?.email}</p>
             <p className="text-[#A3A3A3] py-1">{user?.phone}</p>
             <p className="text-[#A3A3A3] bg-[#F5F5F5] p-2 px-4 rounded-lg text-sm">
-              Delivery Date:{' '}
+              Delivery Date:{" "}
               <span className="text-secondary-bg">
                 {moment(order?.created_at)
-                  .add('days', 4)
-                  .format('dddd, MMM DD YYYY')}
+                  .add("days", 4)
+                  .format("dddd, MMM DD YYYY")}
               </span>
             </p>
           </div>
@@ -117,9 +117,9 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
           </div>
           <p
             className={`${
-              order?.status === 'confirmed'
-                ? 'bg-[#90EE9018] text-primary-bg'
-                : 'bg-[#FFF8F2] text-[#DA7656]'
+              order?.status === "confirmed"
+                ? "bg-[#90EE9018] text-primary-bg"
+                : "bg-[#FFF8F2] text-[#DA7656]"
             } p-2 text-center rounded-3xl`}
           >
             {order?.status}

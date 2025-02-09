@@ -29,6 +29,7 @@ const Checkout = () => {
   const [message, setMessage] = useState("");
 
   const { primaryAddress, cartData, user, cartProducts } = useAppStore();
+  console.log("primary Address", primaryAddress);
 
   // Function to open the payment modal
   const openPaymentModal = () => {
@@ -135,7 +136,10 @@ const Checkout = () => {
       bottom: "auto",
       padding: "40px",
       marginRight: "-50%",
+      boxShadow: "2px 2px 30px gray",
+      borderRadius: "15px",
       transform: "translate(-50%, -50%)",
+      zIndex: "9999999999999999999",
     },
   };
 
@@ -427,7 +431,7 @@ const Checkout = () => {
           {/* next section */}
           <VoucherCode />
           <PayWallet />
-          <button
+          {/* <button
             onClick={openPaymentModal}
             disabled={primaryAddress?.address_1 ? false : true}
             className={
@@ -437,7 +441,30 @@ const Checkout = () => {
             }
           >
             Continue to Payment
+          </button> */}
+          <button
+            onClick={() => {
+              if (
+                !primaryAddress ||
+                Object.keys(primaryAddress).length === 0 ||
+                !primaryAddress?.address_1
+              ) {
+                toast.error("Please select an address before proceeding.");
+                return;
+              }
+              console.log("btn clicked");
+              openPaymentModal();
+            }}
+            disabled={!primaryAddress?.address_1}
+            className={
+              primaryAddress?.address_1
+                ? "bg-primary-bg w-full text-white p-2 mb-3 rounded-lg"
+                : "bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg"
+            }
+          >
+            Continue to Payment
           </button>
+
           {/* Payment Off-Canvas Modal */}
           {isPaymentOpen && (
             <PaymentOffCanvas

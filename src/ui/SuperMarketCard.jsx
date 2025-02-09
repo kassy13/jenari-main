@@ -23,7 +23,7 @@ const SuperMarketCard = ({
   };
 
   return (
-    <div className="max-w-sm bg-white rounded-2xl shadow-lg p-2 overflow-hidden relative transition transform  hover:shadow-xl">
+    <div className="max-w-sm bg-white rounded-2xl shadow-lg p-2 overflow-visible  relative transition transform  hover:shadow-xl">
       <div className="image-container ">
         <Link to={`/product-details/${id}`} className="w-full rounded-lg">
           <img
@@ -50,12 +50,12 @@ const SuperMarketCard = ({
                 <RiArrowDownSLine size={16} />
               </div>
 
-              <ul className="absolute left-0 top-10 z-[99999999] h-20 overflow-scroll hidden w-full bg-white border rounded-lg shadow-lg mt-1 group-hover:block">
+              <ul className="absolute left-0 lg:right-0  top-10 z-[99999999] min-h-auto overflow-scroll hidden md:w-[300px] w-full bg-white border rounded-lg shadow-lg mt-1 group-hover:block">
                 {options.length > 0 ? (
                   options.map((option, index) => (
                     <li
                       key={index}
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 h-20 hover:bg-gray-100 cursor-pointer"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 h-20 hover:bg-gray-100 cursor-pointer"
                       onClick={() => handleOptionSelection(option)}
                     >
                       <img src={option.image} alt="" className="w-8 h-8" />{" "}
