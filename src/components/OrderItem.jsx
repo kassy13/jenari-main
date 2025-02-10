@@ -1,40 +1,41 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import OrderSummaryOffcanvas from "./OrderSummaryOffcanvas";
-import moment from "moment";
-import { formatAmount } from "../utils";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import OrderSummaryOffcanvas from './OrderSummaryOffcanvas';
+import moment from 'moment';
+import { formatAmount } from '../utils';
 const OrderItem = ({ order }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOffCanvas = (e) => {
     e.preventDefault();
     setIsOpen(!isOpen);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className="border border-[#F0F4FF] rounded-xl p-4 my-8">
       <div className="text-[#404040]">
         <p className="py-2 ">
-          Order reference number:{" "}
-          <span className="text-secondary-bg">{order?.order_number}</span>{" "}
+          Order reference number:{' '}
+          <span className="text-secondary-bg">{order?.order_number}</span>{' '}
         </p>
         <p className="py-2">
-          Order Date:{" "}
+          Order Date:{' '}
           <span className="text-secondary-bg">
-            {moment(order.created_at).format("dddd, MMM DD, YYYY")}
-          </span>{" "}
+            {moment(order.created_at).format('dddd, MMM DD, YYYY')}
+          </span>{' '}
         </p>
         <p className="py-2">
-          Order Time:{" "}
+          Order Time:{' '}
           <span className="text-secondary-bg">
-            {moment(order.created_at)?.format("hh:ss A")}
-          </span>{" "}
+            {moment(order.created_at)?.format('hh:ss A')}
+          </span>{' '}
         </p>
         <div className="flex flex-col md:flex-row justify-between md:items-center">
           <div>
             {order?.products?.map((product) => {
+              console.log(product);
               return (
                 <div
                   key={product}
@@ -53,7 +54,7 @@ const OrderItem = ({ order }) => {
                     </h2>
                     <p className="text-[#525252] mt-1">{product?.weight}kg</p>
                     <p className="text-lg font-bold text-primary-bg">
-                      £{formatAmount(product.price)}
+                      £{formatAmount(product.price || product?.price_range)}
                     </p>
                   </div>
                 </div>

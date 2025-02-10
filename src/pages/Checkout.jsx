@@ -1,35 +1,35 @@
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import AddressOffCanvas from "../components/AddressOffcanvas";
-import address from "../assets/address.svg";
-import contact from "../assets/contact-book.svg";
-import { RiArrowRightLine } from "react-icons/ri";
-import VoucherCode from "../components/Voucher";
-import PayWallet from "../components/PayWallet";
-import PaymentOffCanvas, { StripeKey } from "../components/PaymentOffcanvas";
-import AuthContext from "../components/context/AuthContex";
-import AddressUserList from "../components/AddressUserList";
-import useAppStore from "../store";
-import { loadStripe } from "@stripe/stripe-js";
-import { formatAmount } from "../utils";
-import Modal from "react-modal";
-import { toast } from "react-toastify";
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import AddressOffCanvas from '../components/AddressOffcanvas';
+import address from '../assets/address.svg';
+import contact from '../assets/contact-book.svg';
+import { RiArrowRightLine } from 'react-icons/ri';
+import VoucherCode from '../components/Voucher';
+import PayWallet from '../components/PayWallet';
+import PaymentOffCanvas, { StripeKey } from '../components/PaymentOffcanvas';
+import AuthContext from '../components/context/AuthContex';
+import AddressUserList from '../components/AddressUserList';
+import useAppStore from '../store';
+import { loadStripe } from '@stripe/stripe-js';
+import { formatAmount } from '../utils';
+import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 
 const Checkout = () => {
-  const [open, setOpen] = useState("");
-  const [currentAddress, setCurrentAddress] = useState("");
+  const [open, setOpen] = useState('');
+  const [currentAddress, setCurrentAddress] = useState('');
   // Toggle state
   const [isToggled, setIsToggled] = useState(false);
   const [isCarriageEnabled, setIsCarriageEnabled] = useState(false);
-  const [floor, setFloor] = useState("");
+  const [floor, setFloor] = useState('');
 
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const { handleCheckout, isLoading, handleAddressDelete } =
     useContext(AuthContext);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   const { primaryAddress, cartData, user, cartProducts } = useAppStore();
-  console.log("primary Address", primaryAddress);
+  console.log('primary Address', primaryAddress);
 
   // Function to open the payment modal
   const openPaymentModal = () => {
@@ -46,44 +46,44 @@ const Checkout = () => {
 
   // Floor options
   const floors = [
-    "Ground Floor",
-    "1st Floor",
-    "2nd Floor",
-    "3rd Floor",
-    "4th Floor",
+    'Ground Floor',
+    '1st Floor',
+    '2nd Floor',
+    '3rd Floor',
+    '4th Floor',
   ];
 
   // Toggle function
   const handleToggle = () => setIsToggled(!isToggled);
 
-  const [coupon, setCoupon] = useState("");
+  const [coupon, setCoupon] = useState('');
 
   // Dummy valid coupon code for validation
-  const validCoupon = "DISCOUNT10";
+  const validCoupon = 'DISCOUNT10';
 
   const onComplete = async () => {
-    setOpen("");
+    setOpen('');
     setTimeout(() => {
-      setOpen("add-new-address");
+      setOpen('add-new-address');
     }, 400);
   };
 
   const onDelete = async (selectedAddress) => {
-    setOpen("");
+    setOpen('');
     setTimeout(() => {
-      setOpen("delete-address");
+      setOpen('delete-address');
       setCurrentAddress(selectedAddress);
     }, 400);
   };
 
   // Apply Coupon Function
   const applyCoupon = () => {
-    if (coupon.trim() === "") {
-      setMessage("Please enter a coupon code.");
+    if (coupon.trim() === '') {
+      setMessage('Please enter a coupon code.');
     } else if (coupon === validCoupon) {
-      setMessage("Coupon applied successfully! 🎉");
+      setMessage('Coupon applied successfully! 🎉');
     } else {
-      setMessage("Invalid coupon code. Please try again.");
+      setMessage('Invalid coupon code. Please try again.');
     }
   };
 
@@ -105,9 +105,9 @@ const Checkout = () => {
     // Return the checkout data in the correct format
     return {
       product_codes: productCodes, // Array of product codes
-      total_amount: Number((totalAmount + 4) * 100), // Ensure total_amount is a string
+      total_amount: Number(totalAmount * 100), // Ensure total_amount is a string
       address_id, // Use address_id as required by the API
-      currency: "gbp", // Currency set to GBP
+      currency: 'gbp', // Currency set to GBP
     };
   };
 
@@ -124,22 +124,22 @@ const Checkout = () => {
         sessionId: res?.sessionId,
       });
     } catch (error) {
-      console.log(error, "error");
+      console.log(error, 'error');
     }
   };
 
   const customStyles = {
     content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      padding: "40px",
-      marginRight: "-50%",
-      boxShadow: "2px 2px 30px gray",
-      borderRadius: "15px",
-      transform: "translate(-50%, -50%)",
-      zIndex: "9999999999999999999",
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      padding: '40px',
+      marginRight: '-50%',
+      boxShadow: '2px 2px 30px gray',
+      borderRadius: '15px',
+      transform: 'translate(-50%, -50%)',
+      zIndex: '9999999999999999999',
     },
   };
 
@@ -150,15 +150,15 @@ const Checkout = () => {
 
     const res = await handleAddressDelete(data);
     if (res) {
-      setOpen("");
-      toast.success("Address deleted successfully");
+      setOpen('');
+      toast.success('Address deleted successfully');
     }
   };
 
   return (
     <div className="min-h-screen mt-40 lg:mt-48 px-4 lg:px-16 py-4">
       <Link
-        to={"/cart"}
+        to={'/cart'}
         className="text-secondary-bg p-1 bg-[#F5F6F7] px-4 rounded-full text-sm"
       >
         Return to Cart
@@ -168,9 +168,9 @@ const Checkout = () => {
           <div className="border border-[#F5F6F7] my-7  p-4 rounded-lg flex flex-col  gap-2">
             <p className="font-bold text-dark-blue">Contact:</p>
             <p className="text-text-light font-bold text-sm">
-              {user?.name || "Guest"}
+              {user?.name || 'Guest'}
             </p>
-            <p className="text-text-light  text-sm">{user?.email || "Guest"}</p>
+            <p className="text-text-light  text-sm">{user?.email || 'Guest'}</p>
             <p className="text-text-light  text-sm">{user?.phone}</p>
           </div>
           <div className="border border-[#F5F6F7] p-4 rounded-lg">
@@ -191,7 +191,7 @@ const Checkout = () => {
 
                 <div
                   className="font-medium cursor-pointer text-[18px] text-[#0D8C42]"
-                  onClick={() => setOpen("show-address-list")}
+                  onClick={() => setOpen('show-address-list')}
                 >
                   Change
                 </div>
@@ -199,7 +199,7 @@ const Checkout = () => {
             ) : (
               <div>
                 <button
-                  onClick={() => setOpen("show-address-list")}
+                  onClick={() => setOpen('show-address-list')}
                   className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
                 >
                   <div className="flex gap-1">
@@ -210,7 +210,7 @@ const Checkout = () => {
                 </button>
                 <button
                   className="mt-2 bg-[#F6F6F6] w-full py-2 rounded-3xl"
-                  onClick={() => setOpen("add-new-address-3rd-party")}
+                  onClick={() => setOpen('add-new-address-3rd-party')}
                 >
                   Send to somebody else
                 </button>
@@ -221,19 +221,19 @@ const Checkout = () => {
             </button> */}
 
             {/* Conditionally Render Off-Canvas */}
-            {open === "add-new-address" && (
-              <AddressOffCanvas onClose={() => setOpen("")} />
+            {open === 'add-new-address' && (
+              <AddressOffCanvas onClose={() => setOpen('')} />
             )}
 
-            {open === "add-new-address-3rd-party" && (
+            {open === 'add-new-address-3rd-party' && (
               <AddressOffCanvas
-                onClose={() => setOpen("")}
+                onClose={() => setOpen('')}
                 sendToSomeone={true}
               />
             )}
-            {open === "show-address-list" && (
+            {open === 'show-address-list' && (
               <AddressUserList
-                onClose={() => setOpen("")}
+                onClose={() => setOpen('')}
                 onComplete={onComplete}
                 onDelete={onDelete}
               />
@@ -299,13 +299,13 @@ const Checkout = () => {
               {/* <span className="text-gray-700">Enable Donation</span> */}
               <div
                 className={`ml-4 w-[70px] h-5 md:w-12 lg:h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isToggled ? "bg-green-500" : "bg-gray-300"
+                  isToggled ? 'bg-green-500' : 'bg-gray-300'
                 }`}
                 onClick={handleToggle}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform relative z-0 ${
-                    isToggled ? "translate-x-6" : ""
+                    isToggled ? 'translate-x-6' : ''
                   } transition-transform`}
                 />
               </div>
@@ -341,13 +341,13 @@ const Checkout = () => {
 
               <div
                 className={`ml-4 w-[95px] h-5 md:w-12 lg:h-6 flex items-center rounded-full p-1 cursor-pointer ${
-                  isCarriageEnabled ? "bg-green-500" : "bg-gray-300"
+                  isCarriageEnabled ? 'bg-green-500' : 'bg-gray-300'
                 }`}
                 onClick={handleToggle2}
               >
                 <div
                   className={`w-4 h-4 bg-white rounded-full shadow-md transform ${
-                    isCarriageEnabled ? "translate-x-6" : ""
+                    isCarriageEnabled ? 'translate-x-6' : ''
                   } transition-transform`}
                 ></div>
               </div>
@@ -387,8 +387,8 @@ const Checkout = () => {
               {isCarriageEnabled
                 ? floor
                   ? `Carriage service enabled for ${floor}`
-                  : "Carriage service enabled. Please choose your floor."
-                : "Carriage service disabled."}
+                  : 'Carriage service enabled. Please choose your floor.'
+                : 'Carriage service disabled.'}
             </p>
           </div>
 
@@ -419,9 +419,9 @@ const Checkout = () => {
             {message && (
               <p
                 className={`mt-4 text-sm ${
-                  message.includes("successfully")
-                    ? "text-green-600"
-                    : "text-red-600"
+                  message.includes('successfully')
+                    ? 'text-green-600'
+                    : 'text-red-600'
                 }`}
               >
                 {message}
@@ -449,17 +449,17 @@ const Checkout = () => {
                 Object.keys(primaryAddress).length === 0 ||
                 !primaryAddress?.address_1
               ) {
-                toast.error("Please select an address before proceeding.");
+                toast.error('Please select an address before proceeding.');
                 return;
               }
-              console.log("btn clicked");
+              console.log('btn clicked');
               openPaymentModal();
             }}
             disabled={!primaryAddress?.address_1}
             className={
               primaryAddress?.address_1
-                ? "bg-primary-bg w-full text-white p-2 mb-3 rounded-lg"
-                : "bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg"
+                ? 'bg-primary-bg w-full text-white p-2 mb-3 rounded-lg'
+                : 'bg-[#F6F6F6] w-full p-2 mb-3 rounded-lg'
             }
           >
             Continue to Payment
@@ -477,8 +477,8 @@ const Checkout = () => {
       </div>
 
       <Modal
-        isOpen={open === "delete-address"}
-        onRequestClose={() => setOpen("")}
+        isOpen={open === 'delete-address'}
+        onRequestClose={() => setOpen('')}
         contentLabel="Example Modal"
         ariaHideApp={false}
         style={customStyles}
@@ -490,7 +490,7 @@ const Checkout = () => {
           </p>
           <div className="flex justify-end mt-10 gap-4">
             <button
-              onClick={() => setOpen("")}
+              onClick={() => setOpen('')}
               className="bg-gray-300 text-white py-2 px-4 rounded-lg"
             >
               Cancel
@@ -498,7 +498,7 @@ const Checkout = () => {
             <button
               onClick={() => {
                 deleteAddress();
-                setOpen("");
+                setOpen('');
               }}
               className="bg-red-500 text-white py-2 px-4 rounded-lg"
             >

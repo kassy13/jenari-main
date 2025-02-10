@@ -56,13 +56,13 @@ const Cart = () => {
   const calculateTotalWeight = () => {
     const total = cartProducts?.reduce((acc, item) => {
       console.log(item);
-      // let priceValue = 0;
-      // priceValue = parseFloat(item.price);
+      let priceValue = 0;
+      priceValue = parseFloat(item.product_info?.weight);
 
-      // if (priceValue > 0) {
-      //   return acc + priceValue * item.quantity;
-      // }
-      // return acc;
+      if (priceValue > 0) {
+        return acc + priceValue;
+      }
+      return acc;
     }, 0);
     return total?.toFixed(2);
   };
@@ -70,7 +70,7 @@ const Cart = () => {
   // Update the total price whenever cart products change
   useEffect(() => {
     setTotalPrices(calculateTotal());
-    // setTotalWeight(calculateTotalWeight());
+    setTotalWeight(calculateTotalWeight());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartProducts]);
 
@@ -123,7 +123,7 @@ const Cart = () => {
 
     const data = {
       checkoutItems,
-      totalWeight: '7kg',
+      totalWeight: totalWeight,
       total_amount: totalPrices,
     };
     saveToCart(data);

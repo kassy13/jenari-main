@@ -69,12 +69,12 @@ const LogIn = () => {
     }
 
     // API Call
-    fetch('https://api.jenari.co.uk/api/forgot-password', {
+    fetch('https://api.jenari.co.uk/api/request/password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email: forgotEmail }),
+      body: JSON.stringify({ email_phone: forgotEmail }),
     })
       .then((response) => {
         if (!response.ok) {
