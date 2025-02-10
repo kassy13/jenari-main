@@ -1,19 +1,19 @@
-import { useContext, useState } from "react";
-import PropTypes from "prop-types";
-import { RiCloseLargeLine } from "react-icons/ri";
-import AuthContext from "./context/AuthContex";
-import { TailSpin } from "react-loader-spinner";
-import { Toastify } from "toastify";
-import { cleanData } from "../utils";
+import { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import { RiCloseLargeLine } from 'react-icons/ri';
+import AuthContext from './context/AuthContex';
+import { TailSpin } from 'react-loader-spinner';
+import { Toastify } from 'toastify';
+import { cleanData } from '../utils';
 
 const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
-  const [city, setCity] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [county, setCounty] = useState("");
-  const [postCode, setPostCode] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [deliveryName, setDeliveryName] = useState("");
+  const [city, setCity] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [county, setCounty] = useState('');
+  const [postCode, setPostCode] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [deliveryName, setDeliveryName] = useState('');
   const [isPrimaryAddress, setIsPrimaryAddress] = useState(false);
 
   // Sample areas and countries for dropdown
@@ -27,10 +27,10 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
     city,
     county,
     post_code: postCode,
-    country: "United Kingdom",
+    country: 'United Kingdom',
     phone: phoneNumber,
     delivery_name: deliveryName,
-    primary_Address: isPrimaryAddress === false ? "0" : "1",
+    primary_Address: isPrimaryAddress === false ? '0' : '1',
   };
 
   // Call the request function from AuthContext (handled outside this component)
@@ -43,14 +43,14 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
     // Trigger address creation
     createNewAddress(addressData)
       .then((response) => {
-        console.log("Response:", response);
+        console.log('Response:', response);
         onClose(); // Close the off-canvas
       })
       .catch((error) => {
-        console.error("Failed to add address:", error);
+        console.error('Failed to add address:', error);
         Toastify({
-          text: "Error adding address. Please try again",
-          backgroundColor: "red",
+          text: 'Error adding address. Please try again',
+          backgroundColor: 'red',
           duration: 3000,
         }).showToast();
       });
@@ -67,7 +67,7 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
       >
         <div className="flex flex-row items-center justify-between">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4 pt-12">
-            {sendToSomeone ? "Recipient delivery address" : "Add Address"}
+            {sendToSomeone ? 'Recipient delivery address' : 'Add Address'}
           </h2>
           <button
             onClick={onClose}
@@ -159,7 +159,6 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
             <label className="block text-gray-700 mb-2">County</label>
             <input
               type="text"
-              required
               value={county}
               onChange={(e) => setCounty(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-bg"
@@ -235,7 +234,7 @@ const AddressOffCanvas = ({ onClose, sendToSomeone }) => {
                   />
                 </div>
               ) : (
-                "Add New Address"
+                'Add New Address'
               )}
             </button>
           </div>
