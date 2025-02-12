@@ -25,6 +25,12 @@
   background-color: rgba(0, 0, 0, 0.562);
   background-blend-mode: overlay;
 }
+.lock-gradient {
+  background-image: url("../src/assets/lock.jpg");
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.562);
+  background-blend-mode: overlay;
+}
 .loader {
   width: 16px;
   height: 16px;
