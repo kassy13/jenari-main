@@ -24,6 +24,8 @@ import OrderSummary from "./pages/OrderSummary";
 import ErrorPage from "./pages/ErrorPage";
 import PasswordReset from "./pages/PasswordReset";
 import SignupOtp from "./pages/SignupOtp";
+import OtpSUccess from "./pages/OtpSUccess";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -48,10 +50,11 @@ function App() {
             <Route path="payment" element={<Payment />} />
             <Route path="orders" element={<Orders />} />
             <Route path="order-summary" element={<OrderSummary />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
           <Route path="signUp" element={<SignUp />} />
           <Route path="signup/otp" element={<SignupOtp />} />
-
+          <Route path="/otp/success" element={<OtpSUccess />} />
           <Route path="signIn" element={<LogIn />} />
           <Route path="reset/password" element={<PasswordReset />} />
           <Route path="*" element={<ErrorPage />} />

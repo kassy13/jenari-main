@@ -7,18 +7,35 @@ import { RiArrowLeftLine } from "react-icons/ri";
 
 const SignupOtp = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const inputRefs = useRef([]);
   const navigate = useNavigate();
-  const firstInputRef = useRef(null); // Create ref for the first input
 
   useEffect(() => {
-    firstInputRef.current?.focus(); // Auto-focus first input when component mounts
+    if (inputRefs.current[0]) inputRefs.current[0].focus();
   }, []);
 
   const handleChange = (index, value) => {
-    if (value.length > 1) return;
+    if (!/^\d*$/.test(value)) return; // Only allow numbers
+
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
+
+    if (value && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+
+    checkAllFilled(newCode);
+  };
+
+  const handleKeyDown = (index, event) => {
+    if (event.key === "Backspace" && code[index] === "" && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
+
+  const checkAllFilled = (newCode) => {
+    return newCode.every((digit) => digit !== "");
   };
 
   const handleSubmit = async (e) => {
@@ -31,7 +48,7 @@ const SignupOtp = () => {
     }
 
     toast.success("Code verified successfully!");
-    setTimeout(() => navigate("/dashboard"), 2000);
+    setTimeout(() => navigate("/"), 3000);
   };
 
   return (
@@ -62,8 +79,9 @@ const SignupOtp = () => {
                 className="w-12 h-12 text-center outline-none text-lg border rounded-md focus:ring focus:ring-primary-bg"
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
                 maxLength={1}
-                ref={index === 0 ? firstInputRef : null} // Set autofocus on first input
+                ref={(el) => (inputRefs.current[index] = el)}
               />
             ))}
           </div>
@@ -71,7 +89,12 @@ const SignupOtp = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-primary-bg text-white py-2 rounded-md hover:bg-opacity-85 focus:outline-none focus:ring focus:ring-primary-bg"
+            className={`w-full py-2 rounded-md text-white ${
+              checkAllFilled(code)
+                ? "bg-primary-bg hover:bg-opacity-85"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
+            disabled={!checkAllFilled(code)}
           >
             Verify Code
           </button>
