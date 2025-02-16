@@ -9,6 +9,7 @@ const SignupOtp = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
+  const [signupEmail, setSignupEmail] = useState(null);
 
   useEffect(() => {
     if (inputRefs.current[0]) inputRefs.current[0].focus();
@@ -38,6 +39,12 @@ const SignupOtp = () => {
     return newCode.every((digit) => digit !== "");
   };
 
+  // Get signup email from session storage
+  useEffect(() => {
+    const email = sessionStorage.getItem("signupEmail");
+    setSignupEmail(email);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const enteredCode = code.join("");
@@ -47,10 +54,46 @@ const SignupOtp = () => {
       return;
     }
 
-    toast.success("Code verified successfully!");
-    setTimeout(() => navigate("/"), 3000);
-  };
+    if (!signupEmail) {
+      toast.error("Email not found. Please sign up again.");
+      return;
+    }
 
+    try {
+      const response = await fetch(
+        `https://api.jenari.co.uk/api/verify-otp/${enteredCode}/${signupEmail}`
+      );
+      console.log("rezz", response);
+
+      if (!response.ok) {
+        // Optionally, handle the error response here
+        toast.error("Verification failed. Please try again.");
+        return;
+      }
+      toast.success("Code verified successfully!");
+      setTimeout(() => navigate("/otp/success"), 3000);
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    }
+  };
+  const resendOTPEmail = { email: signupEmail };
+  console.log(resendOTPEmail);
+  const handleResendOTP = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("https://api.jenari.co.uk/api/resend-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(resendOTPEmail),
+      });
+      console.log("resss", response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <main className="flex flex-col lg:flex-row h-screen">
       {/* Left Section */}
@@ -102,7 +145,7 @@ const SignupOtp = () => {
 
         {/* Resend & Support */}
         <div className="mt-4 text-center">
-          <p className="text-gray-600">
+          <p className="text-gray-600" onClick={handleResendOTP}>
             Didn't receive code?{" "}
             <span className="text-primary-bg cursor-pointer">Resend code</span>
           </p>

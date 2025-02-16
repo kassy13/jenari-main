@@ -83,8 +83,11 @@ const SignUp = () => {
       });
 
       const data = await response.json();
+      console.log("data", data);
 
       if (response.ok) {
+        // Save the email in session storage
+        sessionStorage.setItem("signupEmail", data.user.email);
         Toastify({
           text: "Account created successfully!",
           duration: 3000,
@@ -92,7 +95,7 @@ const SignUp = () => {
         }).showToast();
         console.log("Form Data Submitted:", data);
         setTimeout(() => {
-          navigate("/signIn");
+          navigate("/signup/otp");
         }, 3000);
       } else {
         Toastify({

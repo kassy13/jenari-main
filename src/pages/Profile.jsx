@@ -2,19 +2,23 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { FiUser, FiMapPin, FiLock, FiLogOut } from "react-icons/fi";
+import useAppStore from "../store";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const { user } = useAppStore();
+  const fullName = `${user.firstname} ${user.lastname}`;
+  console.log(fullName);
 
-  const user = {
-    name: "Somtoo Nkasiobi",
-    email: "ichokusomtoo12@gmail.com",
-    username: "ichokusomtoo_966e",
-    phone: "+234 814 722 9720",
-    location: "Abuja",
-    accountType: "Customer",
-    joined: "February 2025",
-  };
+  // const user = {
+  //   name: "Somtoo Nkasiobi",
+  //   email: "ichokusomtoo12@gmail.com",
+  //   username: "ichokusomtoo_966e",
+  //   phone: "+234 814 722 9720",
+  //   location: "Abuja",
+  //   accountType: "Customer",
+  //   joined: "February 2025",
+  // };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -35,7 +39,7 @@ const ProfilePage = () => {
                   {user.email}
                 </p>
                 <p className="text-xs lg:text-sm text-gray-600">
-                  Joined {user.joined}
+                  Joined {user.created_at}
                 </p>
               </div>
             </div>
@@ -56,7 +60,7 @@ const ProfilePage = () => {
                   Username: user.username,
                   "Phone number": user.phone,
                   "Signup Location": user.location,
-                  "Account Type": user.accountType,
+                  "Account Type": user.user_type,
                 }).map(([label, value]) => (
                   <div key={label}>
                     <p className="text-gray-500 text-sm">{label}</p>
