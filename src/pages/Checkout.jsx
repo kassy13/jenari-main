@@ -93,6 +93,13 @@ const Checkout = () => {
       (item) => item?.product_code
     );
 
+    const checkoutObject = cartData?.checkoutItems?.reduce((acc, item) => {
+      if (item?.product_code) {
+        acc[item.product_code] = item.quantity;
+      }
+      return acc;
+    }, {});
+
     // Calculate the total amount after removing currency symbols
     const totalAmount = cartData?.checkoutItems.reduce((acc, item) => {
       const cleanedPrice = parseFloat(item?.total_price);
@@ -108,6 +115,8 @@ const Checkout = () => {
       total_amount: Number(totalAmount * 100), // Ensure total_amount is a string
       address_id, // Use address_id as required by the API
       currency: 'gbp', // Currency set to GBP
+      shipping_fee: 0,
+      product_quantity: [checkoutObject], //required (an array of the product with the quantity as the value
     };
   };
 
