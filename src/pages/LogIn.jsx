@@ -1,19 +1,20 @@
-import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Toastify from 'toastify-js';
-import 'toastify-js/src/toastify.css';
-import log from '../assets/logo transparent 1.svg';
-import AuthContext from '../components/context/AuthContex';
-import { TailSpin } from 'react-loader-spinner';
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
+import log from "../assets/logo transparent 1.svg";
+import AuthContext from "../components/context/AuthContex";
+import { TailSpin } from "react-loader-spinner";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 const LogIn = () => {
   const { login, isLoading } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [forgotEmail, setForgotEmail] = useState('');
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [forgotEmail, setForgotEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,17 +25,17 @@ const LogIn = () => {
 
     // Validation
     if (!email) {
-      setEmailError('Valid email is required.');
+      setEmailError("Valid email is required.");
       valid = false;
     } else {
-      setEmailError('');
+      setEmailError("");
     }
 
     if (!password) {
-      setPasswordError('Password is required.');
+      setPasswordError("Password is required.");
       valid = false;
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
 
     if (!valid) return; // Exit early if validation fails.
@@ -44,14 +45,16 @@ const LogIn = () => {
       await login({ email_or_phone: email, password }, navigate); // Ensure the field names match backend requirements.
     } catch (error) {
       Toastify({
-        text: error.message || 'Login failed. Please try again.',
+        text: error.message || "Login failed. Please try again.",
         duration: 3000,
-        gravity: 'top',
-        position: 'center',
-        backgroundColor: '#f44336',
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#f44336",
       }).showToast();
     }
   };
+
+  console.log("forgot email", forgotEmail);
 
   // Handle forgot password form
   const handleForgotPasswordSubmit = (e) => {
@@ -59,51 +62,51 @@ const LogIn = () => {
 
     if (!forgotEmail) {
       Toastify({
-        text: 'Please enter a valid email address.',
+        text: "Please enter a valid email address.",
         duration: 3000,
-        gravity: 'top',
-        position: 'center',
-        backgroundColor: '#f44336',
+        gravity: "top",
+        position: "center",
+        backgroundColor: "#f44336",
       }).showToast();
       return;
     }
 
     // API Call
-    fetch('https://api.jenari.co.uk/api/request/password', {
-      method: 'POST',
+    fetch("https://api.jenari.co.uk/api/request/password", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email_phone: forgotEmail }),
     })
       .then((response) => {
         if (!response.ok) {
           return response.json().then((errorData) => {
-            throw new Error(errorData.message || 'An error occurred.');
+            throw new Error(errorData.message || "An error occurred.");
           });
         }
         return response.json();
       })
       .then((data) => {
         Toastify({
-          text: data.message || 'Password reset email sent successfully!',
+          text: data.message || "Password reset email sent successfully!",
           duration: 3000,
-          gravity: 'top',
-          position: 'center',
-          backgroundColor: '#4caf50',
+          gravity: "top",
+          position: "center",
+          backgroundColor: "#4caf50",
         }).showToast();
 
         // Close modal after success
         setShowModal(false);
-        setForgotEmail('');
+        setForgotEmail("");
       })
       .catch((error) => {
         Toastify({
-          text: error.message || 'Failed to send reset email.',
+          text: error.message || "Failed to send reset email.",
           duration: 3000,
-          gravity: 'top',
-          position: 'center',
-          backgroundColor: '#f44336',
+          gravity: "top",
+          position: "center",
+          backgroundColor: "#f44336",
         }).showToast();
       });
   };
@@ -126,8 +129,8 @@ const LogIn = () => {
           <img src={log} alt="Logo" className="mb-6 w-full" />
           <h2 className="text-2xl font-semibold mb-2">Sign In</h2>
           <p className="text-gray-600">
-            Don&apos;t have an account?{' '}
-            <Link to={'/signUp'} className="text-primary-bg font-medium">
+            Don&apos;t have an account?{" "}
+            <Link to={"/signUp"} className="text-primary-bg font-medium">
               Create an account
             </Link>
           </p>
@@ -190,7 +193,7 @@ const LogIn = () => {
                     />
                   </div>
                 ) : (
-                  'Sign In'
+                  "Sign In"
                 )}
               </button>
             </div>
@@ -208,35 +211,52 @@ const LogIn = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full">
-            <h2 className="text-lg font-semibold mb-4">Forgot Password</h2>
-            <p className="text-sm text-gray-600 mb-4">
+        <div className="fixed inset-0 flex  bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold my-6 lg:text-2xl">
+                Forgot Password
+              </h2>
+              <button className="font-bold" onClick={() => setShowModal(false)}>
+                <RiCloseLargeFill className="font-bold" />
+              </button>
+            </div>
+            <p className="text-sm text-gray-600 mb-4 font-bold lg:text-xl">
               Enter your email address to reset your password:
             </p>
+            <p className="py-6">
+              We will send you a reset link which will help you create a new
+              password for your account
+            </p>
             <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
-              <input
-                type="email"
-                value={forgotEmail}
-                onChange={(e) => setForgotEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-primary-bg"
-                placeholder="Enter your email"
-                required
-              />
+              <div className="border rounded-2xl p-4 py-9">
+                <label htmlFor="emailz" className="">
+                  Email or phone number
+                </label>
+                <input
+                  id="emailz"
+                  type="email"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  className="w-full px-4 py-2  bg-gray-100 rounded-md focus:outline-none focus:ring focus:ring-primary-bg mt-2"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
               <div className="space-y-2">
                 <button
                   type="submit"
-                  className="w-full bg-primary-bg text-white py-2 rounded-md hover:bg-opacity-85 focus:outline-none focus:ring focus:ring-primary-bg"
+                  className="w-full bg-primary-bg text-white py-2 rounded-md hover:bg-opacity-85 focus:outline-none focus:ring focus:ring-primary-bg mt-56"
                 >
                   Submit
                 </button>
-                <button
+                {/* <button
                   type="button"
                   className="w-full bg-gray-100 text-gray-700 py-2 rounded-md hover:bg-gray-200 focus:outline-none"
                   onClick={() => setShowModal(false)}
                 >
                   Close
-                </button>
+                </button> */}
               </div>
             </form>
           </div>

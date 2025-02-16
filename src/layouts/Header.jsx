@@ -365,9 +365,12 @@ const Header = () => {
                   >
                     Log out
                   </Link>
-                  <p className="text-primary-bg text-sm font-bold">
+                  <Link
+                    className="text-primary-bg text-sm font-bold"
+                    to={"/profile"}
+                  >
                     {user?.name}
-                  </p>
+                  </Link>
                 </div>
               )}
             </div>
@@ -438,7 +441,9 @@ const Header = () => {
                   <p className="text-xs font-bold text-primary-bg">£0.00</p>
                 </Link>
               </div>
-              <p className="text-primary-bg text-sm font-bold">{user?.name}</p>
+              <Link className="text-primary-bg text-sm font-bold">
+                {user?.name}
+              </Link>
               {/* Cart Items Dropdown (visible when cart is clicked) */}
             </div>
           </div>

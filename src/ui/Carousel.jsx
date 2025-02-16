@@ -166,6 +166,7 @@ import "swiper/css/pagination";
 import { RiArrowDownSLine, RiShoppingCart2Line } from "react-icons/ri";
 import PropTypes from "prop-types";
 import { formatAmount } from "../utils"; // Assuming you have this utility function
+import { Link } from "react-router-dom";
 
 const Carousel = ({ items, handleOptionClick }) => {
   const handleOptionSelection = (selectedOption) => {
@@ -175,20 +176,20 @@ const Carousel = ({ items, handleOptionClick }) => {
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-      spaceBetween={30}
+      spaceBetween={20}
       slidesPerView={2}
       loop
       autoplay={{ delay: 6000 }}
       breakpoints={{
         640: { slidesPerView: 2, spaceBetween: 10 },
         768: { slidesPerView: 1, spaceBetween: 10 },
-        1024: { slidesPerView: 3, spaceBetween: 20 },
+        1024: { slidesPerView: 4, spaceBetween: 20 },
       }}
-      className="!overflow-visible"
+      className="!overflow-y-visible"
     >
       {items.map((item, index) => (
         <SwiperSlide key={index}>
-          <div className="  ">
+          <div className=" !overflow-x-hidden ">
             <div
               style={{
                 backgroundColor: item.color || "#f0f0f0",
@@ -199,20 +200,25 @@ const Carousel = ({ items, handleOptionClick }) => {
               <div className="w-full md:h-[300px] lg:h-[350px] h-[150px] bg-gray-100 rounded-lg overflow-hidden">
                 {" "}
                 {/* added overflow-hidden to image container */}
-                <img
-                  src={item.image}
-                  alt={item.text}
-                  className="w-full h-full object-cover rounded-lg hover:scale-105 transition-all"
-                />
+                <Link to={`/product-details/${item.id}`}>
+                  <img
+                    src={item.image}
+                    alt={item.text}
+                    className="w-full h-full object-cover rounded-lg hover:scale-105 transition-all"
+                  />
+                </Link>
               </div>
             </div>
 
             <div className="h-full relative">
               <div className="flex flex-col md:flex-row lg:items-center justify-between min-h-10">
-                <p className="lg:text-left mt-2 text-sm font-bold text-text-header text-nowrap w-full md:w-full  overflow-x-hidden text-ellipsis">
+                <Link
+                  to={`/product-details/${item.id}`}
+                  className="lg:text-left mt-2 text-sm font-bold text-text-header text-nowrap w-full md:w-full  overflow-x-hidden text-ellipsis"
+                >
+                  {" "}
                   {item.name}
-                </p>
-
+                </Link>
                 <div className="relative group">
                   {" "}
                   {/* Relative group is CRUCIAL */}
@@ -261,7 +267,7 @@ const Carousel = ({ items, handleOptionClick }) => {
                 <div
                   role="button"
                   onClick={() => handleOptionClick(item)}
-                  className="flex items-center justify-center p-3 gap-1 px-3 rounded-lg bg-gray-300 text-center md:w-full"
+                  className="flex items-center justify-center p-3 gap-1 px-3 rounded-lg bg-gray-300 text-center md:w-full lg:text-nowrap"
                 >
                   <RiShoppingCart2Line size={12} />
                   <p className="">Add to Cart</p>
