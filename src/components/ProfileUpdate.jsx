@@ -64,7 +64,7 @@ const ProfileUpdate = ({ user, onClose, onSave }) => {
   return (
     <div className="fixed inset-0 flex justify-end bg-black bg-opacity-50 z-[999999]">
       {/* Modal container that slides in from the right */}
-      <div className="bg-white w-full md:w-1/3 h-full p-6 overflow-y-auto pt-10">
+      <div className="bg-white w-full md:w-2/3  lg:w-1/3 h-full p-6 overflow-y-auto pt-10">
         <div className=" flex justify-between pl-20 mb-4 ">
           <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
           <RiCloseLine size={24} onClick={onClose} />

@@ -10,6 +10,7 @@ import AddressOffCanvas from "../components/AddressOffcanvas";
 import AuthContext from "../components/context/AuthContex";
 import { useEffect } from "react";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -34,12 +35,28 @@ const ProfilePage = () => {
     AddressProfile();
   }, []);
 
+  // const confirmDeleteAddress = async (addressId) => {
+  //   await handleAddressDelete(addressId);
+  //   // Optionally update the state to remove the deleted address:
+  //   setProfileAddress((prev) =>
+  //     prev.filter((address) => address.id !== addressId)
+  //   );
+  // };
+
   const confirmDeleteAddress = async (addressId) => {
-    await handleAddressDelete(addressId);
-    // Optionally update the state to remove the deleted address:
-    setProfileAddress((prev) =>
-      prev.filter((address) => address.id !== addressId)
-    );
+    try {
+      await handleAddressDelete(addressId);
+      // Optionally update state to remove the deleted address:
+      setProfileAddress((prev) =>
+        prev.filter((address) => address.id !== addressId)
+      );
+      toast.success("Address deleted successfully!");
+      // Refresh addresses if needed:
+      AddressProfile();
+    } catch (error) {
+      console.log(error);
+      toast.error("Error deleting address. Please try again.");
+    }
   };
   const renderContent = () => {
     switch (activeTab) {
@@ -104,47 +121,61 @@ const ProfilePage = () => {
         return (
           <div className="p-6 bg-white shadow-lg rounded-2xl w-full relative">
             {/* Flex container for address cards */}
-            <div className="grid lg:grid-cols-3 gap-4 w-full">
-              {profileAddress.map((profile, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-100 p-4 rounded-xl shadow-md w-full sm:w-1/2 md:w-1/3 lg:w-full flex justify-between"
-                >
-                  <div>
-                    <div className="flex items-center space-x-2 mb-2">
-                      <img src={contact} alt="Contact" className="w-6 h-6" />
-                      <p className="font-bold text-[20px] text-[#1F3D4F]">
-                        {profile?.address_1}
+
+            {profileAddress.length === 0 ? (
+              <p>No Address found. Please add a new address</p>
+            ) : (
+              <div className="grid lg:grid-cols-3 gap-4 w-full">
+                {profileAddress.map((profile, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-100 p-4 rounded-xl shadow-md w-full sm:w-1/2 md:w-1/3 lg:w-full flex justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <img src={contact} alt="Contact" className="w-6 h-6" />
+                        <p className="font-bold md:text-[20px] text-[#1F3D4F]">
+                          {profile?.address_1}
+                        </p>
+                      </div>
+                      <p className="text-sm">
+                        {profile?.post_code}, {profile?.county}
                       </p>
+                      <p className="text-sm">{profile?.country}</p>
                     </div>
-                    <p className="text-sm">
-                      {profile?.post_code}, {profile?.county}
-                    </p>
-                    <p className="text-sm">{profile?.country}</p>
+                    <div className=" flex gap-2">
+                      <RiEdit2Line className="ext-xl text-gray-600 bg-[#0d8c4230] w-8 h-8 p-1 rounded-full" />
+                      <RiDeleteBinLine
+                        className="text-xl text-gray-600 bg-gray-300 w-8 h-8 p-1 rounded-full"
+                        onClick={() => {
+                          console.log("clicked profil", profile);
+                          setAddressToDelete(profile);
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className=" flex gap-2">
-                    <RiEdit2Line className="ext-xl text-gray-600 bg-[#0d8c4230] w-8 h-8 p-1 rounded-full" />
-                    <RiDeleteBinLine
-                      className="text-xl text-gray-600 bg-gray-300 w-8 h-8 p-1 rounded-full"
-                      onClick={() => setAddressToDelete(profile)}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
             <div
               className=" mt-10 w-full flex justify-center"
               onClick={() => setShowComponent(true)}
             >
-              <button className="font-medium cursor-pointer text-[18px] text-white bg-primary-bg border-none p-2 px-20 rounded-xl">
+              <button className="font-medium cursor-pointer md:text-[18px] text-nowrap text-white bg-primary-bg border-none p-2 px-20 rounded-xl">
                 Add Address
               </button>
             </div>
 
             {showComponent && (
-              <div className="absolute z-50 inset-0">
-                <AddressOffCanvas onClose={() => setShowComponent(false)} />
+              <div
+                className="z-[999999] !top-0  h-screen inset-0 !mt-0"
+                style={{ marginTop: "30px " }}
+              >
+                <AddressOffCanvas
+                  onClose={() => setShowComponent(false)}
+                  initialStyle={{ marginTop: "0" }}
+                />
               </div>
             )}
             {/* Conditionally render delete confirmation modal */}
@@ -152,7 +183,12 @@ const ProfilePage = () => {
               <DeleteConfirmationModal
                 onCancel={() => setAddressToDelete(null)}
                 onConfirm={() => {
-                  confirmDeleteAddress(addressToDelete.id);
+                  console.log("addressToDelete.id", addressToDelete.id);
+
+                  const data = {
+                    address_id: addressToDelete?.id,
+                  };
+                  confirmDeleteAddress(data);
                   setAddressToDelete(null);
                 }}
               />

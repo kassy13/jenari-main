@@ -368,6 +368,7 @@ const Header = () => {
                   <Link
                     className="text-primary-bg text-sm font-bold"
                     to={"/profile"}
+                    onClick={handleLinkClick}
                   >
                     {user?.name}
                   </Link>
@@ -441,7 +442,11 @@ const Header = () => {
                   <p className="text-xs font-bold text-primary-bg">£0.00</p>
                 </Link>
               </div>
-              <Link className="text-primary-bg text-sm font-bold">
+              <Link
+                className="text-primary-bg text-sm font-bold"
+                to={"/profile"}
+                onClick={handleLinkClick}
+              >
                 {user?.name}
               </Link>
               {/* Cart Items Dropdown (visible when cart is clicked) */}
@@ -465,8 +470,8 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setSearchQuery(""); // Clear the input field
-                  setShowResults(false); // Hide search results
+                  setSearchQuery("");
+                  setShowResults(false);
                 }}
                 className="absolute right-12 top-1/2 transform -translate-y-1/2 text-lg text-gray-500 hover:text-black"
               >
