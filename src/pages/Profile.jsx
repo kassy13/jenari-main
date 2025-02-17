@@ -1,25 +1,63 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { FiUser, FiMapPin, FiLock, FiLogOut } from "react-icons/fi";
+import contact from "../assets/contact-book.svg";
 import useAppStore from "../store";
+import ProfileUpdate from "../components/ProfileUpdate";
+import { RiDeleteBinLine, RiEdit2Line } from "react-icons/ri";
+import AddressOffCanvas from "../components/AddressOffcanvas";
+import AuthContext from "../components/context/AuthContex";
+import { useEffect } from "react";
+import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("profile");
-  const { user } = useAppStore();
+  // const { user } = useAppStore();
+  const { primaryAddress, user } = useAppStore();
+  console.log("primary Address", primaryAddress);
+  // const [open, setOpen] = useState("");
   const fullName = `${user.firstname} ${user.lastname}`;
   console.log(fullName);
+  const [showModal, setShowModal] = useState(false);
+  const [showComponent, setShowComponent] = useState(false);
+  const { getAddress, handleAddressDelete } = useContext(AuthContext);
+  const [profileAddress, setProfileAddress] = useState([]);
+  const [addressToDelete, setAddressToDelete] = useState(null);
 
-  // const user = {
-  //   name: "Somtoo Nkasiobi",
-  //   email: "ichokusomtoo12@gmail.com",
-  //   username: "ichokusomtoo_966e",
-  //   phone: "+234 814 722 9720",
-  //   location: "Abuja",
-  //   accountType: "Customer",
-  //   joined: "February 2025",
+  async function AddressProfile() {
+    const addrs = await getAddress();
+    console.log(addrs);
+    setProfileAddress(addrs.addresses);
+  }
+  useEffect(() => {
+    AddressProfile();
+  }, []);
+
+  // const confirmDeleteAddress = async (addressId) => {
+  //   await handleAddressDelete(addressId);
+  //   // Optionally update the state to remove the deleted address:
+  //   setProfileAddress((prev) =>
+  //     prev.filter((address) => address.id !== addressId)
+  //   );
   // };
 
+  const confirmDeleteAddress = async (addressId) => {
+    try {
+      await handleAddressDelete(addressId);
+      // Optionally update state to remove the deleted address:
+      setProfileAddress((prev) =>
+        prev.filter((address) => address.id !== addressId)
+      );
+      toast.success("Address deleted successfully!");
+      // Refresh addresses if needed:
+      AddressProfile();
+    } catch (error) {
+      console.log(error);
+      toast.error("Error deleting address. Please try again.");
+    }
+  };
   const renderContent = () => {
     switch (activeTab) {
       case "profile":
@@ -48,7 +86,10 @@ const ProfilePage = () => {
             <div className="mt-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="lg:text-lg font-semibold">Profile Details</h3>
-                <button className="flex items-center text-green-600 hover:underline">
+                <button
+                  className="flex items-center text-green-600 hover:underline"
+                  onClick={() => setShowModal((prev) => !prev)}
+                >
                   <FaEdit className="mr-1" /> Edit Details
                 </button>
               </div>
@@ -78,8 +119,80 @@ const ProfilePage = () => {
         );
       case "address":
         return (
-          <div className="p-6 bg-white shadow-lg rounded-2xl w-full">
-            Address Details Coming Soon...
+          <div className="p-6 bg-white shadow-lg rounded-2xl w-full relative">
+            {/* Flex container for address cards */}
+
+            {profileAddress.length === 0 ? (
+              <p>No Address found. Please add a new address</p>
+            ) : (
+              <div className="grid lg:grid-cols-3 gap-4 w-full">
+                {profileAddress.map((profile, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-100 p-4 rounded-xl shadow-md w-full sm:w-1/2 md:w-1/3 lg:w-full flex justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <img src={contact} alt="Contact" className="w-6 h-6" />
+                        <p className="font-bold md:text-[20px] text-[#1F3D4F]">
+                          {profile?.address_1}
+                        </p>
+                      </div>
+                      <p className="text-sm">
+                        {profile?.post_code}, {profile?.county}
+                      </p>
+                      <p className="text-sm">{profile?.country}</p>
+                    </div>
+                    <div className=" flex gap-2">
+                      <RiEdit2Line className="ext-xl text-gray-600 bg-[#0d8c4230] w-8 h-8 p-1 rounded-full" />
+                      <RiDeleteBinLine
+                        className="text-xl text-gray-600 bg-gray-300 w-8 h-8 p-1 rounded-full"
+                        onClick={() => {
+                          console.log("clicked profil", profile);
+                          setAddressToDelete(profile);
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div
+              className=" mt-10 w-full flex justify-center"
+              onClick={() => setShowComponent(true)}
+            >
+              <button className="font-medium cursor-pointer md:text-[18px] text-nowrap text-white bg-primary-bg border-none p-2 px-20 rounded-xl">
+                Add Address
+              </button>
+            </div>
+
+            {showComponent && (
+              <div
+                className="z-[999999] !top-0  h-screen inset-0 !mt-0"
+                style={{ marginTop: "30px " }}
+              >
+                <AddressOffCanvas
+                  onClose={() => setShowComponent(false)}
+                  initialStyle={{ marginTop: "0" }}
+                />
+              </div>
+            )}
+            {/* Conditionally render delete confirmation modal */}
+            {addressToDelete && (
+              <DeleteConfirmationModal
+                onCancel={() => setAddressToDelete(null)}
+                onConfirm={() => {
+                  console.log("addressToDelete.id", addressToDelete.id);
+
+                  const data = {
+                    address_id: addressToDelete?.id,
+                  };
+                  confirmDeleteAddress(data);
+                  setAddressToDelete(null);
+                }}
+              />
+            )}
           </div>
         );
       case "password":
@@ -137,6 +250,10 @@ const ProfilePage = () => {
 
       {/* Main Content */}
       <main className="flex-1  ml-3 lg:ml-6 ">{renderContent()}</main>
+
+      {showModal && (
+        <ProfileUpdate user={user} onClose={() => setShowModal(false)} />
+      )}
     </div>
   );
 };

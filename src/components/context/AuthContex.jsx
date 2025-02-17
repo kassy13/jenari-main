@@ -374,6 +374,7 @@ export const AuthProvider = ({ children }) => {
 
       const data = await response.json();
       saveDeliveryAddress(data?.addresses);
+      console.log("address", data);
       return data; // Assuming cart items are in 'cartItems'
     } catch (err) {
       console.error(err);
