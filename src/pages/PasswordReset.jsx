@@ -11,7 +11,6 @@ const PasswordReset = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { authToken } = useAppStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,27 +21,31 @@ const PasswordReset = () => {
       setIsLoading(false);
       return;
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    console.log("Token:", token);
 
     const formData = {
       password,
+      token,
       password_confirm: passwordConfirm,
-      token: authToken,
     };
-
+    console.log(formData);
     try {
       const response = await fetch(
-        "https://api.jenari.co.uk/api/reset/password",
+        `https://api.jenari.co.uk/api/reset/password`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
+            Accept: "application/json",
           },
           body: JSON.stringify(formData),
         }
       );
 
       const data = await response.json();
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to reset password.");
@@ -50,7 +53,7 @@ const PasswordReset = () => {
 
       toast.success("Password updated successfully!");
       setTimeout(() => {
-        navigate("/login");
+        navigate("/signin");
       }, 2000);
     } catch (err) {
       toast.error(err.message);
@@ -63,13 +66,13 @@ const PasswordReset = () => {
     <main className="flex flex-col lg:flex-row h-screen">
       {/* Left Section */}
       <div className="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br lock-gradient text-white lg:w-1/2">
-        <div className="text-center flex flex-col justify-end h-full pb-20">
+        <div className="text-center flex flex-col justify-end h-full pb-10">
           <h1 className="text-5xl font-bold mb-4">Reset Password</h1>
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="flex flex-col justify-center items-center lg:w-1/2 p-8 relative">
+      <div className="flex flex-col justify-center items-center lg:w-1/2 h-screenS p-8 relative">
         <div className="text-center flex flex-col justify-center mt-16">
           <div className="flex justify-center">
             <img src={logo} alt="Logo" className="mb-6 w-full max-w-[150px]" />
@@ -139,10 +142,10 @@ const PasswordReset = () => {
 
         {/* Back to Login */}
         <button
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/signin")}
           className="mt-4 text-primary-bg font-medium hover:underline absolute left-10 top-5 lg:top-10 flex items-center gap-2"
         >
-          <RiArrowLeftLine /> Back to login
+          <RiArrowLeftLine /> Back to signin
         </button>
       </div>
     </main>
