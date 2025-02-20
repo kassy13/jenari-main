@@ -43,6 +43,7 @@ const OrderItem = ({ order }) => {
                 >
                   <div>
                     <img
+                      loading="lazy"
                       className="w-20 h-20 gap-1 object-cover border border-[#F0F4FF]  rounded"
                       src={product?.image}
                       alt="Red Onions"

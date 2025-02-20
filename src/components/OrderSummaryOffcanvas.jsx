@@ -97,6 +97,7 @@ const OrderSummaryOffcanvas = ({ isOpen, toggleOffCanvas, order }) => {
                   >
                     <div className="flex items-center justify-center">
                       <img
+                        loading="lazy"
                         className="w-20 h-20 object-cover border border-[#F0F4FF] rounded"
                         src={product?.image}
                         alt="Red Onions"

@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import AuthContext from "../components/context/AuthContex";
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import AuthContext from '../components/context/AuthContex';
+import { formatAmount } from '../utils';
 
 const ProductDetails = () => {
   const { id } = useParams(); // Get the product ID from the route
@@ -45,6 +46,8 @@ const ProductDetails = () => {
     }
   };
 
+  console.log(product);
+
   if (!product) {
     return <p>Loading product details...</p>;
   }
@@ -62,7 +65,19 @@ const ProductDetails = () => {
 
         <section className="p-6 bg-gray-50 rounded-lg shadow-md max-w-lg md:max-w-full w-full h-full ">
           <h1 className="text-2xl font-semibold mb-2">{product.name}</h1>
-          <p className="text-lg text-gray-700 mb-1">{product.price_range}</p>
+          {product?.product_options?.length > 1 ? (
+            <span className="font-extrabold text-text-header text-lg">
+              £{formatAmount(product?.product_options?.[0]?.price)} -{' '}
+              {formatAmount(
+                product?.product_options?.[product?.product_options?.length - 1]
+                  ?.price
+              )}
+            </span>
+          ) : (
+            <span className="font-extrabold text-text-header text-lg">
+              £{formatAmount(product.price_range)}
+            </span>
+          )}
           <p className="text-sm text-green-600 font-medium mb-4">
             {product.status}
           </p>
@@ -88,7 +103,7 @@ const ProductDetails = () => {
                       htmlFor={`option-${option.id}`}
                       className="text-gray-700"
                     >
-                      {option.name} - {option.price}
+                      {option.name} - £{formatAmount(option.price)}
                     </label>
                   </div>
                 ))

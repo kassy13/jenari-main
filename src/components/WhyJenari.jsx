@@ -48,6 +48,7 @@ const WhyJenari = () => {
       <div className="w-full">
         <img
           src={img}
+          loading="lazy"
           alt=""
           className="w-full h-full object-cover rounded-xl"
         />

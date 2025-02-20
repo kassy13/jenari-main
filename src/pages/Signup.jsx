@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css";
-import log from "../assets/logo transparent 1.svg";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css';
+import log from '../assets/logo transparent 1.svg';
 
 const SignUp = () => {
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    phone: "",
-    location: "",
-    password: "",
-    password_confirmation: "",
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    location: '',
+    password: '',
+    password_confirmation: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -23,20 +23,20 @@ const SignUp = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" });
+    setErrors({ ...errors, [name]: '' });
   };
 
   const validateStep1 = () => {
     const newErrors = {};
-    if (!formData.firstname) newErrors.firstname = "First name is required.";
-    if (!formData.lastname) newErrors.lastname = "Last name is required.";
+    if (!formData.firstname) newErrors.firstname = 'First name is required.';
+    if (!formData.lastname) newErrors.lastname = 'Last name is required.';
     if (!formData.email) {
-      newErrors.email = "Email is required.";
+      newErrors.email = 'Email is required.';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Enter a valid email address.";
+      newErrors.email = 'Enter a valid email address.';
     }
     if (!formData.phone) {
-      newErrors.phone = "Phone number is required.";
+      newErrors.phone = 'Phone number is required.';
     }
 
     setErrors(newErrors);
@@ -46,14 +46,14 @@ const SignUp = () => {
   const validateStep2 = () => {
     const newErrors = {};
     if (!formData.password) {
-      newErrors.password = "Password is required.";
+      newErrors.password = 'Password is required.';
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters.";
+      newErrors.password = 'Password must be at least 6 characters.';
     }
     if (formData.password !== formData.password_confirmation) {
-      newErrors.password_confirmation = "Passwords do not match.";
+      newErrors.password_confirmation = 'Passwords do not match.';
     }
-    if (!formData.location) newErrors.location = "Location is required.";
+    if (!formData.location) newErrors.location = 'Location is required.';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -74,42 +74,42 @@ const SignUp = () => {
       phone: parseInt(formData.phone, 10), // Convert phone to an integer
     };
     try {
-      const response = await fetch("https://api.jenari.co.uk/api/register", {
-        method: "POST",
+      const response = await fetch('https://api.jenari.co.uk/api/register', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedFormData),
       });
 
       const data = await response.json();
-      console.log("data", data);
+      console.log('data', data);
 
       if (response.ok) {
         // Save the email in session storage
-        sessionStorage.setItem("signupEmail", data.user.email);
+        sessionStorage.setItem('signupEmail', data.user.email);
         Toastify({
-          text: "Account created successfully!",
+          text: 'Account created successfully!',
           duration: 3000,
-          style: { background: "#017D03" },
+          style: { background: '#017D03' },
         }).showToast();
-        console.log("Form Data Submitted:", data);
+        console.log('Form Data Submitted:', data);
         setTimeout(() => {
-          navigate("/signup/otp");
+          navigate('/otp/success');
         }, 3000);
       } else {
         Toastify({
-          text: data.message || "Something went wrong. Please try again.",
+          text: data.message || 'Something went wrong. Please try again.',
           duration: 3000,
-          style: { background: "#d32f2f" },
+          style: { background: '#d32f2f' },
         }).showToast();
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
       Toastify({
-        text: "Network error. Please try again later.",
+        text: 'Network error. Please try again later.',
         duration: 3000,
-        style: { background: "#d32f2f" },
+        style: { background: '#d32f2f' },
       }).showToast();
     }
   };
@@ -132,8 +132,8 @@ const SignUp = () => {
           <img src={log} alt="Logo" className="mb-6 w-full" />
           <h2 className="text-2xl font-semibold mb-2">Create an Account</h2>
           <p className="text-sm">
-            Already have an account?{" "}
-            <Link to={"/signIn"} className="text-primary-bg font-medium">
+            Already have an account?{' '}
+            <Link to={'/signIn'} className="text-primary-bg font-medium">
               Login
             </Link>
           </p>

@@ -9,7 +9,11 @@ const AvailableLocations = () => {
       </h2>
 
       <div className="flex justify-center items-center">
-        <img src={availableLocations} alt="Available Locations" />
+        <img
+          src={availableLocations}
+          loading="lazy"
+          alt="Available Locations"
+        />
       </div>
     </div>
   );

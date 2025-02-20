@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import { RiArrowDownSLine, RiShoppingCart2Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import { formatAmount } from "../utils";
+import PropTypes from 'prop-types';
+import { RiArrowDownSLine, RiShoppingCart2Line } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
+import { formatAmount } from '../utils';
 
 const SuperMarketCard = ({
   id,
@@ -27,6 +27,7 @@ const SuperMarketCard = ({
       <div className="image-container ">
         <Link to={`/product-details/${id}`} className="w-full rounded-lg">
           <img
+            loading="lazy"
             src={image}
             alt={text}
             className="w-full lg:h-[250px] h-[150px] object-cover rounded-lg hover:scale-105 transition"
@@ -58,8 +59,13 @@ const SuperMarketCard = ({
                       className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 h-20 hover:bg-gray-100 cursor-pointer"
                       onClick={() => handleOptionSelection(option)}
                     >
-                      <img src={option.image} alt="" className="w-8 h-8" />{" "}
-                      {option.name || "Unnamed Option"}
+                      <img
+                        src={option.image}
+                        loading="lazy"
+                        alt=""
+                        className="w-8 h-8"
+                      />{' '}
+                      {option.name || 'Unnamed Option'}
                     </li>
                   ))
                 ) : (
@@ -76,7 +82,7 @@ const SuperMarketCard = ({
         <p className="text-text-light text-xs">{subtext}</p>
         {options?.length > 1 ? (
           <span className="font-extrabold text-text-header text-xs">
-            £{formatAmount(options?.[0]?.price)} -{" "}
+            £{formatAmount(options?.[0]?.price)} -{' '}
             {formatAmount(options?.[options?.length - 1]?.price)}
           </span>
         ) : (
@@ -95,9 +101,9 @@ const SuperMarketCard = ({
         </div>
         <p
           className={`text-white  p-1 px-3 text-center flex items-center justify-center rounded-lg w-20 lg-w-full text-nowrap ${
-            inSeason === "In Season" || inSeason === "Available"
-              ? "bg-primary-bg"
-              : "bg-secondary-bg"
+            inSeason === 'In Season' || inSeason === 'Available'
+              ? 'bg-primary-bg'
+              : 'bg-secondary-bg'
           }`}
         >
           {inSeason}

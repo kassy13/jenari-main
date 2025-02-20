@@ -12,7 +12,12 @@ const ShopItemCard = ({
     <div className="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden border transition hover:shadow-xl hover:scale-105">
       {/* Image */}
       <div className="relative">
-        <img className="w-full h-48 object-cover" src={image} alt={title} />
+        <img
+          className="w-full h-48 object-cover"
+          src={image}
+          loading="lazy"
+          alt={title}
+        />
         <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow text-gray-700 hover:text-red-500">
           ❤️
         </button>

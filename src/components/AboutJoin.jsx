@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import pattern from "../assets/patern.svg";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import pattern from '../assets/patern.svg';
 
 const AboutJoin = () => {
   return (
@@ -22,14 +22,19 @@ const AboutJoin = () => {
           of Africa meets your home.
         </p>
         <Link
-          to={""}
+          to={''}
           className="bg-white text-primary-bg p-3 px-6  rounded-full font-bold "
         >
           Start Shopping now!
         </Link>
       </div>
       <div className="hidden lg:block">
-        <img src={pattern} alt="" className="w-full h-full object-contain " />
+        <img
+          src={pattern}
+          alt=""
+          loading="lazy"
+          className="w-full h-full object-contain "
+        />
       </div>
     </div>
   );

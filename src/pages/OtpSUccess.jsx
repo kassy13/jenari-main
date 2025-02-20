@@ -1,10 +1,8 @@
-import React from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import logo from "../assets/logo transparent 1.svg";
-import { Link } from "react-router-dom";
-import thankYou from "../assets/thankyou.gif";
-const OtpSUccess = () => {
+import 'react-toastify/dist/ReactToastify.css';
+import logo from '../assets/logo transparent 1.svg';
+import { Link } from 'react-router-dom';
+import thankYou from '../assets/thankyou.gif';
+const OtpSuccess = () => {
   return (
     <main className="flex flex-col lg:flex-row h-screen">
       {/* Left Section */}
@@ -31,7 +29,7 @@ const OtpSUccess = () => {
             smooth one.
           </p>
           <Link
-            to={"/"}
+            to={'/'}
             className="bg-primary-bg text-white rounded-xl w-full py-4 hover:bg-opacity-85"
           >
             Continue
@@ -42,4 +40,4 @@ const OtpSUccess = () => {
   );
 };
 
-export default OtpSUccess;
+export default OtpSuccess;

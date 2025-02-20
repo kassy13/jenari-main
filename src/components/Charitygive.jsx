@@ -1,20 +1,20 @@
-import React from "react";
-import why from "../assets/why give.svg";
-import heart from "../assets/heart icon.svg";
-import encourage from "../assets/encourage icon.svg";
-import Iconstext from "../ui/Iconstext";
+import React from 'react';
+import why from '../assets/why give.svg';
+import heart from '../assets/heart icon.svg';
+import encourage from '../assets/encourage icon.svg';
+import Iconstext from '../ui/Iconstext';
 
 const Charitygive = () => {
   const charitygive = [
     {
       img: heart,
-      title: "To Feed the Body and Soul",
-      text: "Your donations provide nourishment, care, and hope for African children, ensuring they feel seen and valued every day.",
+      title: 'To Feed the Body and Soul',
+      text: 'Your donations provide nourishment, care, and hope for African children, ensuring they feel seen and valued every day.',
     },
     {
       img: encourage,
-      title: "To Empower Through Education",
-      text: "Help transform lives. Your contributions support education, opening doors to brighter futures for African children.",
+      title: 'To Empower Through Education',
+      text: 'Help transform lives. Your contributions support education, opening doors to brighter futures for African children.',
     },
   ];
   return (
@@ -28,6 +28,7 @@ const Charitygive = () => {
       <div className="flex flex-col lg:flex-row items-center gap-4 pt-7  ">
         <div className="w-full h-[50vh] ">
           <img
+            loading="lazy"
             src={why}
             alt=""
             className="w-full h-full object-cover object-right-top rounded-2xl"

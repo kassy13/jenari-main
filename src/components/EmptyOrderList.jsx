@@ -8,6 +8,7 @@ const EmptyOrderList = () => {
     <div className="text-center my-16 flex flex-col items-center justify-center">
       <img
         src={emptyCart}
+        loading="lazy"
         alt="Empty Order List Pattern"
         className="w-32 h-32 object-contain"
       />

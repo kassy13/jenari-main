@@ -1,5 +1,5 @@
-import React from "react";
-import donate from "../assets/how to donate.svg";
+import React from 'react';
+import donate from '../assets/how to donate.svg';
 const HowToDonate = () => {
   return (
     <div className="px-6 lg:px-20 flex flex-col lg:flex-row justify-between items-center">
@@ -19,6 +19,7 @@ const HowToDonate = () => {
       <div className="w-full ">
         <img
           src={donate}
+          loading="lazy"
           alt=""
           className="w-full h-[45vh] object-contain scale-x-125 scale-y-[1.15]"
         />

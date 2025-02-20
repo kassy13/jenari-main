@@ -1,15 +1,19 @@
-import React from "react";
-import join from "../assets/join mission.svg";
+import join from '../assets/join mission.svg';
 
 const JoinUs = () => {
   return (
     <div className="flex flex-col lg:flex-row justify-between items-center gap-2 lg:gap-8 px-6 lg:px-14 py-12">
       <div className="w-full ">
-        <img src={join} alt="" className="w-full h-[50vh] object-cover " />
+        <img
+          src={join}
+          loading="lazy"
+          alt=""
+          className="w-full h-[50vh] object-cover "
+        />
       </div>
       <div className="w-full lg:text-right">
         <h3 className=" text-2xl lg:text-3xl font-bold">
-          {" "}
+          {' '}
           Join Us in This Mission
         </h3>
         <p className="pt-4 pb-3 text-text-light tracking-tight text-lg">

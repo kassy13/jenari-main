@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import logo from "../assets/logo transparent 1.svg";
-import { RiArrowLeftLine } from "react-icons/ri";
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import logo from '../assets/logo transparent 1.svg';
+import { RiArrowLeftLine } from 'react-icons/ri';
 
 const SignupOtp = () => {
-  const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const [code, setCode] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
   const [signupEmail, setSignupEmail] = useState(null);
@@ -30,32 +30,32 @@ const SignupOtp = () => {
   };
 
   const handleKeyDown = (index, event) => {
-    if (event.key === "Backspace" && code[index] === "" && index > 0) {
+    if (event.key === 'Backspace' && code[index] === '' && index > 0) {
       inputRefs.current[index - 1].focus();
     }
   };
 
   const checkAllFilled = (newCode) => {
-    return newCode.every((digit) => digit !== "");
+    return newCode.every((digit) => digit !== '');
   };
 
   // Get signup email from session storage
   useEffect(() => {
-    const email = sessionStorage.getItem("signupEmail");
+    const email = sessionStorage.getItem('signupEmail');
     setSignupEmail(email);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const enteredCode = code.join("");
+    const enteredCode = code.join('');
 
     if (enteredCode.length !== 6) {
-      toast.error("Please enter the full 6-digit code.");
+      toast.error('Please enter the full 6-digit code.');
       return;
     }
 
     if (!signupEmail) {
-      toast.error("Email not found. Please sign up again.");
+      toast.error('Email not found. Please sign up again.');
       return;
     }
 
@@ -63,38 +63,52 @@ const SignupOtp = () => {
       const response = await fetch(
         `https://api.jenari.co.uk/api/verify-otp/${enteredCode}/${signupEmail}`
       );
-      console.log("rezz", response);
+      console.log('rezz', response);
 
       if (!response.ok) {
         // Optionally, handle the error response here
-        toast.error("Verification failed. Please try again.");
+        toast.error('Verification failed. Please try again.');
         return;
       }
-      toast.success("Code verified successfully!");
-      setTimeout(() => navigate("/otp/success"), 3000);
+      toast.success('Code verified successfully!');
+      setTimeout(() => navigate('/otp/success'), 3000);
     } catch (err) {
       console.log(err);
       toast.error(err.message);
     }
   };
   const resendOTPEmail = { email: signupEmail };
-  console.log(resendOTPEmail);
-  const handleResendOTP = async (e) => {
+  const handleResendOTP = (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://api.jenari.co.uk/api/resend-otp", {
-        method: "POST",
+      fetch('https://api.jenari.co.uk/api/resend-otp', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify(resendOTPEmail),
-      });
-      console.log("resss", response);
+      })
+        .then((response) => response?.json())
+        .then((data) => {
+          console.log(data, 'json');
+          if (data?.error) {
+            console.log(data.message);
+            toast.error(data.message);
+          } else {
+            toast.success(data?.message);
+          }
+        })
+        .catch((e) => {
+          return toast.error(e.message);
+        });
     } catch (err) {
       console.log(err);
+      toast.error(err.message);
     }
   };
+
+  console.log(signupEmail);
   return (
     <main className="flex flex-col lg:flex-row h-screen">
       {/* Left Section */}
@@ -109,7 +123,7 @@ const SignupOtp = () => {
           <h2 className="text-2xl font-semibold mb-2">Verify Code</h2>
           <p className="text-gray-600 mb-4 lg:text-[18px] px-8">
             Please enter the 6-digit code we just sent to your email
-            <strong className="block">ichokusomtoo12@gmail.com</strong>
+            <strong className="block">{signupEmail}</strong>
           </p>
         </div>
 
@@ -135,8 +149,8 @@ const SignupOtp = () => {
             type="submit"
             className={`w-full py-2 rounded-md text-white ${
               checkAllFilled(code)
-                ? "bg-primary-bg hover:bg-opacity-85"
-                : "bg-gray-400 cursor-not-allowed"
+                ? 'bg-primary-bg hover:bg-opacity-85'
+                : 'bg-gray-400 cursor-not-allowed'
             }`}
             disabled={!checkAllFilled(code)}
           >
@@ -147,11 +161,11 @@ const SignupOtp = () => {
         {/* Resend & Support */}
         <div className="mt-4 text-center">
           <p className="text-gray-600" onClick={handleResendOTP}>
-            Didn't receive code?{" "}
+            Didn&apos;t receive code?{' '}
             <span className="text-primary-bg cursor-pointer">Resend code</span>
           </p>
           <p className="text-gray-600 mt-2">
-            Having issues getting your code?{" "}
+            Having issues getting your code?{' '}
             <span className="text-primary-bg cursor-pointer">
               Contact Support
             </span>
@@ -160,7 +174,7 @@ const SignupOtp = () => {
 
         {/* Back to Login */}
         <button
-          onClick={() => navigate("/signUp")}
+          onClick={() => navigate('/signUp')}
           className="mt-4 text-primary-bg font-medium hover:underline absolute left-10 top-5 lg:top-10 flex items-center gap-2"
         >
           <RiArrowLeftLine /> Back

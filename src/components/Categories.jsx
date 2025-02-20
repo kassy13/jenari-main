@@ -63,6 +63,7 @@ const Categories = () => {
             >
               <div className="w-[16rem] md:w-full">
                 <img
+                  loading="lazy"
                   src={category.image}
                   alt={category.name}
                   className="w-full h-[6rem] object-contain rounded-lg"

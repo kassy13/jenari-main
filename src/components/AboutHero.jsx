@@ -1,4 +1,3 @@
-import React from 'react';
 import img from '../assets/about jenari.svg';
 const AboutHero = () => {
   return (
@@ -6,6 +5,7 @@ const AboutHero = () => {
       <div className="w-full h-[50vh] lg:h-[100vh]">
         <img
           src={img}
+          loading="lazy"
           alt=""
           className="w-full h-full object-cover rounded-3xl"
         />

@@ -20,7 +20,12 @@ const CharityHero = () => {
         </p>
       </div>
       <div className=" w-full">
-        <img src={mission} alt="" className="w-full h-full object-cover" />
+        <img
+          src={mission}
+          loading="lazy"
+          alt=""
+          className="w-full h-full object-cover"
+        />
       </div>
     </section>
   );

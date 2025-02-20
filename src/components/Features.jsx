@@ -1,26 +1,26 @@
-import React from "react";
-import icon1 from "../assets/delivery1.svg";
-import icon2 from "../assets/wallet.svg";
-import icon3 from "../assets/quality.svg.svg";
-import Iconstext from "../ui/Iconstext";
-import feature from "../assets/coolFeatures.svg";
+import React from 'react';
+import icon1 from '../assets/delivery1.svg';
+import icon2 from '../assets/wallet.svg';
+import icon3 from '../assets/quality.svg.svg';
+import Iconstext from '../ui/Iconstext';
+import feature from '../assets/coolFeatures.svg';
 
 const Features = () => {
   const content = [
     {
       img: icon1,
-      title: "Reorder Function",
-      text: "Streamline your shopping routine with our Reorder feature. Effortlessly replicate past orders and save time on every purchase.",
+      title: 'Reorder Function',
+      text: 'Streamline your shopping routine with our Reorder feature. Effortlessly replicate past orders and save time on every purchase.',
     },
     {
       img: icon2,
-      title: "Wallet Integration",
-      text: "Fund your wallet with ease and enjoy fast and reliable transactions every time you shop with us.",
+      title: 'Wallet Integration',
+      text: 'Fund your wallet with ease and enjoy fast and reliable transactions every time you shop with us.',
     },
     {
       img: icon3,
-      title: "Household Carriage",
-      text: "Tailored delivery to your doorstep! Choose your preferred floor for delivery with our Custom Floor Selection Feature.",
+      title: 'Household Carriage',
+      text: 'Tailored delivery to your doorstep! Choose your preferred floor for delivery with our Custom Floor Selection Feature.',
     },
   ];
   return (
@@ -38,6 +38,7 @@ const Features = () => {
         <div className="w-full relative">
           <img
             src={feature}
+            loading="lazy"
             alt=""
             className="w-full h-full object-cover lg:absolute rounded-xl"
           />
@@ -49,7 +50,7 @@ const Features = () => {
                 text={item.text}
                 title={item.title}
                 key={index}
-                containerClassName={"lg:mb-4 w-full "}
+                containerClassName={'lg:mb-4 w-full '}
                 img={item.img}
               />
             );

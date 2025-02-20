@@ -163,6 +163,7 @@ const Cart = () => {
                     {/* Product Details */}
                     <div className="flex flex-col lg:items-start items-center space-x-4 col-span-10 lg:col-span-4 ">
                       <img
+                        loading="lazy"
                         src={product?.product_info?.image}
                         alt={product?.product}
                         className="w-12 h-12 object-cover rounded-md bg-gray-100 border border-gray-50 ml-5"
@@ -270,6 +271,7 @@ const Cart = () => {
                   >
                     {agreeToPolicy ? (
                       <img
+                        loading="lazy"
                         src={checkbox}
                         alt="Checkbox"
                         width={40}
@@ -318,7 +320,7 @@ const Cart = () => {
         </>
       ) : (
         <div className="flex flex-col  items-center justify-center space-y-4">
-          <img src={emptyCart} />
+          <img src={emptyCart} loading="lazy" />
           <p className="font-bold text-[32px] text-[#203c4f]">
             Oops! You have not added any item to cart yet
           </p>

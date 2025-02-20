@@ -212,7 +212,12 @@ const Checkout = () => {
                   className="text-[#3BB77E] hover:underline flex justify-between items-center gap-1 border w-full rounded-full px-3 py-2 my-4"
                 >
                   <div className="flex gap-1">
-                    <img src={contact} alt="" className="w-6 h-6" />
+                    <img
+                      src={contact}
+                      loading="lazy"
+                      alt=""
+                      className="w-6 h-6"
+                    />
                     Select an address
                   </div>
                   <RiArrowRightLine color="#3BB77E]" />
@@ -249,7 +254,7 @@ const Checkout = () => {
             )}
           </div>
           <div className="my-7">
-            <img src={address} alt="" className="w-9 h-9" />
+            <img src={address} loading="lazy" alt="" className="w-9 h-9" />
             <p className="text-[#404040] pt-2">
               Send in your order before 10:00am to ensure same-day delivery. You
               can also schedule your order for next-day delivery.
@@ -269,6 +274,7 @@ const Checkout = () => {
                     >
                       <div className="flex flex-row items-center">
                         <img
+                          loading="lazy"
                           className="w-20 h-20 gap-1 object-cover"
                           src={items?.product_info?.image}
                           alt="Red Onions"

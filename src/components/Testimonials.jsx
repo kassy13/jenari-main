@@ -70,7 +70,7 @@ const Testimonials = () => {
               </div>
 
               <div className="flex flex-row items-center">
-                <img src={profile} />
+                <img src={profile} loading="lazy" />
 
                 <div className="ml-3">
                   <p className="font-bold text-base text-[#170F49]">

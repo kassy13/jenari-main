@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const SwiperCard = ({ title, testimonial, img, name, position }) => {
   return (
@@ -12,7 +12,12 @@ const SwiperCard = ({ title, testimonial, img, name, position }) => {
       <div className="border-t-[0.1px] border-gray-300 flex  items-center gap-2 py-2 pt-4">
         {img && (
           <div className="w-10 h-10 lg:w-12 lg:h-12  rounded-full">
-            <img src={img} alt="" className="w-full h-full object-cover" />
+            <img
+              src={img}
+              loading="lazy"
+              alt=""
+              className="w-full h-full object-cover"
+            />
           </div>
         )}
         <div>

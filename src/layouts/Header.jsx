@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import logo from "../assets/logo transparent 1.svg";
+import { useContext, useEffect, useRef, useState } from 'react';
+import logo from '../assets/logo transparent 1.svg';
 import {
   RiArrowDownLine,
   RiShoppingBagLine,
@@ -14,13 +14,13 @@ import {
   RiQuestionLine,
   RiSearchLine,
   RiWalletLine,
-} from "react-icons/ri";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import NavbarComponet from "../ui/NavbarComponet";
-import order from "../assets/order.svg";
-import AuthContext from "../components/context/AuthContex";
-import useAppStore from "../store";
-import { formatAmount } from "../utils";
+} from 'react-icons/ri';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import NavbarComponet from '../ui/NavbarComponet';
+import order from '../assets/order.svg';
+import AuthContext from '../components/context/AuthContex';
+import useAppStore from '../store';
+import { formatAmount } from '../utils';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,7 +29,7 @@ const Header = () => {
   const { authToken, user, cartProducts } = useAppStore();
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false); // State for cart dropdown
   const cartRef = useRef(null); // Ref for the cart dropdown
-  const [searchQuery, setSearchQuery] = useState(""); // For search input
+  const [searchQuery, setSearchQuery] = useState(''); // For search input
   const [filteredResults, setFilteredResults] = useState([]); // For search results
   const [showResults, setShowResults] = useState(false); // Toggle search modal
   const navigate = useNavigate();
@@ -53,13 +53,13 @@ const Header = () => {
   // const toggleMenu = () => setMenuOpen((prev) => !prev);
   const handleLinkClick = () => {
     setMenuOpen(false); // Hide menu when a link is clicked
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const toggleMenu = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setMenuOpen((prev) => !prev);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   // Fetch cart items when the component mounts
   useEffect(() => {
@@ -69,7 +69,7 @@ const Header = () => {
         try {
           await handleGetCartItems(); // Fetch cart items from the API
         } catch (error) {
-          console.error("Failed to fetch cart items", error);
+          console.error('Failed to fetch cart items', error);
         }
       };
       fetchCartItems();
@@ -96,11 +96,11 @@ const Header = () => {
 
   const handleSearch = (e) => {
     const query = e.target.value;
-    console.log("Search Query:", query); // Debugging
+    console.log('Search Query:', query); // Debugging
     setSearchQuery(query);
     // setMenuOpen(false);
 
-    if (query.trim() === "") {
+    if (query.trim() === '') {
       setFilteredResults([]);
       setShowResults(false);
       return;
@@ -118,15 +118,15 @@ const Header = () => {
     if (searchQuery.trim()) {
       setShowResults(false); // Close the modal
       // setMenuOpen(false);
-      setSearchQuery("");
+      setSearchQuery('');
       navigate(`/supermarket?search=${encodeURIComponent(searchQuery.trim())}`);
     }
 
-    setSearchQuery("");
+    setSearchQuery('');
     setShowResults(false);
   };
   const handleKeyPress = (e) => {
-    if (e.key === "Enter" && searchQuery.trim()) {
+    if (e.key === 'Enter' && searchQuery.trim()) {
       e.preventDefault();
       setShowResults(false);
       setMenuOpen(false);
@@ -134,14 +134,19 @@ const Header = () => {
       navigate(`/supermarket?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-  console.log("cart productd from header", cartProducts);
+  console.log('cart productd from header', cartProducts);
   return (
     <div className="fixed w-full top-0 z-[99]">
       <nav className="bg-header-bg text-white font-sans  ">
         <div className="flex items-center justify-between p-4 lg:py-4 lg:px-12">
           {/* Logo Section */}
-          <Link className="w-32 lg:w-48" to={"/"} onClick={handleLinkClick}>
-            <img src={logo} alt="Logo" className="w-full h-auto object-cover" />
+          <Link className="w-32 lg:w-48" to={'/'} onClick={handleLinkClick}>
+            <img
+              src={logo}
+              loading="lazy"
+              alt="Logo"
+              className="w-full h-auto object-cover"
+            />
           </Link>
 
           {/* Hamburger Menu */}
@@ -172,7 +177,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    setSearchQuery(""); // Clear the input field
+                    setSearchQuery(''); // Clear the input field
                     setShowResults(false); // Hide search results
                   }}
                   className="absolute right-[2.8rem] top-1/2 transform -translate-y-1/2 text-lg text-gray-500 hover:text-black"
@@ -192,15 +197,16 @@ const Header = () => {
                           navigate(`/product-details/${item.id}`, {
                             state: { searchQuery, results: [item] },
                           });
-                          setSearchQuery(""); // Clear the input field
+                          setSearchQuery(''); // Clear the input field
                           setShowResults(false); // Close the modal
-                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                           setMenuOpen(false);
                         }}
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
                       >
                         <img
                           src={item.image}
+                          loading="lazy"
                           alt=""
                           className="w-9 h-9 bg-gray-200 shadow"
                         />
@@ -245,7 +251,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-4 ">
             {authToken && (
               <Link
-                to={"/orders"}
+                to={'/orders'}
                 className="flex items-center gap-2 cursor-pointer text-nowrap relative"
               >
                 {/* <img
@@ -310,6 +316,7 @@ const Header = () => {
                       >
                         <div className="w-15 h-15 col-span-1">
                           <img
+                            loading="lazy"
                             src={item?.product_info?.image}
                             alt="img"
                             className="w-full h-full  object-contain"
@@ -329,7 +336,7 @@ const Header = () => {
                   </ul>
                   <div
                     className="my-4 py-2 rounded-full text-center transition bg-gray-100 hover:bg-primary-bg hover:text-white cursor-pointer"
-                    onClick={() => navigate("/cart")}
+                    onClick={() => navigate('/cart')}
                   >
                     Expand Cart
                   </div>
@@ -347,7 +354,7 @@ const Header = () => {
                   Register
                 </Link>
               ) : (
-                ""
+                ''
               )}
               {!authToken ? (
                 <Link
@@ -367,7 +374,7 @@ const Header = () => {
                   </Link>
                   <Link
                     className="text-primary-bg text-sm font-bold"
-                    to={"/profile"}
+                    to={'/profile'}
                     onClick={handleLinkClick}
                   >
                     {user?.name}
@@ -381,7 +388,7 @@ const Header = () => {
         {/* mobile menu */}
         <div
           className={`absolute top-0 w-full min-h-dvh left-0 right-0  lg:h-screen bg-header-bg pt-8  text-white p-6 space-y-6 lg:hidden z-50 transform transition-transform duration-300 md:px-12 ${
-            menuOpen ? "translate-x-0" : "translate-x-full"
+            menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           <button
@@ -394,11 +401,12 @@ const Header = () => {
           <div className="flex items-end justify-between">
             <Link
               className="w-32 lg:w-48 -translate-x-5 translate-y-2"
-              to={"/"}
+              to={'/'}
               onClick={handleLinkClick}
             >
               <img
                 src={logo}
+                loading="lazy"
                 alt="Logo"
                 className="w-full h-auto object-cover"
               />
@@ -406,7 +414,7 @@ const Header = () => {
             <div className="flex justify-end text-wrap gap-2 pt-4 ">
               {user && (
                 <Link
-                  to={"/orders"}
+                  to={'/orders'}
                   onClick={handleLinkClick}
                   className="flex items-center gap-2 cursor-pointer text-nowrap relative"
                 >
@@ -422,7 +430,7 @@ const Header = () => {
                 onMouseLeave={closeDropdown}
               >
                 <Link
-                  to={"/cart"}
+                  to={'/cart'}
                   className="relative"
                   onClick={handleLinkClick}
                 >
@@ -434,7 +442,7 @@ const Header = () => {
                   )}
                 </Link>
                 <Link
-                  to={"/cart"}
+                  to={'/cart'}
                   onClick={handleLinkClick}
                   className="flex flex-col items-start leading-tight"
                 >
@@ -444,7 +452,7 @@ const Header = () => {
               </div>
               <Link
                 className="text-primary-bg text-sm font-bold"
-                to={"/profile"}
+                to={'/profile'}
                 onClick={handleLinkClick}
               >
                 {user?.name}
@@ -470,7 +478,7 @@ const Header = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setSearchQuery("");
+                  setSearchQuery('');
                   setShowResults(false);
                 }}
                 className="absolute right-12 top-1/2 transform -translate-y-1/2 text-lg text-gray-500 hover:text-black"
@@ -490,14 +498,15 @@ const Header = () => {
                         navigate(`/product-details/${item.id}`, {
                           state: { searchQuery, results: [item] },
                         });
-                        setSearchQuery(""); // Clear the input field
+                        setSearchQuery(''); // Clear the input field
                         setShowResults(false); // Close the modal
-                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                         setMenuOpen(false);
                       }}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
                     >
                       <img
+                        loading="lazy"
                         src={item.image}
                         alt=""
                         className="w-9 h-9 bg-gray-200 shadow"
@@ -516,7 +525,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2 px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -529,7 +538,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2 px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -542,7 +551,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -555,7 +564,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -568,7 +577,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -581,7 +590,7 @@ const Header = () => {
               onClick={handleLinkClick}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -591,10 +600,10 @@ const Header = () => {
 
             <NavLink
               to="/faq"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className={({ isActive }) =>
                 `flex items-center gap-2  px-2 ${
-                  isActive ? "text-secondary-bg font-semibold" : "text-white"
+                  isActive ? 'text-secondary-bg font-semibold' : 'text-white'
                 } hover:text-secondary-bg`
               }
             >
@@ -611,7 +620,7 @@ const Header = () => {
               Register
             </Link>
           ) : (
-            ""
+            ''
           )}
           {!user ? (
             <Link

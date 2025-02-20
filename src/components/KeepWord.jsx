@@ -18,7 +18,12 @@ const KeepWord = () => {
         </p>
       </div>
       <div className="w-full">
-        <img src={jenari} alt="" className="w-full h-[50vh] object-contain " />
+        <img
+          src={jenari}
+          alt=""
+          loading="lazy"
+          className="w-full h-[50vh] object-contain "
+        />
       </div>
     </div>
   );
